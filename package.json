@@ -9,7 +9,7 @@
     "clean": "rm -rf dist",
     "prettier": "prettier -w ./src",
     "plop": "plop --plopfile ./internal/plop/index.js",
-    "server": "json-server --watch db.json --port 3004 -d 1500"
+    "server": "json-server --watch db.json --port 3000 -d 1500"
   },
   "author": "chensuper0202@gmail.com",
   "license": "ISC",

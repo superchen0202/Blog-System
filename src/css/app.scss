@@ -1,176 +1,21 @@
-/* setting twd css variable*/
-:root {
-  /* var name should be start with -- prefix */
-  --color: #fff;
-  --bgc: #3e3e3e;
-  --fontSize: 24px;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/*
-設定無效
-ps:不能與JIT模式共用
-*/
-/*
-@variants group-hover, hover, focus{
-    .banana{
-        color: yellow;
-    }
-}
-//*/
-
-/*覆蓋原本 base 的設定*/
-@layer base {
-  /*
-        1. @layer 圖層的語法，把 base 的 h1 樣式改掉。
-        2. 使用 @apply 允許修改整個 h1 的內容，@apply 有點像是把想要的樣式合併起來，類似拆模組的概念。
-    */
-  /*
-    h1 {
-        @apply text-6xl text-green-700 my-5;
-    }
-    //*/
-
-  /*覆蓋預設文字樣式、自訂文字樣式*/
-  @font-face {
-    font-family: Proxima Nova;
-    font-weight: 500;
-    src: 'url(/fonts/proxima-nova/500-medium.woff) format("woff")';
-  }
-
-  /*
-    body{
-        @apply bg-gray-300 dark:bg-black
-    }
-    */
-}
-
-/* on/off the comment block to observe the customized class name effective or not.*/
-/* @apply directives to compose the twd css class name to customized component. */
-
 @layer components {
+
   /* Transform Card */
   .card {
     @apply absolute h-full w-full transform rounded-2xl shadow-xl;
     backface-visibility: hidden;
   }
 
-  .touch {
-    @apply cursor-pointer;
-    background-image: url("https://picsum.photos/300/300?people=10");
-    background-position: center center;
-    background-size: cover;
-  }
-
-  /* 翻轉屬性 */
-  .transform-style-3d {
-    transform-style: preserve-3d;
-  }
-  /* 滑鼠移過去 轉180度 */
-  .transform-style-3d:hover {
-    transform: rotateY(180deg);
-  }
-  /* 滑鼠離開卡片時 轉回來 180度 */
-  .transform-rotateY-180 {
-    transform: rotateY(180deg);
-  }
-
   /* CommentArea*/
   .btn {
     @apply mr-2 rounded-md bg-blue-500 px-8 py-4 text-white;
   }
-
+  
   .btn-focus {
     @apply duration-300 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2;
   }
-
-  .input {
-    @apply mr-3 w-[600px] rounded-md p-4;
-  }
-
-  .input-focus {
-    @apply duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2;
-  }
-
-  /* public */
-  /*
-    .btn {
-        @apply py-2 px-4 text-white font-semibold rounded-lg shadow-md;
-    }
-    .btn:focus {
-        @apply outline-none ring-2 ring-opacity-75;
-    }
-    */
-
-  /* green */
-  /*
-    .btn-green {
-        @apply bg-green-500;
-    }
-    .btn-green:hover {
-        @apply bg-green-700;
-    }
-    .btn-green:focus {
-        @apply ring-green-400;
-    }
-    */
-
-  /* blue */
-  /*
-    .btn-blue {
-        @apply bg-blue-500;
-    }
-    .btn-blue:hover {
-        @apply bg-blue-700;
-    }
-    .btn-blue:focus {
-        @apply ring-blue-400;
-    }
-    */
-}
-
-/* 新增功能：自訂樣式 */
-@layer utilities {
-  /* V3.0 似乎已棄用 variants設定，可直接在template使用 */
-  /* responsive */
-  .scroll-snap-none {
-    scroll-snap-type: none;
-  }
-
-  .scroll-snap-x {
-    scroll-snap-type: x;
-  }
-
-  .scroll-snap-y {
-    scroll-snap-type: y;
-  }
-
-  /* Pseudo-classes(偽類): hover, focus... */
-  /*
-    .btn {
-        @apply px-4 py-2 rounded border-transparent text-white;
-    }
-
-    .btn-red {
-        @apply bg-red-500 border-red-600 border-2;
-    }
-
-    .btn-hover {
-        @apply bg-red-700;
-    }
-
-    .btn-focus {
-        @apply border-red-400 border-2;
-    }
-    */
-}
-
-/* apply var(...) to call the variable */
-.test-var {
-  color: var(--color);
-  background-color: var(--bgc);
-  font-size: var(--fontSize);
 }
