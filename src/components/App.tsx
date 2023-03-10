@@ -1,11 +1,9 @@
-import LoginButton from './LoginButton';
-import TransformCard from './TransformCard';
+import MessageBoard from "./MessageBoard";
 
 const App = () => {
     return(
         <div className="container">
-            <TransformCard/>
-            <LoginButton/>
+            <MessageBoard/>
         </div>
     );
 }

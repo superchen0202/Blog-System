@@ -1,0 +1,43 @@
+// contariner
+.page{
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: "monospace", "微軟正黑體";
+  box-shadow: 0px 0px 16px rgb(199, 197, 197);
+  border-radius: 8px;
+  padding: 12px 28px;
+  color: #6c6c6c;
+  box-sizing: border-box;
+}
+
+.title{
+  text-align: center;
+}
+
+// 表單區塊 form
+.message-form{
+  margin-top: 16px;
+  font-size: 18px;
+}
+
+.message-text-area{
+  display: block;
+  margin-top: 8px;
+  width: 95%;
+  border-color: rgba(0, 0, 0, 0.125);
+}
+
+.submit-button{
+  margin-top: 8px;
+  color: #ddd;
+  background-color: #343a40;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 6px 12px;
+}
+
+// 顯示留言區塊
+.message-list{
+  margin-top: 16px;
+}
