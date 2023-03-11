@@ -25,6 +25,9 @@
   margin-top: 8px;
   width: 95%;
   border-color: rgba(0, 0, 0, 0.125);
+  padding: 10px;
+  border-width:	1px;
+  border-style: solid;
 }
 
 .submit-button{
@@ -45,4 +48,19 @@
 .message-error{
   margin-top: 16px;
   color: #db4c3f;
+}
+
+.loading{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 30px;
+  // 垂直水平置中
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

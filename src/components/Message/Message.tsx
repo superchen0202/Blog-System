@@ -2,14 +2,17 @@ import React from 'react';
 import style from './Message.module.scss';
 
 export type MessageProps = {
+  id?: number,
   author?: string, 
   createdAt?: string, 
   content?: string,
 };
 
+// Component
 const Message: React.FC<MessageProps> = (props) => {
 
   const { 
+          id,
           author = "蘇柏丞",
           createdAt = "2023-10-25",
           content = "幹",
