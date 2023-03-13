@@ -1,0 +1,1 @@
+export { default, PostListProps } from './PostList';

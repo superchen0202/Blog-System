@@ -1,0 +1,48 @@
+.header-container{
+    height: 58px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 6px rgb(199, 197, 197);
+    padding: 0px 32px;
+}
+.brand{
+    margin: 0;
+}
+.navbar-list{
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    margin-left: 32px;
+}
+
+.nav{
+    height: 58px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #666;
+
+    //CSS Modlue要用global，避免active會被hash起來
+    // &.active{    //可以嘗試，className仍會加active，但style不會吃到
+    &:global(.active){
+        background-color: #eee;
+        color: #222;
+    }
+}
+
+// how to fix
+.left-navbar{
+    display: flex;
+    align-items: center;
+}

@@ -1,0 +1,24 @@
+.container{
+    padding: 0 30px;
+    max-width: 960px;
+    margin: 8px auto;
+}
+.header{
+    margin-bottom: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.title{
+    font-size: 36px;
+    font-weight: 700;
+}
+.date{
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.4);
+    margin-top: 16px;
+}
+.body{
+    font-size: 20px;
+    letter-spacing: 3px;
+    line-height: 1.5;
+}

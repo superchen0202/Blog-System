@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import style from './MessageBoard.module.scss';
 import Message, { MessageProps } from '../Message';
 import { loadComments, sendComments } from '@/service/api';
-import DataIsLoading from '../shared/DataIsLoading';
-import ErrorInfo from '../shared/ErrorInfo';
+import DataIsLoading from '../DataIsLoading';
+import ErrorInfo from '../ErrorInfo';
+import NavBar from '../NavBar';
 
 // Container
 const MessageBoard: React.FC = (props) => {
@@ -28,7 +29,7 @@ const MessageBoard: React.FC = (props) => {
     .catch(error => setLoadingError(error.message))
     .finally(() => setIsLoadingComments(false));
 
-  }, [comments]);
+  }, [isLoadingComments, IsSendingComments]);
 
   const textAreaHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) =>{
     setMessage(event.currentTarget.value);
@@ -56,6 +57,8 @@ const MessageBoard: React.FC = (props) => {
   return (
 
     <div className={style.page}>
+
+      <NavBar/>
 
       <h1 className={style.title}>留言板</h1>
       
