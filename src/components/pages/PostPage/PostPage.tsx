@@ -51,6 +51,7 @@ const PostPage: React.FC = () => {
       <div className={style.body}>
         { post && post.body}
       </div>
+      
     </div>
   )
 };
