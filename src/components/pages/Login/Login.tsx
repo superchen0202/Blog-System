@@ -1,69 +1,71 @@
 import React, {useState, useEffect, ChangeEvent} from 'react';
 import NavBar from '@/components/shared/NavBar';
+import { login } from '@/service/api';
+import { setAuthToken } from '@/service/utils';
 
-type Login = {
-  // authenticity_token: string,
-  email: string,
+type LoginProps = {
+  userName: string,
   password: string,
-  password_confirmation: string,
 }
 
-const Login: React.FC = (props) => {
+const Login: React.FC = () => {
 
-  const [Info, setInfo] = useState<Login>({
-    // authenticity_token:'',
-    email: '',
+  const [Info, setInfo] = useState<LoginProps>({
+    userName: '',
     password: '',
-    password_confirmation:''
   });
+  const [errorMessage, setErrorMessage] = useState('');
 
   const SubmitHandler = (event: React.FormEvent<HTMLButtonElement>) =>{
+    
     event.preventDefault();
     console.log(Info);
+
+    login(Info.userName, Info.password)
+    .then(data =>{
+
+      if(data.ok === 0){
+        return setErrorMessage(data.message);
+      }
+
+      // 成功的話就把 token 存到 localStorage
+      setAuthToken(data.token);
+    })
+
   }
 
   return (
 
-      <div className='shadow-lg w-[720px] h-[480px] px-60 py-5 mt-20 mx-auto my-auto'>
+      <div className='shadow-lg w-[720px] h-[360px] px-60 py-5 mt-20 mx-auto my-auto'>
         
         <NavBar />
 
         <form action="http://localhost:3000/users" method="post">
 
-          {/* logo */}
-          <img src="images/logo.svg"/>
-
-          <h2 className='font-bold'>註冊即可查看朋友的相片和影片</h2>
+          <h2 className='font-bold'>登入</h2>
 
           {/* input text */}
           <div className='mt-5'>
 
-            <input placeholder='電子郵件地址'
+            <input placeholder='用戶名稱'
                   required = {true}
+                  autoComplete = "userName"
                   type="text"
                   className='input-field'
-                  value={Info.email}
+                  value={Info.userName}
                   onChange = {(event: React.ChangeEvent<HTMLInputElement>)=>{
-                    setInfo({...Info, email: event.currentTarget.value})
+                    setInfo({...Info, userName: event.currentTarget.value})
                   }}
             />
 
             <input placeholder='密碼'
                   required = {true}
+                  autoComplete = "current-password"
                   type="password"
                   className='input-field'
                   value={Info.password}
                   onChange = { (event: React.ChangeEvent<HTMLInputElement>)=>{
                     setInfo({...Info, password: event.currentTarget.value})
-                  }}
-            />
-
-            <input placeholder='確認密碼'
-                  type="password"
-                  className='input-field'
-                  value={Info.password_confirmation}
-                  onChange = { (event: React.ChangeEvent<HTMLInputElement>)=>{
-                    setInfo({...Info, password_confirmation: event.currentTarget.value})
                   }}
             />
 
@@ -74,19 +76,9 @@ const Login: React.FC = (props) => {
                   onKeyDown={SubmitHandler}
                   onClick={SubmitHandler}
           >
-            註冊
+            登入
           </button>
         </form>
-
-          {/* 說明文字 */}
-          <div className='mt-5'>
-            <p className='text-gray-700 mb-3 text-sm'>
-              使用我們服務的用戶可能上傳了你的聯絡資料到 Instagram。瞭解詳情
-            </p>
-            <p className='text-gray-700 mb-3 text-sm'>
-              註冊即表示你同意我們的服務條款、《隱私政策》和《Cookie 政策》。
-            </p>
-          </div>
       </div>
   )
 }

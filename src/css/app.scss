@@ -2,20 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-
-  /* Transform Card */
-  .card {
-    @apply absolute h-full w-full transform rounded-2xl shadow-xl;
-    backface-visibility: hidden;
-  }
-
+@layer components{
+    
   /* CommentArea*/
-  .btn {
-    @apply mr-2 rounded-md bg-blue-500 px-8 py-4 text-white;
-  }
-  
-  .btn-focus {
-    @apply duration-300 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2;
+  .input-field{
+      @apply bg-gray-50 border border-gray-300 text-gray-900
+             text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
+             block w-full p-2.5 
+             dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
+             dark:focus:ring-blue-500 dark:focus:border-blue-500
+             mb-3
   }
 }

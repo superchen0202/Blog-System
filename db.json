@@ -17,6 +17,12 @@
       "content": "fff",
       "createdAt": 1678728491180,
       "id": 3
+    },
+    {
+      "author": "Daniel",
+      "content": "4444\n",
+      "createdAt": 1678777904775,
+      "id": 4
     }
   ],
   "posts": [
