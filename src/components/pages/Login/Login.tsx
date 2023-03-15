@@ -2,6 +2,7 @@ import React, {useState, useEffect, ChangeEvent} from 'react';
 import NavBar from '@/components/shared/NavBar';
 import { login } from '@/service/api';
 import { setAuthToken } from '@/service/utils';
+import { useNavigate } from 'react-router-dom';
 
 type LoginProps = {
   userName: string,
@@ -15,6 +16,7 @@ const Login: React.FC = () => {
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const SubmitHandler = (event: React.FormEvent<HTMLButtonElement>) =>{
     
@@ -30,6 +32,7 @@ const Login: React.FC = () => {
 
       // 成功的話就把 token 存到 localStorage
       setAuthToken(data.token);
+      navigate('/');
     })
 
   }
