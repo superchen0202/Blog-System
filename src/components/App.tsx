@@ -1,13 +1,12 @@
 import { 
     useRoutes, 
     RouteObject,
-    useParams
 } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import Login from './pages/Login';
-import PostPage from './pages/PostPage';
+import Post from './pages/Post';
 import MessageBoard from './shared/MessageBoard';
-import BlogPost from './pages/BlogPost';
+import BlogPost from './pages/PostPage';
 
 const routesConfig: RouteObject[] = [
     {
@@ -20,7 +19,7 @@ const routesConfig: RouteObject[] = [
         children:[
             {
                 path: "/posts/:id",
-                element:<PostPage/>
+                element:<Post/>
             }
         ]
     },

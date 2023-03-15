@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import style from './MessageBoard.module.scss';
 import Message, { MessageProps } from '../Message';
 import { loadComments, sendComments } from '@/service/api';
-import DataIsLoading from '../DataIsLoading';
-import ErrorInfo from '../ErrorInfo';
+import { DataIsLoading, ErrorInfo } from '../LoadingAndErrorInfo';
 import NavBar from '../NavBar';
 
 // Container

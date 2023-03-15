@@ -1,4 +1,10 @@
-const DataLoading: React.FC = () => {
+import React from 'react';
+
+type ErrorInfoProps = {
+  message?: string | number,
+};
+
+export const DataIsLoading: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center">
@@ -16,4 +22,13 @@ const DataLoading: React.FC = () => {
   );
 };
 
-export default DataLoading;
+export const ErrorInfo: React.FC<ErrorInfoProps> = (props) => {
+  
+  const { message } = props;
+
+  return (
+    <div className="mt-4 text-red-600">
+      {message}
+    </div>
+  )
+};

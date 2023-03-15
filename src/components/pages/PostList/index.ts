@@ -1,1 +1,1 @@
-export { default, PostListProps } from './PostList';
+export { default } from './PostList';

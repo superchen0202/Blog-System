@@ -44,7 +44,7 @@ export const loadPosts = async () => {
     }
 };
 
-// post/:id
+// /post/:id
 export const loadPost = async (id: string) => {
     try{
         const response = await axios.get(`${baseURL}/posts?id=${id}`);
