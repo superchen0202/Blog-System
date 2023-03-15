@@ -24,7 +24,9 @@ export const DataIsLoading: React.FC = () => {
 
 export const ErrorInfo: React.FC<ErrorInfoProps> = (props) => {
   
-  const { message } = props;
+  const { 
+    message = "OOPS! There is something wrong X_X Please reload page again."
+  } = props;
 
   return (
     <div className="mt-4 text-red-600">

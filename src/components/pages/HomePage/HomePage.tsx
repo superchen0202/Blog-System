@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
 
       {/* Display Post Title */}
       { data && posts.map( post => <PostList key={post.id}{...post} />) }
-      { error && <ErrorInfo message={"404 NOT Found"}/>}
+      { error && <ErrorInfo/>}
     </div>
   )
 };

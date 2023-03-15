@@ -19,13 +19,12 @@ export const homeApi = createApi({
     
     endpoints: (builder) => ({
         
-        getPosts: builder.query<PostProps[], number | 'all'>({
+        getPosts: builder.query<PostProps[], number | string | 'all'>({
             
             query: (id) => {
 
                 // /post/:id
                 if(id !== 'all'){
-                    console.log(id);
                     return `/posts?id=${id}`;
                 }
                 

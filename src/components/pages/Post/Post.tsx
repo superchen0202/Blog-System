@@ -1,16 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import style from './Post.module.scss';
 import { useParams } from 'react-router-dom';
-import { loadPost } from '@/service/api';
+import { PostProps, useGetPostsQuery } from '@/service/homeService';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 
-export type PostProps = {
-  id: number,
-  title: string,
-  body: string,
-  createdAt: string,
-};
-
-const InitState: PostProps={
+const InitState: PostProps = {
   id: 0,
   title: '',
   body: '',
@@ -20,21 +15,25 @@ const InitState: PostProps={
 const Post: React.FC = () => {
 
   const { id } = useParams();
-  const [post, setPost] = useState(InitState);
+  const { data, isLoading, error } = useGetPostsQuery( id??skipToken);
+  const [ post, setPost ] = useState(InitState);
 
   useEffect(() => {
 
-    if(id){
-      loadPost(id).then((post) => setPost(post[0]))
+    if(data){
+      setPost(data[0]);
     }
-    return
-  }, [id]);
-
-  console.log(id);
+  }, [isLoading]);
 
   return (
 
     <div className={style.container}>
+
+      { isLoading && <DataIsLoading/>}
+      { error && <ErrorInfo/> }
+      { 
+      
+      data &&<div>
       
       <div className={style.header}>
         
@@ -53,6 +52,8 @@ const Post: React.FC = () => {
       <div className={style.body}>
         { post && post.body}
       </div>
+      </div>
+      }
       
     </div>
   )
