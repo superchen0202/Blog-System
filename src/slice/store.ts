@@ -1,10 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { combineReducers } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { homeApi } from '@/service/homeService';
+import authReducer from './authSlice';
+import messageReducer from './message';
 
 const reducer = combineReducers({
     [homeApi.reducerPath]: homeApi.reducer,
-})
+    authReducer,
+    messageReducer,
+});
 
 export const store = configureStore({
 
@@ -15,6 +18,6 @@ export const store = configureStore({
         .concat(homeApi.middleware)
 })
 
-// export type RootState = ReturnType<typeof store.getState>;
-// export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof reducer>;
+export type AppDispatch = typeof store.dispatch;
 export default store;

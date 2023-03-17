@@ -4,9 +4,11 @@ import NavBar from '@/components/shared/NavBar';
 import PostList from '../PostList';
 import { PostProps, useGetPostsQuery } from '@/service/homeService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
+import { useAppSelector } from '@/slice/hooks';
 
 const HomePage: React.FC = () => {
 
+  // const user = useAppSelector( state => state.authReducer.user);
   const [ posts, setPosts] = useState<PostProps[]>([]);
   const { data, isLoading, error } = useGetPostsQuery('all');
 
@@ -16,7 +18,7 @@ const HomePage: React.FC = () => {
       setPosts(data);
     }
 
-    console.log(error);
+    // console.log(error);
 
   }, [isLoading]);
 

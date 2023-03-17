@@ -64,21 +64,20 @@ export const loadPost = async (id: string) => {
 //--------------------------------------------
 
 //登入
-
 export const login = async (user: User) => {
     
     try{
         const response = await axios.post(`${baseURL}/login`, user);
-        console.log(response);
+        // console.log(response);
 
-        // ERROR
+        // 若 ok 為 0 代表錯誤
         if(response.data.ok === 0){
-            return response.data.message;
+            return response.data;
         }
-    
-        // 成功的話就把 token 存到 localStorage
+
+        // 成功就把 token 存到 localStorage
         setAuthToken(response.data.token);
-        // return response.data;
+        return response.data;
     }
     catch(err){
         const error = err as Error;
@@ -88,7 +87,8 @@ export const login = async (user: User) => {
 };
 
 // 身分驗證
-export const getMe = async () => {
+export const getCurrentUser = async () => {
+    
     // 從 localStorage 取得 token
     const token = getAuthToken();
 
@@ -99,7 +99,7 @@ export const getMe = async () => {
             }
         });
 
-        console.log(response.data);
+        // console.log(response.data);
         return response.data;    
     }
     catch(err){
@@ -108,3 +108,8 @@ export const getMe = async () => {
         throw new Error(error.message); 
     }
 };
+
+export const AuthService = {
+    login,
+    getCurrentUser
+}

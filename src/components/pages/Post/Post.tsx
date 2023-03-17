@@ -31,28 +31,25 @@ const Post: React.FC = () => {
 
       { isLoading && <DataIsLoading/>}
       { error && <ErrorInfo/> }
-      { 
-      
-      data &&<div>
-      
-      <div className={style.header}>
-        
-        <div className={style.title}>
-          { post && post.title}
-        </div>
-        
-        <div className={style.date}>
-          {
-            post && new Date(post.createdAt).toLocaleString()
-          }
-        </div>
+      { data && <div>      
+          <div className={style.header}>
+            
+            <div className={style.title}>
+              { post && post.title }
+            </div>
+            
+            <div className={style.date}>
+              {
+                post && new Date(post.createdAt).toLocaleString()
+              }
+            </div>
 
-      </div>
+          </div>
 
-      <div className={style.body}>
-        { post && post.body}
-      </div>
-      </div>
+          <div className={style.body}>
+            { post && post.body}
+          </div>
+        </div>
       }
       
     </div>

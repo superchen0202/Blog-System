@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
 import style from './NavBar.module.scss';
 import { Route, Link, NavLink, useLocation } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from '@/slice/hooks';
+import { getMe } from "@/slice/authSlice";
 
 type NavBarProps = {};
 
 const NavBar: React.FC<NavBarProps> = (props) => {
   
   const location = useLocation();
-  // <Nav to="/" $active={location.pathname === "/"}></Nav>
+  
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.authReducer.username);
+
+  useEffect(() => {
+
+    dispatch(getMe());
+  
+  }, [dispatch])
 
   const ClickHandler = ()=>{
-    // console.log(location)
+    // console.log(user);
   }
 
   return (
@@ -32,8 +42,11 @@ const NavBar: React.FC<NavBarProps> = (props) => {
 
     </div>
 
+
     <ul className={style["navbar-list"]}>
-      <NavLink to="/login" className={style.nav}>登入</NavLink>
+        <NavLink to="/login" className={style.nav}>
+        { user ? <p>{user}</p>:<p>登入</p>}  
+        </NavLink>
     </ul>
     
   </div>

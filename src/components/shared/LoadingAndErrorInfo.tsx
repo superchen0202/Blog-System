@@ -4,7 +4,7 @@ type ErrorInfoProps = {
   message?: string | number,
 };
 
-export const DataIsLoading: React.FC = () => {
+const DataIsLoading: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center">
@@ -22,7 +22,7 @@ export const DataIsLoading: React.FC = () => {
   );
 };
 
-export const ErrorInfo: React.FC<ErrorInfoProps> = (props) => {
+const ErrorInfo: React.FC<ErrorInfoProps> = (props) => {
   
   const { 
     message = "OOPS! There is something wrong X_X Please reload page again."
@@ -34,3 +34,5 @@ export const ErrorInfo: React.FC<ErrorInfoProps> = (props) => {
     </div>
   )
 };
+
+export {DataIsLoading, ErrorInfo}

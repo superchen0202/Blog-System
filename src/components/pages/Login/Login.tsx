@@ -1,33 +1,37 @@
-import React, {useState, useEffect, ChangeEvent} from 'react';
+import React, {useState, useEffect} from 'react';
 import NavBar from '@/components/shared/NavBar';
-import { login } from '@/service/api';
-import { setAuthToken } from '@/service/utils';
 import { useNavigate } from 'react-router-dom';
-import { User } from '@/slice/userSlice';
+import { useAppSelector, useAppDispatch } from '@/slice/hooks';
+import { User } from '@/slice/authSlice';
+import { login } from '@/slice/authSlice';
+import { clearMessage } from '@/slice/message';
 
 const Login: React.FC = () => {
 
-  const [user, setUser] = useState<User>({
+  const [loginInfo, setLoginInfo] = useState<User>({
     username: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
+  
   const navigate = useNavigate();
+  const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
+  const message = useAppSelector((state) => state.messageReducer);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch])
 
   const SubmitHandler = (event: React.FormEvent<HTMLButtonElement>) =>{
     
     event.preventDefault();
-    console.log(user);
 
-    login(user)
-    .then(error =>{
-
-      if(error){
-        return setErrorMessage(error);
-      }
-      
-      navigate('/');
-    })
+    dispatch(login(loginInfo))
+    .unwrap()
+    .then( data =>
+      navigate('/')
+    )
   }
 
   return (
@@ -48,9 +52,9 @@ const Login: React.FC = () => {
                   autoComplete = "username"
                   type="text"
                   className='input-field'
-                  value={user.username}
+                  value={loginInfo.username}
                   onChange = {(event: React.ChangeEvent<HTMLInputElement>)=>{
-                    setUser({...user, username: event.currentTarget.value})
+                    setLoginInfo({...loginInfo, username: event.currentTarget.value})
                   }}
             />
 
@@ -59,9 +63,9 @@ const Login: React.FC = () => {
                   autoComplete = "current-password"
                   type="password"
                   className='input-field'
-                  value={user.password}
+                  value={loginInfo.password}
                   onChange = { (event: React.ChangeEvent<HTMLInputElement>)=>{
-                    setUser({...user, password: event.currentTarget.value})
+                    setLoginInfo({...loginInfo, password: event.currentTarget.value})
                   }}
             />
 
@@ -75,6 +79,7 @@ const Login: React.FC = () => {
             登入
           </button>
         </form>
+
       </div>
   )
 }
