@@ -3,16 +3,12 @@ import NavBar from '@/components/shared/NavBar';
 import { login } from '@/service/api';
 import { setAuthToken } from '@/service/utils';
 import { useNavigate } from 'react-router-dom';
-
-type LoginProps = {
-  userName: string,
-  password: string,
-}
+import { User } from '@/slice/userSlice';
 
 const Login: React.FC = () => {
 
-  const [Info, setInfo] = useState<LoginProps>({
-    userName: '',
+  const [user, setUser] = useState<User>({
+    username: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
@@ -21,20 +17,17 @@ const Login: React.FC = () => {
   const SubmitHandler = (event: React.FormEvent<HTMLButtonElement>) =>{
     
     event.preventDefault();
-    console.log(Info);
+    console.log(user);
 
-    login(Info.userName, Info.password)
-    .then(data =>{
+    login(user)
+    .then(error =>{
 
-      if(data.ok === 0){
-        return setErrorMessage(data.message);
+      if(error){
+        return setErrorMessage(error);
       }
-
-      // 成功的話就把 token 存到 localStorage
-      setAuthToken(data.token);
+      
       navigate('/');
     })
-
   }
 
   return (
@@ -52,12 +45,12 @@ const Login: React.FC = () => {
 
             <input placeholder='用戶名稱'
                   required = {true}
-                  autoComplete = "userName"
+                  autoComplete = "username"
                   type="text"
                   className='input-field'
-                  value={Info.userName}
+                  value={user.username}
                   onChange = {(event: React.ChangeEvent<HTMLInputElement>)=>{
-                    setInfo({...Info, userName: event.currentTarget.value})
+                    setUser({...user, username: event.currentTarget.value})
                   }}
             />
 
@@ -66,9 +59,9 @@ const Login: React.FC = () => {
                   autoComplete = "current-password"
                   type="password"
                   className='input-field'
-                  value={Info.password}
+                  value={user.password}
                   onChange = { (event: React.ChangeEvent<HTMLInputElement>)=>{
-                    setInfo({...Info, password: event.currentTarget.value})
+                    setUser({...user, password: event.currentTarget.value})
                   }}
             />
 

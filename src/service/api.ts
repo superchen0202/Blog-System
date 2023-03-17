@@ -1,8 +1,13 @@
 import axios from "axios";
-import { getAuthToken} from './utils';
+import { getAuthToken, setAuthToken } from './utils';
 
 // const baseURL = 'http://localhost:3000';
 const baseURL = 'https://student-json-api.lidemy.me';
+
+export type User = {
+    username: string,
+    password: string,
+};
 
 // /comments
 export const loadComments = async () => {
@@ -59,15 +64,21 @@ export const loadPost = async (id: string) => {
 //--------------------------------------------
 
 //登入
-export const login = async (username: string, password: string) => {
+
+export const login = async (user: User) => {
     
     try{
-        const response = await axios.post(`${baseURL}/login`,{
-            username,
-            password,
-        });
+        const response = await axios.post(`${baseURL}/login`, user);
         console.log(response);
-        return response.data;
+
+        // ERROR
+        if(response.data.ok === 0){
+            return response.data.message;
+        }
+    
+        // 成功的話就把 token 存到 localStorage
+        setAuthToken(response.data.token);
+        // return response.data;
     }
     catch(err){
         const error = err as Error;
@@ -78,7 +89,6 @@ export const login = async (username: string, password: string) => {
 
 // 身分驗證
 export const getMe = async () => {
-
     // 從 localStorage 取得 token
     const token = getAuthToken();
 
