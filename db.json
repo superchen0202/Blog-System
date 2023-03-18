@@ -25,6 +25,32 @@
       "id": 4
     }
   ],
+  "users": [
+    {
+      "id": 1,
+      "nickname": "我是 user01",
+      "username": "user01",
+      "password": "test01"
+    },
+    {
+      "id": 2,
+      "nickname": "管理員",
+      "username": "Daniel",
+      "password": "test01"
+    },
+    {
+      "id": "3",
+      "username": "Jack",
+      "nickname": "Jack",
+      "password": "test01"
+    },
+    {
+      "id": "4",
+      "username": "Nick",
+      "nickname": "Nick",
+      "password": "test01"
+    }
+  ],
   "posts": [
     {
       "title": "不跟Lamborghini玩了！ Audi傳用Porsche平臺開發下一代R8",
@@ -185,5 +211,8 @@
       "isFollowing": true,
       "avatar": "/images/avatars/a10.png"
     }
-  ]
+  ],
+  "profile": {
+    "name": "JSON Server API"
+  }
 }

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import style from './NavBar.module.scss';
-import { Route, Link, NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from '@/slice/hooks';
 import { getMe } from "@/slice/authSlice";
 
@@ -8,24 +8,16 @@ type NavBarProps = {};
 
 const NavBar: React.FC<NavBarProps> = (props) => {
   
-  const location = useLocation();
-  
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.authReducer.username);
 
   useEffect(() => {
-
     dispatch(getMe());
-  
   }, [dispatch])
-
-  const ClickHandler = ()=>{
-    // console.log(user);
-  }
 
   return (
   
-  <div className={style["header-container"]} onClick={ClickHandler}>
+  <div className={style["header-container"]}>
 
     <div className={style["left-navbar"]}>
       
