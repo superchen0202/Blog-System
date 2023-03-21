@@ -1,20 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import style from './NavBar.module.scss';
 import { Link, NavLink } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from '@/slice/hooks';
-import { getMe } from "@/slice/authSlice";
+import { useAppSelector } from '@/slice/hooks';
 
-type NavBarProps = {};
-
-const NavBar: React.FC<NavBarProps> = (props) => {
+const NavBar: React.FC = () => {
   
-  const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.authReducer.username);
-
-  useEffect(() => {
-    dispatch(getMe());
-    console.log(user);
-  }, [dispatch])
 
   return (
     <header className="sticky top-0 bg-white border-b-[1px] border-gray-300">

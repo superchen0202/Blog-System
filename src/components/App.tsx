@@ -1,7 +1,6 @@
-import { 
-    useRoutes, 
-    RouteObject,
-} from 'react-router-dom';
+import { useRoutes, RouteObject } from 'react-router-dom';
+import { useAppDispatch } from '@/slice/hooks';
+import { getMe } from "@/slice/authSlice";
 import Home from './pages/Home';
 import Login from './pages/Login';
 import PostPage from './pages/PostPage/PostPage';
@@ -34,6 +33,11 @@ const routesConfig: RouteObject[] = [
 ];
 
 const App = () => {
+
+    //get user info by token in local storage
+    const dispatch = useAppDispatch();
+    dispatch(getMe());
+
     const routes = useRoutes(routesConfig);
     return(routes);
 }
