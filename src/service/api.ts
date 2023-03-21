@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAuthToken, setAuthToken } from './utils';
 
 // const baseURL = 'http://localhost:3000';
-const baseURL = 'https://blog-server-rho.vercel.app/me';
+const baseURL = 'https://blog-server-rho.vercel.app';
 
 export type User = {
     username: string,
