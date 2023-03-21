@@ -7,8 +7,7 @@ export type PostProps = {
     createdAt: string,
 };
 
-const baseURL = 'http://localhost:3000';
-// const baseURL = 'https://student-json-api.lidemy.me';
+const baseURL = 'http://localhost:3000' && 'https://blog-server-rho.vercel.app';
 
 // Define service using base URL and expected endpoints
 export const homeApi = createApi({

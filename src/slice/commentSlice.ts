@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseURL = 'http://localhost:3000' //&& 'https://blog-server-rho.vercel.app';
+const baseURL = 'http://localhost:3000' && 'https://blog-server-rho.vercel.app';
 
 export type Comment = {
   id: number,

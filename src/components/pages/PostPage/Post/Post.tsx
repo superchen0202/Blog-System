@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { PostProps, useGetPostsQuery } from '@/service/homeService';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
+import MessageBoard from '../MessageBoard';
 
 const InitState: PostProps = {
   id: 0,
@@ -27,11 +28,11 @@ const Post: React.FC = () => {
 
   return (
 
-    <div className={style.container}>
-
+    <div>
       { isLoading && <DataIsLoading/>}
       { error && <ErrorInfo/> }
-      { data && <div>      
+      { data &&
+      <div>      
           <div className={style.header}>
             
             <div className={style.title}>
@@ -49,6 +50,7 @@ const Post: React.FC = () => {
           <div className={style.body}>
             { post && post.body}
           </div>
+          <MessageBoard/>
         </div>
       }
       

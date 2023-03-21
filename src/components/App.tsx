@@ -1,36 +1,34 @@
 import { 
     useRoutes, 
     RouteObject,
-    useLoaderData,
 } from 'react-router-dom';
-import HomePage from './pages/HomePage/HomePage';
+import Home from './pages/Home';
 import Login from './pages/Login';
-import Post from './pages/Post';
-import MessageBoard from './shared/MessageBoard';
-import BlogPost from './pages/PostPage';
+import PostPage from './pages/PostPage/PostPage';
+import MessageBoard from './pages/PostPage/MessageBoard';
 
 const routesConfig: RouteObject[] = [
     {
         path: "/",
-        element: <HomePage/>,
+        element: <Home/>,
     },
     {
-        path: "/posts",
-        element: <BlogPost/>,
-        children:[
-            {
-                path: "/posts/:id",
-                element:<Post/>
-            }
-        ]
+        path: "/login",
+        element: <Login/>,
     },
     {
         path: "/message-board",
         element: <MessageBoard/>,
     },
     {
-        path: "/login",
-        element: <Login/>,
+        path: "/posts",
+        element: <Home/>,
+        children:[
+            {
+                path: "/posts/:id",
+                element:<PostPage/>
+            }
+        ]
     }
 ];
 

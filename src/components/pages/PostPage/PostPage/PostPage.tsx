@@ -1,14 +1,17 @@
 import React from 'react';
-import style from './PostPage.module.scss';
 import { Outlet } from 'react-router-dom';
 import NavBar from '@/components/shared/NavBar';
+import Container from '@/components/shared/Container';
+import MessageBoard from '../MessageBoard';
 
 const PostPage: React.FC = () => {
 
   return (
-    <div className={style.root}>
+    <div>
       <NavBar/>
-      <Outlet/>    
+      <Container>
+        <Outlet/>
+      </Container>
     </div>
   )
 };
