@@ -5,6 +5,7 @@ import {
 import Home from './pages/Home';
 import Login from './pages/Login';
 import PostPage from './pages/PostPage/PostPage';
+import Post from './pages/PostPage/Post';
 import MessageBoard from './pages/PostPage/MessageBoard';
 
 const routesConfig: RouteObject[] = [
@@ -22,11 +23,11 @@ const routesConfig: RouteObject[] = [
     },
     {
         path: "/posts",
-        element: <Home/>,
+        element: <PostPage/>,
         children:[
             {
                 path: "/posts/:id",
-                element:<PostPage/>
+                element:<Post/>
             }
         ]
     }
