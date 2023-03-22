@@ -1,7 +1,6 @@
 import React from 'react';
 import style from './PostList.module.scss';
 import { Link } from "react-router-dom";
-import { PostProps } from '@/service/homeService';
 
 // PostList: 顯示文章列表
 const PostList: React.FC<PostProps> = (props) => {

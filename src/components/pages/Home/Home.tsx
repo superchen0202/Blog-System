@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '@/components/shared/NavBar';
 import Container from '@/components/shared/Container';
 import PostList from './PostList';
-import { PostProps, useGetPostsQuery } from '@/service/homeService';
+import { useGetPostsQuery } from '@/service/homeService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 
 const Home: React.FC = () => {

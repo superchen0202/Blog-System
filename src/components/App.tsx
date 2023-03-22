@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRoutes, RouteObject } from 'react-router-dom';
-import { useAppDispatch } from '@/slice/hooks';
-import { getCurrentUser } from "@/slice/authSlice";
+import { useAppDispatch } from '@/service/hooks';
+import { getCurrentUser } from '@/service/authService';
 import { getAuthToken } from '@/service/utils';
 import Home from './pages/Home';
 import Login from './pages/Login';

@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import App from './components/App';
 import "./css/style.scss";
-import store from './slice/store';
+import store from './service/store';
 import { Provider } from 'react-redux';
 import { HashRouter as Router} from 'react-router-dom';
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import style from './MessageBoard.module.scss';
-import { useAppDispatch, useAppSelector } from '@/slice/hooks';
-import { loadComments, sendComments } from '@/slice/commentSlice';
+import { useAppDispatch, useAppSelector } from '@/service/hooks';
+import { loadComments, sendComments } from '@/service/commentService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 import NavBar from '@/components/shared/NavBar';
 import Message from '../Message';
@@ -13,6 +13,7 @@ const MessageBoard: React.FC = () => {
   const [ message, setMessage ] = useState<string>('');
   const [ commentsValidation, setCommentsValidation] = useState<string>('');
   const dispatch = useAppDispatch();
+  const username = useAppSelector((state) => state.authReducer.userInfo.username);
   const { 
     comments, 
     isLoading, 

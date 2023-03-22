@@ -1,13 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-export type PostProps = {
-    id: number,
-    title: string,
-    body: string,
-    createdAt: string,
-};
-
-const baseURL = 'http://localhost:3000' && 'https://blog-server-rho.vercel.app';
+import baseURL from './enviroment';
 
 // Define service using base URL and expected endpoints
 export const homeApi = createApi({

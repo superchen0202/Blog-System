@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import style from './Post.module.scss';
 import { useParams } from 'react-router-dom';
-import { PostProps, useGetPostsQuery } from '@/service/homeService';
+import { useGetPostsQuery } from '@/service/homeService';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 import MessageBoard from '../MessageBoard';

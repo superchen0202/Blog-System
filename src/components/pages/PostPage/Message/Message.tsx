@@ -1,17 +1,10 @@
 import React from 'react';
 import style from './Message.module.scss';
-import { Comment } from '@/slice/commentSlice';
 
-// Component
-const Message: React.FC<Comment> = (props) => {
+const Message: React.FC<CommentProps> = (props) => {
 
-  const { 
-          id,
-          author,
-          createdAt,
-          content,
-        } = props;
-
+  const { id, author, createdAt, content } = props;
+  
   return (
 
     <div className={style["message-container"]}>

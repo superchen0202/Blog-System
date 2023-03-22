@@ -1,16 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
-const baseURL = 'http://localhost:3000' && 'https://blog-server-rho.vercel.app';
-
-export type Comment = {
-  id: number,
-  author: string,
-  content: string,
-  createdAt: number,
-};
-
-type error = string | null;
+import baseURL from "./enviroment";
 
 export const loadComments = createAsyncThunk("loadComments",
   async (_, thunkAPI) => {
@@ -27,11 +17,11 @@ export const loadComments = createAsyncThunk("loadComments",
 );
 
 export const sendComments = createAsyncThunk("sendComments",
-  async (content: string, thunkAPI) => {
+  async(content: string, thunkAPI) => {
     try{
       const response = await axios.post(`${baseURL}/comments`,
       {
-        author: '小馬哥',
+        author: '瓜瓜',
         content,
         createdAt: Date.now(),  //`${new Date().toISOString().split('T')[0]} ${new Date().toTimeString().split(' ')[0]}`,
       });
@@ -49,8 +39,8 @@ const commentSlice = createSlice({
 
   name: 'commentSlice',
   initialState:{
-    comments: [] as Comment[],
-    isLoading: true,
+    comments: [] as CommentProps[],
+    isLoading: false,
     loadingError: null as error,
     isSending: false,
     sendingError: null as error,
