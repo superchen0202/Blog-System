@@ -2,75 +2,115 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AuthService } from "@/service/api";
 import { setMessage } from "./message";
 import { getAuthToken } from "@/service/utils";
+import axios from "axios";
 
-export type User = {
-    username: string,
-    password: string,
+const baseURL = 'https://blog-server-rho.vercel.app' //&& 'http://localhost:3000';
+
+export type loginInfo = {
+  username: string,
+  password: string,
 };
 
-export const login = createAsyncThunk( "login",
+type error = string | null;
+type User = {
+  id: number,
+  username: string,
+  email?: string,
+}
+const userInfo: User = {
+  id: 0,
+  username: "",
+};
 
-    async ( user: User, thunkAPI) => {
-      try{
-        const token = await AuthService.login(user);
-        const username = await AuthService.getCurrentUser().then(response => response.data.username);
-        return { username };
-      }
-      catch(err){   
-        const error = err as Error;
-        const message = error.toString();
-
-        thunkAPI.dispatch(setMessage(message));
-        return thunkAPI.rejectWithValue(message);
-      }
+export const login = createAsyncThunk("login",
+  async(user: loginInfo, thunkAPI) => {
+    try{
+      const token = await AuthService.login(user);
+      const { id, username } = await AuthService.getCurrentUser().then(response => response.data);
+      return { id, username };
     }
-);
-export const getMe = createAsyncThunk( "me",
+    catch(err){   
+      const error = err as Error;
+      const message = error.toString();
 
-    async (_, thunkAPI) => {
-      try{
-        const username = await AuthService.getCurrentUser().then(response => response.data.username);
-        return { username };
-      }
-      catch(err){   
-        const error = err as Error;
-        const message = error.toString();
-
-        thunkAPI.dispatch(setMessage(message));
-        return thunkAPI.rejectWithValue(message);
-      }
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue(message);
     }
+  }
 );
 
-const username = "";
-const initialState = getAuthToken() ? { username, isLoggedIn: true } : { username: null, isLoggedIn: false };
+export const getCurrentUser = createAsyncThunk("getCurrentUser",
+  async(_, thunkAPI) => {
+    try{
+
+      // 從 localStorage 取得 token
+      const token = getAuthToken();
+
+      const response = await axios.get(`${baseURL}/me`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        }
+      });
+
+      const userInfo = response.data.data
+      const { id, username } = userInfo;
+      return { id, username };
+    }
+    catch(err){   
+      const error = err as Error;
+      const message = error.toString();
+      console.log(error);
+      thunkAPI.dispatch(setMessage(message));
+      // throw new Error(error.message); 
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 const authSlice = createSlice({
-    
+  
     name: 'authSlice',
-    initialState,
+    initialState:{
+      userInfo: userInfo,
+      isLoading: false,
+      loadingError: null as error,
+    },
+    
     reducers:{},
+    
     extraReducers: (builder) =>{
 
-        builder.addCase(login.fulfilled, (state, action) => {
-          state.isLoggedIn = true;
-          state.username = action.payload.username;
-        });
+      builder.addCase(login.pending, (state) => {
+        state.isLoading = true;
+        state.loadingError = null;
+      });
 
-        builder.addCase(login.rejected, (state)=>{
-          state.isLoggedIn = false;
-          state.username = null;
-        });
+      builder.addCase(login.fulfilled, (state, action) => {
+        state.userInfo = action.payload;
+        state.isLoading = false;
+      });
 
-        builder.addCase(getMe.fulfilled, (state, action) => {
-          state.isLoggedIn = true;
-          state.username = action.payload.username;
-        });
+      builder.addCase(login.rejected, (state, action)=>{
+        state.loadingError = action.payload as unknown as string;
+        state.isLoading = false;
+      });
 
-        builder.addCase(getMe.rejected, (state)=>{
-          state.isLoggedIn = false;
-          state.username = null;
-        });     
+      //get user info by token in local storage
+      builder.addCase(getCurrentUser.pending, (state) => {
+        state.isLoading = true;
+        state.loadingError = null;
+      });
+
+      builder.addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.userInfo.id = action.payload.id;
+        state.userInfo.username = action.payload.username;
+        state.isLoading = false;
+      });
+
+      builder.addCase(getCurrentUser.rejected, (state, action) => {
+        state.loadingError = action.payload as unknown as string;
+        state.isLoading = false;
+      });     
     }
 });
 
