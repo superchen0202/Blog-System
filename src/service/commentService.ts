@@ -17,12 +17,13 @@ export const loadComments = createAsyncThunk("loadComments",
 );
 
 export const sendComments = createAsyncThunk("sendComments",
-  async(content: string, thunkAPI) => {
+  async( { username, message }: { username: string, message: string}, thunkAPI ) => {
+    
     try{
       const response = await axios.post(`${baseURL}/comments`,
       {
-        author: '瓜瓜',
-        content,
+        author: username,
+        content: message,
         createdAt: Date.now(),  //`${new Date().toISOString().split('T')[0]} ${new Date().toTimeString().split(' ')[0]}`,
       });
       return response.data;
@@ -58,24 +59,28 @@ const commentSlice = createSlice({
       state.comments = action.payload;
       state.isLoading = false;
     });
+    /*
     builder.addCase(loadComments.rejected, (state, action)=>{
       state.isLoading = false;
       state.loadingError = action.payload as unknown as error;
     });
+    // */
 
     //send comments
     builder.addCase(sendComments.pending, (state) => {
       state.isSending = true;
-      state.loadingError = null;
+      state.sendingError = null;
     });
     builder.addCase(sendComments.fulfilled, (state, action) => {
       state.comments.push(action.payload);
       state.isSending = false;
     });
+    /*
     builder.addCase(sendComments.rejected, (state, action)=>{
       state.isSending = false;
-      state.loadingError = action.payload as unknown as error;
+      state.sendingError = action.payload as unknown as error;
     });
+    // */
   }
 });
 

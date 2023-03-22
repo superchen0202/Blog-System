@@ -6,7 +6,6 @@ const Message: React.FC<CommentProps> = (props) => {
   const { id, author, createdAt, content } = props;
   
   return (
-
     <div className={style["message-container"]}>
 
       <div className={style["message-head"]}>

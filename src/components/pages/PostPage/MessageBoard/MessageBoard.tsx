@@ -12,6 +12,7 @@ const MessageBoard: React.FC = () => {
   const refTextAreaInput = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
   const [ message, setMessage ] = useState<string>('');
   const [ commentsValidation, setCommentsValidation] = useState<string>('');
+
   const dispatch = useAppDispatch();
   const username = useAppSelector((state) => state.authReducer.userInfo.username);
   const { 
@@ -35,25 +36,39 @@ const MessageBoard: React.FC = () => {
   const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) =>{
     
     event.preventDefault();
+    // console.log(message);
+    console.log(username);
 
     if(message == ''){
-      setCommentsValidation('Invalid request, "content" is required!');
+      alert('Invalid request, "content" is required!');
+      // setCommentsValidation('Invalid request, "content" is required!');
       refTextAreaInput.current.focus();
       return ;
     }
     
-    dispatch(sendComments(message));
+    dispatch(sendComments({username, message}));
     setMessage('');
-    dispatch(loadComments());
+    // dispatch(loadComments());
   }
 
   return (
 
-    <div className={style.page}>
+    <div>
 
-      <NavBar/>
+      <h1 className={style.title}>用戶回應</h1>
 
-      <h1 className={style.title}>留言板</h1>
+       {/* ------------------------------------------------------------- */}
+
+      {/* 留言載入錯誤訊息 */}
+      { loadingError && <ErrorInfo message = {loadingError}/> }
+
+      {/* 留言內容 */}
+      <div className={style["message-list"]}>
+      {
+        isLoading? <DataIsLoading/>: 
+        comments.map(message =><Message key={ message.id }{...message}/>)
+      }
+      </div>
       
       {/* 留言表單 */}
       <form action="/comments" method='post' className={style["message-form"]} onSubmit={formSubmitHandler} >
@@ -77,20 +92,7 @@ const MessageBoard: React.FC = () => {
 
       {/* Submit Error */}
       { sendingError && <ErrorInfo message = {sendingError}/> }
-      
-      {/* ------------------------------------------------------------- */}
 
-      {/* 留言載入錯誤訊息 */}
-      { loadingError && <ErrorInfo message = {loadingError}/> }
-
-      {/* 留言內容 */}
-      <div className={style["message-list"]}>
-      {
-        isLoading? <DataIsLoading/>: 
-        comments.map(message =><Message key={ message.id }{...message}/>)
-      }
-      </div>
- 
     </div>
   )
 };
