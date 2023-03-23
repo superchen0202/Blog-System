@@ -3,11 +3,11 @@ import { useRoutes, RouteObject } from 'react-router-dom';
 import { useAppDispatch } from '@/service/hooks';
 import { getCurrentUser } from '@/service/authService';
 import { getAuthToken } from '@/service/utils';
-import Home from './pages/Home';
+import Home from './pages/Home/Container/Home';
 import Login from './pages/Login';
-import PostPage from './pages/PostPage/PostPage';
-import Post from './pages/PostPage/Post';
-import MessageBoard from './pages/PostPage/MessageBoard';
+import PostContainer from './pages/Post/Container/PostContainer';
+import PostPage from './pages/Post/PostPage';
+import MessageBoard from './pages/Post/MessageBoard';
 
 const routesConfig: RouteObject[] = [
     {
@@ -24,11 +24,11 @@ const routesConfig: RouteObject[] = [
     },
     {
         path: "/posts",
-        element: <PostPage/>,
+        element: <PostContainer/>,
         children:[
             {
                 path: "/posts/:id",
-                element:<Post/>
+                element:<PostPage/>
             }
         ]
     }

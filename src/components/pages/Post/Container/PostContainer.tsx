@@ -2,9 +2,8 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import NavBar from '@/components/shared/NavBar';
 import Container from '@/components/shared/Container';
-import MessageBoard from '../MessageBoard';
 
-const PostPage: React.FC = () => {
+const PostContainer: React.FC = () => {
 
   return (
     <div>
@@ -16,4 +15,4 @@ const PostPage: React.FC = () => {
   )
 };
 
-export default React.memo(PostPage);
+export default React.memo(PostContainer);

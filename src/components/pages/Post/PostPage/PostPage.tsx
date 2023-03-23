@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import style from './Post.module.scss';
 import { useParams } from 'react-router-dom';
 import { useGetPostsQuery } from '@/service/homeService';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
@@ -13,7 +12,7 @@ const InitState: PostProps = {
   createdAt: '',
 }
 
-const Post: React.FC = () => {
+const PostPage: React.FC = () => {
 
   const { id } = useParams();
   const { data, isLoading, error } = useGetPostsQuery( id??skipToken);
@@ -33,9 +32,9 @@ const Post: React.FC = () => {
       { error && <ErrorInfo/> }
       { data &&
       <div>      
-          <div className="divide-line">
+          <div className="divide-line mt-10">
             
-            <div className="text-4xl font-bold">
+            <div className="text-4xl font-bold ">
               { post && post.title }
             </div>
             
@@ -58,4 +57,4 @@ const Post: React.FC = () => {
   )
 };
 
-export default React.memo(Post);
+export default React.memo(PostPage);

@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import style from './MessageBoard.module.scss';
 import { useAppDispatch, useAppSelector } from '@/service/hooks';
 import { loadComments, sendComments } from '@/service/commentService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
-import NavBar from '@/components/shared/NavBar';
 import Message from '../Message';
 
 // Container
@@ -53,7 +51,7 @@ const MessageBoard: React.FC = () => {
 
   return (
 
-    <div>
+    <div className='mb-10'>
 
       <h1 className="text-center">用戶回應</h1>
 
