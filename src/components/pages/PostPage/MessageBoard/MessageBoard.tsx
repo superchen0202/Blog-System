@@ -55,7 +55,7 @@ const MessageBoard: React.FC = () => {
 
     <div>
 
-      <h1 className={style.title}>用戶回應</h1>
+      <h1 className="text-center">用戶回應</h1>
 
        {/* ------------------------------------------------------------- */}
 
@@ -63,7 +63,7 @@ const MessageBoard: React.FC = () => {
       { loadingError && <ErrorInfo message = {loadingError}/> }
 
       {/* 留言內容 */}
-      <div className={style["message-list"]}>
+      <div className="mt-4">
       {
         isLoading? <DataIsLoading/>: 
         comments.map(message =><Message key={ message.id }{...message}/>)
@@ -71,24 +71,30 @@ const MessageBoard: React.FC = () => {
       </div>
       
       {/* 留言表單 */}
-      <form action="/comments" method='post' className={style["message-form"]} onSubmit={formSubmitHandler} >
+      <form action="/comments" method='post' className="mt-4 text-lg" onSubmit={formSubmitHandler} >
         
         <textarea rows={2}
-                  className={style["message-text-area"]}
+                  className="block mt-2 w-full p-2 border border-solid border-black/[0.125]"
                   onChange={textAreaHandler}
                   placeholder="留言內容"
                   value={message}
                   ref={refTextAreaInput}
         />
         
-        <button className={style["submit-button"]}>送出</button>
+        <button className="mt-2 bg-gray-800 rounded text-base text-gray-200 py-[6px] px-[12px] border-[1px] border-hidden">
+          送出
+        </button>
         
       </form>
  
       {/* ------------------------------------------------------------- */}
       
       {/* After Submit loading */}
-      { isSending && <div className={style.loading}>Loading...</div> }
+      { 
+      isSending && <div className="fixed top-0 left-0 right-0 bottom-0 text-white text-3xl flex items-center justify-center bg-black/[0.5]">
+        Loading...
+      </div>
+      }
 
       {/* Submit Error */}
       { sendingError && <ErrorInfo message = {sendingError}/> }

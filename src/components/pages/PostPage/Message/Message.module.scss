@@ -1,24 +1,34 @@
 // 顯示留言區塊
+/*
 .message-container{
   border: 1px solid rgba(0, 0, 0, 0.125);
   padding: 16px;
   border-radius: 4px;
+  
   & + & {
     margin-top: 8px;
   }
 }
+// */
 
+/*
 .message-head{
   display: flex;
 }
+//*/
 
+/*
 .message-author{
   margin-right: 12px;
   color: #232323;
 }
+// */
 
+/*
+// message-body: mt-2 break-all whitespace-pre-line
 .message-body{
   margin-top: 8px;
   word-break: break-all;
   white-space: pre-line;
 }
+// */

@@ -13,4 +13,8 @@
              dark:focus:ring-blue-500 dark:focus:border-blue-500
              mb-3
   }
+  
+  .divide-line{
+    @apply mb-4 py-4 px-0 border-b-[1px] border-solid border-b-black/[0.1]
+  }
 }

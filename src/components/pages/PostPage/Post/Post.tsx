@@ -33,13 +33,13 @@ const Post: React.FC = () => {
       { error && <ErrorInfo/> }
       { data &&
       <div>      
-          <div className={style.header}>
+          <div className="divide-line">
             
-            <div className={style.title}>
+            <div className="text-4xl font-bold">
               { post && post.title }
             </div>
             
-            <div className={style.date}>
+            <div className="text-base mt-4 text-black/[0.4]">
               {
                 post && new Date(post.createdAt).toLocaleString()
               }
@@ -47,7 +47,7 @@ const Post: React.FC = () => {
 
           </div>
 
-          <div className={style.body}>
+          <div className="divide-line text-lg leading-normal tracking-[3px]">
             { post && post.body}
           </div>
           <MessageBoard/>

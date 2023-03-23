@@ -12,16 +12,20 @@
 }
 // */
 
+/*
 .title{
   text-align: center;
 }
+// */
 
 // 表單區塊 form
+/*
 .message-form{
   margin-top: 16px;
   font-size: 18px;
 }
-
+// */
+/*
 .message-text-area{
   display: block;
   margin-top: 8px;
@@ -31,7 +35,12 @@
   border-width:	1px;
   border-style: solid;
 }
+// */
 
+//mt-2 bg-gray-800 rounded text-base
+
+// mt-2 bg-gray-800 rounded text-base text-gray-200 py-[6px] px-[12px] border-[1px] border-hidden
+/*
 .submit-button{
   margin-top: 8px;
   color: #ddd;
@@ -41,17 +50,25 @@
   font-size: 16px;
   padding: 6px 12px;
 }
+// */
 
 // 顯示留言區塊
+/*
 .message-list{
   margin-top: 16px;
 }
+// */
 
+/*
+// mt-4 text-red-600
 .message-error{
   margin-top: 16px;
   color: #db4c3f;
 }
+// */
 
+/*
+//fixed top-0 left-0 right-0 bottom-0 text-white text-3xl flex items-center justify-center bg-black/[0.5]
 .loading{
   position: fixed;
   top: 0;
@@ -66,3 +83,4 @@
   align-items: center;
   justify-content: center;
 }
+// */
