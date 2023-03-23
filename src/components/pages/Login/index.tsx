@@ -28,14 +28,13 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div>
-
+    <>
       <NavBar/>
 
       <Container>
-        <div className='shadow-lg w-[720px] h-[360px] px-60 py-5 mt-20 mx-auto my-auto'>
+        <div className='login-form-container'>
           
-          <form action="http://localhost:3000/users" method="post">
+          <form action="#" method="post">
 
             <h2 className='font-bold'>登入</h2>
 
@@ -66,10 +65,7 @@ const Login: React.FC = () => {
 
             </div>
 
-            <button type="submit"
-                    className="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 mr-2 mb-2"
-                    onKeyDown={SubmitHandler}
-                    onClick={SubmitHandler}
+            <button type="submit" className="login-btn" onClick={SubmitHandler} //onKeyDown={SubmitHandler}
             >
               登入
             </button>
@@ -78,7 +74,7 @@ const Login: React.FC = () => {
 
         </div>
       </Container>
-    </div>
+    </>
   )
 }
 

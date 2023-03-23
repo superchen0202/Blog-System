@@ -2,24 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/service/hooks';
 import { loadComments, sendComments } from '@/service/commentService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
-import Message from '../Message';
+import Message from './Message';
 
 // Container
 const MessageBoard: React.FC = () => {
-  
-  const refTextAreaInput = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
-  const [ message, setMessage ] = useState<string>('');
-  const [ commentsValidation, setCommentsValidation] = useState<string>('');
 
   const dispatch = useAppDispatch();
   const username = useAppSelector((state) => state.authReducer.userInfo.username);
-  const { 
-    comments, 
-    isLoading, 
-    loadingError, 
-    isSending, 
-    sendingError
-  } = useAppSelector((state) => state.commentReducer);
+  const { comments, isLoading, loadingError, isSending, sendingError } = useAppSelector((state) => state.commentReducer);
+
+  const [ message, setMessage ] = useState<string>('');
+  const [ commentsValidation, setCommentsValidation] = useState<string>('');
+  const refTextAreaInput = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
   
   // Mount did mount: loading comments from backend to display
   useEffect(() => {
@@ -34,12 +28,9 @@ const MessageBoard: React.FC = () => {
   const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) =>{
     
     event.preventDefault();
-    // console.log(message);
-    console.log(username);
-
+    
     if(message == ''){
       alert('Invalid request, "content" is required!');
-      // setCommentsValidation('Invalid request, "content" is required!');
       refTextAreaInput.current.focus();
       return ;
     }
@@ -50,7 +41,6 @@ const MessageBoard: React.FC = () => {
   }
 
   return (
-
     <div className='mb-10'>
 
       <h1 className="text-center">用戶回應</h1>
@@ -71,28 +61,22 @@ const MessageBoard: React.FC = () => {
       {/* 留言表單 */}
       <form action="/comments" method='post' className="mt-4 text-lg" onSubmit={formSubmitHandler} >
         
-        <textarea rows={2}
-                  className="block mt-2 w-full p-2 border border-solid border-black/[0.125]"
-                  onChange={textAreaHandler}
+        <textarea rows={2} value={message}
                   placeholder="留言內容"
-                  value={message}
                   ref={refTextAreaInput}
+                  className="message-text-area"
+                  onChange={textAreaHandler}
         />
         
-        <button className="mt-2 bg-gray-800 rounded text-base text-gray-200 py-[6px] px-[12px] border-[1px] border-hidden">
+        <button className="submit-btn">
           送出
         </button>
         
       </form>
  
       {/* ------------------------------------------------------------- */}
-      
       {/* After Submit loading */}
-      { 
-      isSending && <div className="fixed top-0 left-0 right-0 bottom-0 text-white text-3xl flex items-center justify-center bg-black/[0.5]">
-        Loading...
-      </div>
-      }
+      { isSending && <div className="loading">Loading...</div>}
 
       {/* Submit Error */}
       { sendingError && <ErrorInfo message = {sendingError}/> }

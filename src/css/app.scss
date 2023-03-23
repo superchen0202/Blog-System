@@ -4,7 +4,7 @@
 
 @layer components{
     
-  /* CommentArea*/
+  /* CommentArea */
   .input-field{
       @apply bg-gray-50 border border-gray-300 text-gray-900
              text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
@@ -16,5 +16,50 @@
   
   .divide-line{
     @apply mb-4 py-4 px-0 border-b-[1px] border-solid border-b-black/[0.1]
+  }
+
+  /* PostList */
+  .post-list-container{
+    @apply border-b-[1px] border-solid border-b-black/[0.3] p-4 flex justify-between items-center
+  }
+
+  .post-list-title{
+    @apply text-2xl no-underline text-gray-700
+  }
+  
+  /* login-form*/
+  .login-form-container{
+    @apply shadow-lg w-[720px] h-[360px] px-60 py-5 mt-20 mx-auto my-auto
+  }
+  .login-btn{
+    @apply text-white bg-[#3b5998] hover:bg-[#3b5998]/90 
+    focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium 
+    rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center
+    mr-2 mb-2
+  }
+
+  /* message */
+  .message-container{
+    @apply p-4 rounded border-solid border-[1px] border-black/[0.125] mt-2
+  }
+  .message-author{
+    @apply mr-3 text-gray-900
+  }
+  .message-body{
+    @apply mt-2 break-all whitespace-pre-line
+  }
+
+  /*messageBoard */
+  .message-text-area{
+    @apply block mt-2 w-full p-2 border border-solid border-black/[0.125]
+  }
+
+  .submit-btn{
+    @apply mt-2 bg-gray-800 rounded text-base text-gray-200
+    py-[6px] px-[12px] border-[1px] border-hidden
+  }
+
+  .loading{
+    @apply fixed top-0 left-0 right-0 bottom-0 text-white text-3xl flex items-center justify-center bg-black/[0.5]
   }
 }
