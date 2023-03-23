@@ -9,12 +9,12 @@ const NavBar: React.FC = () => {
   const { username, id } = userinfo;
 
   return (
-    <header className="sticky top-0 bg-white border-b-[1px] border-gray-300">
+    <header className="header">
 
       <div className="flex justify-between items-center
-                      h-[60px] px-2 box-border
-                      lg:max-w-[1024px] lg:mx-auto lg:px-0"
-      >
+           h-[60px] px-2 box-border
+           lg:max-w-[1024px] lg:mx-auto lg:px-0">
+        
         {/* Left Side */}
         <div className="w-[100px] cursor-pointer">        
           <h1 className="m-0">
@@ -30,7 +30,9 @@ const NavBar: React.FC = () => {
             {  username ? <p>{ username }</p> : <p>登入</p> }   
           </NavLink>
         </ul>
+
       </div>
+
     </header>
   )
 };

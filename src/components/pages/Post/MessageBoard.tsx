@@ -25,7 +25,7 @@ const MessageBoard: React.FC = () => {
     setCommentsValidation('');
   };
 
-  const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) =>{
+  const formSubmitHandler = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) =>{
     
     event.preventDefault();
     
@@ -76,7 +76,7 @@ const MessageBoard: React.FC = () => {
  
       {/* ------------------------------------------------------------- */}
       {/* After Submit loading */}
-      { isSending && <div className="loading">Loading...</div>}
+      { isSending && <DataIsLoading/>}
 
       {/* Submit Error */}
       { sendingError && <ErrorInfo message = {sendingError}/> }

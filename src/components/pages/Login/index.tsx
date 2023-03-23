@@ -15,7 +15,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const SubmitHandler = (event: React.FormEvent<HTMLButtonElement>) =>{
+  const SubmitHandler = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) =>{
     
     event.preventDefault();
     
@@ -34,7 +34,7 @@ const Login: React.FC = () => {
       <Container>
         <div className='login-form-container'>
           
-          <form action="#" method="post">
+          <form action="#" method="post" onSubmit={SubmitHandler}>
 
             <h2 className='font-bold'>登入</h2>
 
@@ -64,7 +64,7 @@ const Login: React.FC = () => {
               />
 
             </div>
-
+            
             <button type="submit" className="login-btn" onClick={SubmitHandler} //onKeyDown={SubmitHandler}
             >
               登入
