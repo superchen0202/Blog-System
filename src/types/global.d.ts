@@ -8,9 +8,9 @@ declare global {
         password: string,
     };
     type User = {
-        id: number,
-        username: string,
-        email?: string,
+        id: number | null,
+        username: string | null,
+        // email: string,
     };
     type error = string | null;
 

@@ -29,7 +29,12 @@ const MessageBoard: React.FC = () => {
     
     event.preventDefault();
     
-    if(message == ''){
+    if(username === null){
+      alert('please sign in!');
+      return ;
+    }    
+    
+    if(message === ''){
       alert('Invalid request, "content" is required!');
       refTextAreaInput.current.focus();
       return ;

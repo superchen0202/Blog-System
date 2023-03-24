@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { getAuthToken, setAuthToken } from "@/service/utils";
 import axios from "axios";
 import baseURL from "./enviroment";
@@ -51,38 +51,29 @@ export const getCurrentUser = createAsyncThunk("getCurrentUser",
 );
 
 const userInfo: User = {
-  id: 0,
-  username: "",
+  id: null,
+  username: null,
 };
 
 const authSlice = createSlice({
 
   name: 'authSlice',
   initialState:{
-    userInfo: userInfo,
+    userInfo,
     isLoading: false,
     loadingError: null as error,
   },
 
-  reducers:{},
+  reducers:{
+    removeCurrentUser: (state)=>{
+      state.userInfo = {
+        id: null,
+        username: null,
+      };
+    },
+  },
 
   extraReducers: (builder) =>{
-    /*
-    builder.addCase(login.pending, (state) => {
-      state.isLoading = true;
-      state.loadingError = null;
-    });
-
-    builder.addCase(login.fulfilled, (state, action) => {
-      state.userInfo = action.payload;
-      state.isLoading = false;
-    });
-
-    builder.addCase(login.rejected, (state, action)=>{
-      state.loadingError = action.payload as unknown as string;
-      state.isLoading = false;
-    });
-    // */
 
     //get user info by token in local storage
     builder.addCase(getCurrentUser.pending, (state) => {
@@ -91,8 +82,7 @@ const authSlice = createSlice({
     });
 
     builder.addCase(getCurrentUser.fulfilled, (state, action) => {
-      state.userInfo.id = action.payload.id;
-      state.userInfo.username = action.payload.username;
+      state.userInfo = action.payload;
       state.isLoading = false;
     });
 
@@ -104,4 +94,5 @@ const authSlice = createSlice({
 });
 
 export const { reducer, actions } = authSlice;
+export const { removeCurrentUser } = actions;
 export default reducer;

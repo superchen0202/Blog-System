@@ -10,4 +10,9 @@ const getAuthToken = () => {
   return localStorage.getItem(TOKEN_NAME);
 };
 
-export{ setAuthToken, getAuthToken }
+// 從 localStorage 移除 token
+const removeLocalStorage = () => {
+  return localStorage.removeItem(TOKEN_NAME);
+};
+
+export{ setAuthToken, getAuthToken, removeLocalStorage }
