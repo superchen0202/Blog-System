@@ -22,11 +22,13 @@ declare global {
         createdAt: number,
     };
 
+    // Post
     type PostProps = {
         id: number,
         title: string,
         body: string,
         createdAt: string,
+        userID: number,
     };
 
 }

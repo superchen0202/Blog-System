@@ -5,9 +5,9 @@ import { getCurrentUser } from '@/service/authService';
 import { getAuthToken } from '@/service/utils';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import PostContainer from './pages/Post/PostContainer';
-import PostPage from './pages/Post/PostPage';
-import MessageBoard from './pages/Post/MessageBoard';
+import PostContainer from './pages/PostList/PostContainer';
+import PostPage from './pages/PostList/PostPage';
+import PostEditor from './pages/PostEditor';
 
 const routesConfig: RouteObject[] = [
     {
@@ -19,8 +19,8 @@ const routesConfig: RouteObject[] = [
         element: <Login/>,
     },
     {
-        path: "/message-board",
-        element: <MessageBoard/>,
+        path: "/post-editor",
+        element: <PostEditor/>,
     },
     {
         path: "/posts",
