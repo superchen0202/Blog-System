@@ -9,6 +9,13 @@
     @apply sticky top-0 bg-white border-b-[1px] border-gray-300
   }
 
+  // Text Area
+  /* CommentArea*/
+  .post-btn{
+    @apply w-full bg-purple-600 py-3 text-lg text-white tracking-wide rounded-3xl mt-4 
+    hover:bg-purple-800 active:bg-purple-900 active:ring-2 duration-200
+  }
+
   /* CommentArea */
   .input-field{
       @apply bg-gray-50 border border-gray-300 text-gray-900

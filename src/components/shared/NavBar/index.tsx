@@ -34,7 +34,7 @@ const NavBar: React.FC = () => {
         {/* Left Side */}
         <div className="w-[100px] cursor-pointer">        
           <h1 className="m-0">
-            <Link to="/" className={style.nav}>首頁</Link>
+            <Link to="/" className={style.nav}>新聞快報</Link>
           </h1>
         </div>
 
@@ -45,7 +45,7 @@ const NavBar: React.FC = () => {
           </li>
           
           <li>
-            <NavLink to="/message-board" className={style.nav}>發布文章</NavLink>
+            <NavLink to="/post-editor" className={style.nav}>發布文章</NavLink>
           </li>
 
           <li>
