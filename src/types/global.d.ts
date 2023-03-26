@@ -20,6 +20,7 @@ declare global {
         author: string,
         content: string,
         createdAt: number,
+        postID: number,
     };
 
     // Post

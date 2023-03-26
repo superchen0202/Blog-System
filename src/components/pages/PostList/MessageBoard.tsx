@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/service/hooks';
 import { loadComments, sendComments } from '@/service/commentService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
@@ -7,8 +8,9 @@ import Message from './Message';
 // Container
 const MessageBoard: React.FC = () => {
 
+  const params = useParams();
   const dispatch = useAppDispatch();
-  const username = useAppSelector((state) => state.authReducer.userInfo.username);
+  const { username } = useAppSelector((state) => state.authReducer.userInfo);
   const { comments, isLoading, loadingError, isSending, sendingError } = useAppSelector((state) => state.commentReducer);
 
   const [ message, setMessage ] = useState<string>('');
@@ -17,7 +19,11 @@ const MessageBoard: React.FC = () => {
   
   // Mount did mount: loading comments from backend to display
   useEffect(() => {
-    dispatch(loadComments());
+
+    if(params.id){
+      dispatch(loadComments(params.id));
+    }
+    
   }, [dispatch]);
 
   const textAreaHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) =>{
@@ -50,7 +56,7 @@ const MessageBoard: React.FC = () => {
 
       <h1 className="text-center">用戶回應</h1>
 
-       {/* ------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------- */}
 
       {/* 留言載入錯誤訊息 */}
       { loadingError && <ErrorInfo message = {loadingError}/> }

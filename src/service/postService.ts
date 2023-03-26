@@ -1,5 +1,5 @@
 import axios from "axios";
-import baseURL from "./enviroment";
+import baseURL from "./environment";
 
 export const sendNewPost = async (user: User, {title, content}: {title: string, content: string}) => {
   try{

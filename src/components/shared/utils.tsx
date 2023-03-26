@@ -13,7 +13,7 @@ const NewPostSuccessInfo: React.FC<info> = (props) => {
     }
     
     return (
-        <div id="alert-3" className="flex p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+        <div id="alert-3" className="absolute top-58px left-0 right-0 flex p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
             role="alert">
             <svg aria-hidden="true" className="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">

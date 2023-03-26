@@ -1,13 +1,15 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
-import baseURL from "./enviroment";
+import baseURL from "./environment";
 
 export const loadComments = createAsyncThunk("loadComments",
-  async (_, thunkAPI) => {
+  async (postID: string, thunkAPI) => {
+
     try{
       const response = await axios.get(`${baseURL}/comments`);
-      // console.log(response);
-      return response.data;    
+      const comments = response.data as unknown as CommentProps[];
+      const filterComments = comments.filter((comment)=> comment.postID === parseInt(postID));
+      return filterComments; 
     }
     catch(err){
       const error = err as Error;
@@ -48,7 +50,6 @@ const commentSlice = createSlice({
   },
   reducers:{},
   extraReducers: (builder) =>{
-    
     // load comments
     builder.addCase(loadComments.pending, (state) => {
       state.isLoading = true;

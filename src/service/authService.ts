@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { getAuthToken, setAuthToken } from "@/service/utils";
 import axios from "axios";
-import baseURL from "./enviroment";
+import baseURL from "./environment";
 
 export const login = async (userInfo: loginInfo) => {
   try{
