@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAppSelector } from '@/service/hooks';
 // import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 import NavBar from '@/components/shared/NavBar';
@@ -10,7 +10,7 @@ import NewPostSuccessInfo from '@/components/shared/utils';
 const MessageBoard: React.FC = () => {
 
   const user = useAppSelector((state) => state.authReducer.userInfo);
-  const [post, setPost] = useState( { title:"", content: ""});
+  const [post, setPost] = useState({ title:"", content: ""});
   const [showSuccessInfo, setShowSuccessInfo] = useState(false);
   const refTitle = useRef() as React.MutableRefObject<HTMLInputElement>;
   const refContent = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
@@ -41,15 +41,30 @@ const MessageBoard: React.FC = () => {
     setShowSuccessInfo(true);
   }
 
+  const closeSuccessInfo = (event: React.MouseEvent<HTMLButtonElement>) =>{
+    if (event.target !== event.currentTarget) {
+      setShowSuccessInfo(false);
+    }
+  }
+
+  useEffect(() => {
+    
+    return () => {
+      setTimeout(() => {
+        setShowSuccessInfo(false);
+      }, 5000);
+    }
+  }, [showSuccessInfo])
+  
   return (
     <>
       <NavBar/>
 
-      { showSuccessInfo && <NewPostSuccessInfo /> }
+      { showSuccessInfo && <NewPostSuccessInfo onCallParent={closeSuccessInfo}/> }
 
       <Container>
 
-        <form className="ml-5 sm:w-96 prose lg:prose-xl"  onSubmit={formSubmitHandler}>
+        <form className="ml-5 sm:w-96 prose lg:prose-xl" onSubmit={formSubmitHandler}>
 
           <h2 className="mt-5">發布文章</h2>
           
