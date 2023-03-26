@@ -20,7 +20,7 @@
   .input-field{
       @apply bg-gray-50 border border-gray-300 text-gray-900
              text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
-             block w-full p-2.5 
+             block w-[50%] p-2.5 
              dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
              dark:focus:ring-blue-500 dark:focus:border-blue-500
              mb-3
@@ -44,10 +44,8 @@
     @apply shadow-lg w-[720px] h-[360px] px-60 py-5 mt-20 mx-auto my-auto
   }
   .login-btn{
-    @apply text-white bg-[#3b5998] hover:bg-[#3b5998]/90 
-    focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium 
-    rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center
-    mr-2 mb-2
+    @apply w-[10%] bg-[#3b5998] py-3 text-lg text-white tracking-wide rounded-3xl mt-4 
+    hover:bg-[#3b5998]/90 active:bg-purple-900 active:ring-2 duration-200
   }
 
   /* message */
@@ -67,7 +65,7 @@
   }
 
   .submit-btn{
-    @apply mt-2 bg-gray-800 rounded text-base text-gray-200
+    @apply w-[10%] mt-2 bg-gray-800 rounded text-base text-gray-200
     py-[6px] px-[12px] border-[1px] border-hidden
   }
 

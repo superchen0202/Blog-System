@@ -23,7 +23,7 @@ const Home: React.FC = () => {
       <NavBar/>
       <Container>
         <div>
-          <h2 className='text-4xl font-bold my-5'>最新文章</h2>
+          <h2 className='text-3xl font-bold my-5'>最新文章</h2>
           
           { isLoading && <DataIsLoading/>}
           { error && <ErrorInfo/>}

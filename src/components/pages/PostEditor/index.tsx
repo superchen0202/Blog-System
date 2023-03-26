@@ -66,7 +66,7 @@ const MessageBoard: React.FC = () => {
 
         <form className="ml-5 sm:w-96 prose lg:prose-xl" onSubmit={formSubmitHandler}>
 
-          <h2 className="mt-5">發布文章</h2>
+          <h2 className="text-3xl font-bold mt-5">發布文章</h2>
           
           {/* 文章標題 */}
           <label className="block mb-3">

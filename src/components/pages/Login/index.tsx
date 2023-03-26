@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/service/hooks';
 import { login, getCurrentUser } from '@/service/authService';
 
-const Login: React.FC = () => {
+const Login: React.FC = (props) => {
 
   const [userInfo, setUserInfo] = useState<loginInfo>({
     username: '',
@@ -32,48 +32,38 @@ const Login: React.FC = () => {
       <NavBar/>
 
       <Container>
-        <div className='login-form-container'>
+        <div className='flex justify-center items-center'>
           
-          <form action="#" method="post" onSubmit={SubmitHandler}>
+          <form onSubmit={SubmitHandler} className="w-[80%] mt-10">
+            
+            <h2 className='text-3xl font-bold mb-10'>登入您的帳號</h2> 
 
-            <h2 className='font-bold'>登入</h2>
-
-            {/* input text */}
-            <div className='mt-5'>
-
-              <input placeholder='用戶名稱'
-                    required = {true}
-                    autoComplete = "username"
-                    type="text"
-                    className='input-field'
-                    value={userInfo.username}
+            {/* 用戶名稱 */}
+            <label htmlFor="username" className='mb-2'>
+              用戶名稱
+              <input id='username' className='input-field' type="text" value={userInfo.username}
                     onChange = {(event: React.ChangeEvent<HTMLInputElement>)=>{
                       setUserInfo({...userInfo, username: event.currentTarget.value})
                     }}
               />
+            </label>
 
-              <input placeholder='密碼'
-                    required = {true}
-                    autoComplete = "current-password"
-                    type="password"
-                    className='input-field'
-                    value={userInfo.password}
-                    onChange = { (event: React.ChangeEvent<HTMLInputElement>)=>{
+            {/* 密碼 */}
+            <label htmlFor="password" className='mb-2'>
+              密碼
+              <input type="password" className='input-field' value={userInfo.password}
+                    onChange = {(event: React.ChangeEvent<HTMLInputElement>)=>{
                       setUserInfo({...userInfo, password: event.currentTarget.value})
                     }}
               />
+            </label>
 
-            </div>
-            
-            <button type="submit" className="login-btn" onClick={SubmitHandler} //onKeyDown={SubmitHandler}
-            >
-              登入
-            </button>
-
+            <button className='login-btn'>登入</button>
           </form>
 
         </div>
       </Container>
+
     </>
   )
 }
