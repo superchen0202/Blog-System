@@ -80,7 +80,7 @@ const MessageBoard: React.FC = () => {
           {/* 文章標題 */}
           <label className="block mb-1">
             <input type="text" placeholder="文章標題"
-                   className={`w-full rounded-md p-3 btn ${isValidate.titleError?"field-warning":""}`}
+                   className={`w-full rounded-md p-3 btn ${isValidate.titleError?"field-warning":"focus-input"}`}
                    ref={refTitle}
                    value={post.title}
                    onChange = {(event: React.ChangeEvent<HTMLInputElement>)=>{
@@ -97,7 +97,7 @@ const MessageBoard: React.FC = () => {
           {/* 文章內容 */}
           <label className="block mt-1 mb-1">
             <textarea cols={30} rows={10} placeholder="文章內容"
-                      className={`w-full rounded-md p-3 btn ${isValidate.contentError?"field-warning":""}`}
+                      className={`w-full rounded-md p-3 btn ${isValidate.contentError?"field-warning":"focus-input"}`}
                       ref={refContent}
                       value={post.content}
                       onChange = {(event: React.ChangeEvent<HTMLTextAreaElement>)=>{
