@@ -19,7 +19,7 @@ export const login = async (userInfo: loginInfo) => {
   }
   catch(err){
       const error = err as Error;
-      console.log(error);
+      console.log(error.message);
       throw new Error(error.message);
   }
 };

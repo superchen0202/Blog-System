@@ -10,7 +10,7 @@ const MessageBoard: React.FC = () => {
 
   const user = useAppSelector((state) => state.authReducer.userInfo);
   const [post, setPost] = useState({ title:"", content: ""});
-  const [isValidate, setIsValidate] = useState({title: false, content: false});
+  const [isValidate, setIsValidate] = useState({titleError: false, contentError: false});
   const [isShowSuccessInfo, setIsShowSuccessInfo] = useState(false);
   const refTitle = useRef() as React.MutableRefObject<HTMLInputElement>;
   const refContent = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
@@ -23,16 +23,18 @@ const MessageBoard: React.FC = () => {
     }    
     
     if(post.title === ""){
-      setIsValidate({...isValidate, title: true});
+      setIsValidate({...isValidate, titleError: true});
       refTitle.current.focus();
       return false;
     }
 
     if(post.content === ""){
-      setIsValidate({...isValidate, content: true});
+      setIsValidate({...isValidate, contentError: true});
       refContent.current.focus();
       return false;
     }
+
+    return true;
   }
 
   const formSubmitHandler = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) =>{ 
@@ -78,34 +80,34 @@ const MessageBoard: React.FC = () => {
           {/* 文章標題 */}
           <label className="block mb-1">
             <input type="text" placeholder="文章標題"
-                   className={`w-full rounded-md p-3 btn ${isValidate.title?"field-focus":""}`}
+                   className={`w-full rounded-md p-3 btn ${isValidate.titleError?"field-warning":""}`}
                    ref={refTitle}
                    value={post.title}
                    onChange = {(event: React.ChangeEvent<HTMLInputElement>)=>{
                      setPost({...post, title: event.currentTarget.value})
-                     setIsValidate({...isValidate, title: false});
+                     setIsValidate({...isValidate, titleError: false});
                    }}
             />
           </label>
 
-          <div className={`${isValidate.title? "":"invisible"} text-red-500 text-sm height-[36px] mb-2`}>
+          <div className={`${isValidate.titleError? "":"invisible"} text-red-500 text-sm height-[36px] mb-2`}>
             { "請輸入標題!" }
           </div>
 
           {/* 文章內容 */}
           <label className="block mt-1 mb-1">
             <textarea cols={30} rows={10} placeholder="文章內容"
-                      className={`w-full rounded-md p-3 btn ${isValidate.content?"field-focus":""}`}
+                      className={`w-full rounded-md p-3 btn ${isValidate.contentError?"field-warning":""}`}
                       ref={refContent}
                       value={post.content}
                       onChange = {(event: React.ChangeEvent<HTMLTextAreaElement>)=>{
                         setPost({...post, content: event.currentTarget.value})
-                        setIsValidate({...isValidate, content: false});
+                        setIsValidate({...isValidate, contentError: false});
                       }}
             />
           </label>
 
-          <div className={`${isValidate.content? "":"invisible"} text-red-500 text-sm height-[36px]  mb-2`}>
+          <div className={`${isValidate.contentError? "":"invisible"} text-red-500 text-sm height-[36px]  mb-2`}>
             { "請輸入內容!" }
           </div>
 
