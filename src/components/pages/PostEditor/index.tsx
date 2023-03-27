@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAppSelector } from '@/service/hooks';
-// import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 import NavBar from '@/components/shared/NavBar';
 import Container from '@/components/shared/Container';
 import { sendNewPost } from '@/service/postService';
@@ -11,56 +10,64 @@ const MessageBoard: React.FC = () => {
 
   const user = useAppSelector((state) => state.authReducer.userInfo);
   const [post, setPost] = useState({ title:"", content: ""});
-  const [showSuccessInfo, setShowSuccessInfo] = useState(false);
+  const [isValidate, setIsValidate] = useState({title: false, content: false});
+  const [isShowSuccessInfo, setIsShowSuccessInfo] = useState(false);
   const refTitle = useRef() as React.MutableRefObject<HTMLInputElement>;
   const refContent = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
 
-  const formSubmitHandler = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) =>{
+  const formValidator = () =>{
     
-    event.preventDefault();
-
-    if(user === null){
+    if(user.username === null){
       alert('please sign in!');
-      return ;
+      return false;
     }    
     
     if(post.title === ""){
-      alert('Invalid request, "content" is required!');
+      setIsValidate({...isValidate, title: true});
       refTitle.current.focus();
-      return ;
+      return false;
     }
 
     if(post.content === ""){
-      alert('Invalid request, "content" is required!');
+      setIsValidate({...isValidate, content: true});
       refContent.current.focus();
-      return ;
+      return false;
     }
+  }
 
-    sendNewPost(user, post);
-    setPost({title:"",content:""});
-    setShowSuccessInfo(true);
+  const formSubmitHandler = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) =>{ 
+    
+    event.preventDefault();
+
+    if(formValidator()){
+      sendNewPost(user, post);
+      setPost({title:"",content:""});
+      setIsShowSuccessInfo(true); 
+    }
   }
 
   const closeSuccessInfo = (event: React.MouseEvent<HTMLButtonElement>) =>{
     if (event.target !== event.currentTarget) {
-      setShowSuccessInfo(false);
+      setIsShowSuccessInfo(false);
     }
   }
 
   useEffect(() => {
-    
     return () => {
       setTimeout(() => {
-        setShowSuccessInfo(false);
+        setIsShowSuccessInfo(false);
       }, 5000);
     }
-  }, [showSuccessInfo])
+  }, [isShowSuccessInfo])
   
   return (
     <>
       <NavBar/>
 
-      { showSuccessInfo && <NewPostSuccessInfo onCallParent={closeSuccessInfo}/> }
+      { 
+        isShowSuccessInfo && 
+        <NewPostSuccessInfo onCallParent={closeSuccessInfo} promptText={"發布成功!"} />
+      }
 
       <Container>
 
@@ -69,26 +76,38 @@ const MessageBoard: React.FC = () => {
           <h2 className="text-3xl font-bold mt-5">發布文章</h2>
           
           {/* 文章標題 */}
-          <label className="block mb-3">
-            <input type="text" className="w-full rounded-md p-3" placeholder="文章標題"
+          <label className="block mb-1">
+            <input type="text" placeholder="文章標題"
+                   className={`w-full rounded-md p-3 btn ${isValidate.title?"field-focus":""}`}
                    ref={refTitle}
                    value={post.title}
                    onChange = {(event: React.ChangeEvent<HTMLInputElement>)=>{
                      setPost({...post, title: event.currentTarget.value})
+                     setIsValidate({...isValidate, title: false});
                    }}
             />
           </label>
 
+          <div className={`${isValidate.title? "":"invisible"} text-red-500 text-sm height-[36px] mb-2`}>
+            { "請輸入標題!" }
+          </div>
+
           {/* 文章內容 */}
-          <label className="block">
-            <textarea cols={30} rows={10} className="w-full rounded-md p-3" placeholder="文章內容"
+          <label className="block mt-1 mb-1">
+            <textarea cols={30} rows={10} placeholder="文章內容"
+                      className={`w-full rounded-md p-3 btn ${isValidate.content?"field-focus":""}`}
                       ref={refContent}
                       value={post.content}
                       onChange = {(event: React.ChangeEvent<HTMLTextAreaElement>)=>{
                         setPost({...post, content: event.currentTarget.value})
+                        setIsValidate({...isValidate, content: false});
                       }}
             />
           </label>
+
+          <div className={`${isValidate.content? "":"invisible"} text-red-500 text-sm height-[36px]  mb-2`}>
+            { "請輸入內容!" }
+          </div>
 
           <button className='post-btn'>發布</button>
 

@@ -2,11 +2,12 @@ import React from "react";
 
 type info = {
     onCallParent: (event: React.MouseEvent<HTMLButtonElement>) => void,
+    promptText: string   
 }
 
 const NewPostSuccessInfo: React.FC<info> = (props) => {
 
-    const { onCallParent } = props;
+    const { onCallParent, promptText } = props;
 
     const closeBtnHandler = (event: React.MouseEvent<HTMLButtonElement>) =>{
         onCallParent(event);
@@ -22,7 +23,9 @@ const NewPostSuccessInfo: React.FC<info> = (props) => {
                     clipRule="evenodd"></path>
             </svg>
             <span className="sr-only">Info</span>
-            <div className="ml-3 text-sm font-medium">發布成功！</div>
+            <div className="ml-3 text-sm font-medium">
+                { promptText }
+            </div>
 
             <button type="button" onClick={closeBtnHandler}
                 className="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
