@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '@/components/shared/NavBar';
 import Container from '@/components/shared/Container';
 import PostList from '../PostList';
-import { useGetPostsQuery } from '@/service/homeService';
+import { useGetPostsQuery } from '@/service/postListService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 import NewPostSuccessInfo from '@/components/shared/utils';
 import { useAppSelector, useAppDispatch } from '@/service/hooks';

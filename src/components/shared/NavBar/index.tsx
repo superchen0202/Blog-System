@@ -41,7 +41,7 @@ const NavBar: React.FC = () => {
         {/* Right Side */}
         <ul className="flex items-center">
           <li>
-            <NavLink to="/" className={style.nav}>文章列表</NavLink>
+            <NavLink to="/myPost" className={style.nav}>文章列表</NavLink>
           </li>
           
           <li>

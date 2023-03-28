@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import PostContainer from './pages/PostList/PostContainer';
 import PostPage from './pages/PostList/PostPage';
 import PostEditor from './pages/PostEditor';
+import MyPostList from './pages/MyPostList';
 
 const routesConfig: RouteObject[] = [
     {
@@ -17,6 +18,10 @@ const routesConfig: RouteObject[] = [
     {
         path: "/login",
         element: <Login/>,
+    },
+    {
+        path: "/myPost",
+        element: <MyPostList/>,
     },
     {
         path: "/post-editor",

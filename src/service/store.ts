@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { homeApi } from './homeService';
+import { homeApi } from './postListService';
 import authReducer from './authService';
 import commentReducer from './commentService';
 

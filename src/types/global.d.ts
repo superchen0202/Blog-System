@@ -29,7 +29,7 @@ declare global {
         title: string,
         body: string,
         createdAt: string,
-        userID: number,
+        userId: number,
     };
 
 }
