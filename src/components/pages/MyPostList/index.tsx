@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '@/components/shared/NavBar';
 import Container from '@/components/shared/Container';
-import PostList from '../PostList';
+import PostList from './PostList';
 import { useGetPostsQuery } from '@/service/postListService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 import { useAppSelector, useAppDispatch } from '@/service/hooks';
 import { useNavigate } from 'react-router-dom';
 
-const Home: React.FC = () => {
+const MyPostList: React.FC = () => {
 
   const { username, id } = useAppSelector(state => state.authReducer.userInfo);
   const navigate = useNavigate();
@@ -47,4 +47,4 @@ const Home: React.FC = () => {
   )
 };
 
-export default React.memo(Home);
+export default React.memo(MyPostList);

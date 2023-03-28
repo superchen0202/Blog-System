@@ -26,7 +26,7 @@ export const homeApi = createApi({
     
     endpoints: (builder) => ({
         
-        getPosts: builder.query<PostProps[], number | string | 'all'>({
+        getPosts: builder.query<PostProps[], number | string | 'all' | undefined>({
             
             query: (id) => {
 

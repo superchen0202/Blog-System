@@ -1,26 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useAppSelector } from '@/service/hooks';
-import NavBar from '@/components/shared/NavBar';
 import Container from '@/components/shared/Container';
-import { sendNewPost } from '@/service/postService';
+import { updatePost } from '@/service/postService';
 import NewPostSuccessInfo from '@/components/shared/utils';
+import { useGetPostsQuery } from '@/service/postListService';
+import NavBar from '@/components/shared/NavBar';
 
 // Container
-const PostEditor: React.FC = () => {
+const MyPostEditor: React.FC = () => {
+
+  const postParams = useParams();
+  const { data, isLoading, error } = useGetPostsQuery(postParams.id);
 
   const user = useAppSelector((state) => state.authReducer.userInfo);
-  const [post, setPost] = useState({ title:"", content: ""});
+  const [post, setPost] = useState({title:"", body:""});
   const [isValidate, setIsValidate] = useState({titleError: false, contentError: false});
   const [isShowSuccessInfo, setIsShowSuccessInfo] = useState(false);
   const refTitle = useRef() as React.MutableRefObject<HTMLInputElement>;
   const refContent = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
 
   const formValidator = () =>{
-    
-    if(user.username === null){
-      alert('please sign in!');
+
+    if(post === undefined){
       return false;
-    }    
+    }
     
     if(post.title === ""){
       setIsValidate({...isValidate, titleError: true});
@@ -28,7 +32,7 @@ const PostEditor: React.FC = () => {
       return false;
     }
 
-    if(post.content === ""){
+    if(post.body === ""){
       setIsValidate({...isValidate, contentError: true});
       refContent.current.focus();
       return false;
@@ -41,9 +45,9 @@ const PostEditor: React.FC = () => {
     
     event.preventDefault();
 
-    if(formValidator()){
-      sendNewPost(user, post);
-      setPost({title:"",content:""});
+    if(formValidator() && post !== undefined){
+      updatePost( postParams.id as unknown as number, post);
+      setPost({title:"", body:""});
       setIsShowSuccessInfo(true); 
     }
   }
@@ -55,37 +59,42 @@ const PostEditor: React.FC = () => {
   }
 
   useEffect(() => {
+
+    if(data){
+      setPost(data[0]);
+    }
+
     return () => {
       setTimeout(() => {
         setIsShowSuccessInfo(false);
       }, 5000);
     }
-  }, [isShowSuccessInfo])
+  }, [isLoading, isShowSuccessInfo])
   
   return (
-    <>
-      <NavBar/>
-
-      { 
-        isShowSuccessInfo && 
-        <NewPostSuccessInfo onCallParent={closeSuccessInfo} promptText={"發布成功!"} />
-      }
-
+    <> 
       <Container>
+      <div>        
+        { 
+          isShowSuccessInfo && 
+          <NewPostSuccessInfo onCallParent={closeSuccessInfo} promptText={"更新成功!"} />
+        }
 
         <form className="ml-5 sm:w-96 prose lg:prose-xl" onSubmit={formSubmitHandler}>
 
-          <h2 className="text-3xl font-bold mt-5">發布文章</h2>
+          <h2 className="text-3xl font-bold mt-5">變更文章</h2>
           
           {/* 文章標題 */}
           <label className="block mb-1">
             <input type="text" placeholder="文章標題"
                    className={`w-full rounded-md p-3 btn ${isValidate.titleError?"field-warning":"focus-input"}`}
                    ref={refTitle}
-                   value={post.title}
+                   value={post?.title}
                    onChange = {(event: React.ChangeEvent<HTMLInputElement>)=>{
-                     setPost({...post, title: event.currentTarget.value})
-                     setIsValidate({...isValidate, titleError: false});
+                      if(post){
+                        setPost({...post, title: event.currentTarget.value })
+                        setIsValidate({...isValidate, titleError: false});
+                      }
                    }}
             />
           </label>
@@ -99,10 +108,12 @@ const PostEditor: React.FC = () => {
             <textarea cols={30} rows={10} placeholder="文章內容"
                       className={`w-full rounded-md p-3 btn ${isValidate.contentError?"field-warning":"focus-input"}`}
                       ref={refContent}
-                      value={post.content}
+                      value={post?.body}
                       onChange = {(event: React.ChangeEvent<HTMLTextAreaElement>)=>{
-                        setPost({...post, content: event.currentTarget.value})
-                        setIsValidate({...isValidate, contentError: false});
+                        if(post){
+                          setPost({...post, body: event.currentTarget.value})
+                          setIsValidate({...isValidate, contentError: false});
+                        }
                       }}
             />
           </label>
@@ -111,12 +122,14 @@ const PostEditor: React.FC = () => {
             { "請輸入內容!" }
           </div>
 
-          <button className='post-btn'>發布</button>
+          <button className='post-btn'>更新</button>
 
         </form>
+        
+      </div>
       </Container>
     </>
   )
 };
 
-export default React.memo(PostEditor);
+export default React.memo(MyPostEditor);
