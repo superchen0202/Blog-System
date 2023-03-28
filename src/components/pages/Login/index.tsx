@@ -3,8 +3,7 @@ import Container from '@/components/shared/Container';
 import NavBar from '@/components/shared/NavBar';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/service/hooks';
-import { login, getCurrentUser } from '@/service/authService';
-import NewPostSuccessInfo from '@/components/shared/utils';
+import { login, getCurrentUser, showLoginSuccess } from '@/service/authService';
 import { ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 
 const Login: React.FC = () => {
@@ -15,8 +14,6 @@ const Login: React.FC = () => {
   const [isValidate, setIsValidate] = useState({usernameError: false, passwordError: false});
   const refUserName = useRef() as React.MutableRefObject<HTMLInputElement>;
   const refPassword = useRef() as React.MutableRefObject<HTMLInputElement>;
-
-  const [isShowSuccessInfo, setIsShowSuccessInfo] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   
   const formValidator = () =>{
@@ -44,6 +41,7 @@ const Login: React.FC = () => {
       login(userInfo)
       .then(data => {
         dispatch(getCurrentUser());
+        dispatch(showLoginSuccess(true));
         navigate('/');
       })
       .catch(error => {
@@ -53,21 +51,10 @@ const Login: React.FC = () => {
       .finally( () => setUserInfo({username: '', password: ''}));
     }
   }
-
-  const closeSuccessInfo = (event: React.MouseEvent<HTMLButtonElement>) =>{
-    if (event.target !== event.currentTarget) {
-      setIsShowSuccessInfo(false);
-    }
-  }
-
+   
   return (
     <>
       <NavBar/>
-
-      { 
-        isShowSuccessInfo && 
-        <NewPostSuccessInfo onCallParent={closeSuccessInfo} promptText={"登入成功!"} />
-      }
 
       <Container>
         <div className='flex justify-center items-center'>

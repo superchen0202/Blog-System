@@ -60,39 +60,40 @@ const authSlice = createSlice({
   name: 'authSlice',
   initialState:{
     userInfo,
-    isLoading: false,
-    loadingError: null as error,
+    showFirstLoginSuccess: false,
+    errorMessage: null as error,
   },
 
   reducers:{
+    showLoginSuccess: (state, action)=>{
+      state.showFirstLoginSuccess = action.payload;
+    },
     removeCurrentUser: (state)=>{
       state.userInfo = {
         id: null,
         username: null,
       };
-    },
+    }
   },
 
   extraReducers: (builder) =>{
 
     //get user info by token in local storage
     builder.addCase(getCurrentUser.pending, (state) => {
-      state.isLoading = true;
-      state.loadingError = null;
+      state.showFirstLoginSuccess = false;
+      state.errorMessage = null;
     });
 
     builder.addCase(getCurrentUser.fulfilled, (state, action) => {
       state.userInfo = action.payload;
-      state.isLoading = false;
     });
 
     builder.addCase(getCurrentUser.rejected, (state, action) => {
-      state.loadingError = action.payload as unknown as string;
-      state.isLoading = false;
+      state.errorMessage = action.payload as unknown as string;
     });
   }
 });
 
 export const { reducer, actions } = authSlice;
-export const { removeCurrentUser } = actions;
+export const { showLoginSuccess, removeCurrentUser } = actions;
 export default reducer;

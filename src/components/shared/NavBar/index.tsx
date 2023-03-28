@@ -7,7 +7,7 @@ import { removeLocalStorage } from "@/service/utils";
 
 const NavBar: React.FC = () => {
   
-  const { userInfo, isLoading} = useAppSelector(state => state.authReducer);  
+  const { userInfo } = useAppSelector(state => state.authReducer);  
   const { username, id } = userInfo;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

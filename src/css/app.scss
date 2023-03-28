@@ -41,7 +41,8 @@
 
   /* PostList */
   .post-list-container{
-    @apply border-b-[1px] border-solid border-b-black/[0.3] p-4 flex justify-between items-center
+    @apply border-b-[1px] border-solid border-b-black/[0.3] p-4 
+    flex justify-between items-center
   }
 
   .post-list-title{

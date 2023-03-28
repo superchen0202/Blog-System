@@ -39,10 +39,10 @@ const App = () => {
     const dispatch = useAppDispatch();
 
     React.useEffect(() => {
-        //if token exists in local storage, get user info from Redux state.
-        if(getAuthToken()){
-            dispatch(getCurrentUser());
-        }
+    //if token exists in local storage, get user info from Redux state.
+    if(getAuthToken()){
+        dispatch(getCurrentUser());
+    }
     }, [])
 
     const routes = useRoutes(routesConfig);
