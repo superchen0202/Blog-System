@@ -1,10 +1,9 @@
-import { createSlice, createAsyncThunk, PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import baseURL from "./environment";
 
 export const loadComments = createAsyncThunk("loadComments",
   async (postID: string, thunkAPI) => {
-
     try{
       const response = await axios.get(`${baseURL}/comments`);
       const comments = response.data as unknown as CommentProps[];
@@ -20,7 +19,6 @@ export const loadComments = createAsyncThunk("loadComments",
 
 export const sendComments = createAsyncThunk("sendComments",
   async( { username, message }: { username: string, message: string}, thunkAPI ) => {
-    
     try{
       const response = await axios.post(`${baseURL}/comments`,
       {
@@ -50,6 +48,7 @@ const commentSlice = createSlice({
   },
   reducers:{},
   extraReducers: (builder) =>{
+    
     // load comments
     builder.addCase(loadComments.pending, (state) => {
       state.isLoading = true;
@@ -60,12 +59,10 @@ const commentSlice = createSlice({
       state.comments = action.payload;
       state.isLoading = false;
     });
-    /*
     builder.addCase(loadComments.rejected, (state, action)=>{
       state.isLoading = false;
       state.loadingError = action.payload as unknown as error;
     });
-    // */
 
     //send comments
     builder.addCase(sendComments.pending, (state) => {
@@ -76,12 +73,10 @@ const commentSlice = createSlice({
       state.comments.push(action.payload);
       state.isSending = false;
     });
-    /*
     builder.addCase(sendComments.rejected, (state, action)=>{
       state.isSending = false;
       state.sendingError = action.payload as unknown as error;
     });
-    // */
   }
 });
 

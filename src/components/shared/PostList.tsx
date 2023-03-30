@@ -1,15 +1,19 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-// PostList: 顯示文章列表
-const PostList: React.FC<PostProps> = (props) => {
+type PostListProps = PostProps & {
+  pathName: string,
+} 
 
-  const { id, title, body, createdAt } = props;
+// PostList: 顯示文章列表
+const PostList: React.FC<PostListProps> = (props) => {
+
+  const { pathName, id, title, body, createdAt } = props;
 
   return (
     <div className="post-list-container">
       
-      <Link to={`/posts/${id}`} className="post-list-title">
+      <Link to={pathName} className="post-list-title">
         { title }
       </Link>
       
@@ -22,7 +26,7 @@ const PostList: React.FC<PostProps> = (props) => {
       {/* <div>
         { body.slice(0,75) + "..."}
       </div> */}
-
+      
     </div>
   )
 };

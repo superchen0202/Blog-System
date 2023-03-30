@@ -35,4 +35,4 @@ const ErrorInfo: React.FC<ErrorInfoProps> = (props) => {
   )
 };
 
-export {DataIsLoading, ErrorInfo}
+export { DataIsLoading, ErrorInfo }

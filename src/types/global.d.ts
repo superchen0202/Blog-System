@@ -2,8 +2,14 @@ export {}
 
 declare global {
 
+    //----Home----
+    type PathMap = {
+        pageName: string,
+        path: string,
+    };
+
     //---authService---
-    type loginInfo = {
+    type LoginInfo = {
         username: string,
         password: string,
     };
@@ -14,16 +20,6 @@ declare global {
     };
     type error = string | null;
 
-    //---Comment---
-    type CommentProps = {
-        id: number,
-        author: string,
-        content: string,
-        createdAt: number,
-        postID: number,
-    };
-
-    // Post
     type PostProps = {
         id: number,
         title: string,
@@ -31,5 +27,11 @@ declare global {
         createdAt: number,
         userId: number,
     };
-
+    type CommentProps = {
+        id: number,
+        author: string,
+        content: string,
+        createdAt: number,
+        postID: number,
+    };
 }

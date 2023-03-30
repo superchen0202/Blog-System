@@ -1,14 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { useAppSelector } from '@/service/hooks';
-import NavBar from '@/components/shared/NavBar';
-import Container from '@/components/shared/Container';
-import { sendNewPost } from '@/service/postService';
-import NewPostSuccessInfo from '@/components/shared/utils';
+import { sendNewPost } from '@/service/potsService';
+import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
+const SuccessInfoBar = lazy(() => import('@/components/shared/SuccessInfoBar'));
 
 // Container
 const PostEditor: React.FC = () => {
 
-  const user = useAppSelector((state) => state.authReducer.userInfo);
+  const userInfo = useAppSelector((state) => state.authReducer.userInfo);
   const [post, setPost] = useState({ title:"", content: ""});
   const [isValidate, setIsValidate] = useState({titleError: false, contentError: false});
   const [isShowSuccessInfo, setIsShowSuccessInfo] = useState(false);
@@ -17,7 +16,7 @@ const PostEditor: React.FC = () => {
 
   const formValidator = () =>{
     
-    if(user.username === null){
+    if(userInfo.username === null){
       alert('please sign in!');
       return false;
     }    
@@ -35,24 +34,24 @@ const PostEditor: React.FC = () => {
     }
 
     return true;
-  }
+  };
 
-  const formSubmitHandler = (event: React.FormEvent<HTMLFormElement | HTMLButtonElement>) =>{ 
+  const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) =>{ 
     
     event.preventDefault();
 
     if(formValidator()){
-      sendNewPost(user, post);
+      sendNewPost(userInfo, post);
       setPost({title:"",content:""});
       setIsShowSuccessInfo(true); 
     }
-  }
+  };
 
-  const closeSuccessInfo = (event: React.MouseEvent<HTMLButtonElement>) =>{
+  const clickCloseSuccessInfo = (event: React.MouseEvent<HTMLButtonElement>) =>{
     if (event.target !== event.currentTarget) {
       setIsShowSuccessInfo(false);
     }
-  }
+  };
 
   useEffect(() => {
     return () => {
@@ -64,57 +63,61 @@ const PostEditor: React.FC = () => {
   
   return (
     <>
-      <NavBar/>
-
       { 
         isShowSuccessInfo && 
-        <NewPostSuccessInfo onCallParent={closeSuccessInfo} promptText={"發布成功!"} />
+        <Suspense fallback={<DataIsLoading/>}>
+          <SuccessInfoBar promptText={"發布成功!"}
+                          onClickCloseBtn={clickCloseSuccessInfo}
+          />
+        </Suspense>
       }
 
-      <Container>
+      <form className="ml-5 sm:w-96 prose lg:prose-xl" onSubmit={formSubmitHandler}>
+        
+        {/* 標題 */}
+        <h2 className="text-3xl font-bold mt-5">
+          發布文章
+        </h2>
+        
+        {/* 文章標題 */}
+        <label className="block mb-1">
+          <input type="text" placeholder="文章標題"
+                  className={`w-full rounded-md p-3 btn ${isValidate.titleError?"field-warning":"focus-input"}`}
+                  ref={refTitle}
+                  value={post.title}
+                  onChange = {(event: React.ChangeEvent<HTMLInputElement>)=>{
+                    setPost({...post, title: event.currentTarget.value})
+                    setIsValidate({...isValidate, titleError: false});
+                  }}
+          />
+        </label>
 
-        <form className="ml-5 sm:w-96 prose lg:prose-xl" onSubmit={formSubmitHandler}>
+        {/* 標題警語 */}
+        <div className={`${isValidate.titleError? "":"invisible"} text-red-500 text-sm height-[36px] mb-2`}>
+          { "請輸入標題!" }
+        </div>
 
-          <h2 className="text-3xl font-bold mt-5">發布文章</h2>
-          
-          {/* 文章標題 */}
-          <label className="block mb-1">
-            <input type="text" placeholder="文章標題"
-                   className={`w-full rounded-md p-3 btn ${isValidate.titleError?"field-warning":"focus-input"}`}
-                   ref={refTitle}
-                   value={post.title}
-                   onChange = {(event: React.ChangeEvent<HTMLInputElement>)=>{
-                     setPost({...post, title: event.currentTarget.value})
-                     setIsValidate({...isValidate, titleError: false});
-                   }}
-            />
-          </label>
+        {/* 文章內容 */}
+        <label className="block mt-1 mb-1">
+          <textarea cols={30} rows={10} placeholder="文章內容"
+                    className={`w-full rounded-md p-3 btn ${isValidate.contentError?"field-warning":"focus-input"}`}
+                    ref={refContent}
+                    value={post.content}
+                    onChange = {(event: React.ChangeEvent<HTMLTextAreaElement>)=>{
+                      setPost({...post, content: event.currentTarget.value})
+                      setIsValidate({...isValidate, contentError: false});
+                    }}
+          />
+        </label>
 
-          <div className={`${isValidate.titleError? "":"invisible"} text-red-500 text-sm height-[36px] mb-2`}>
-            { "請輸入標題!" }
-          </div>
+        {/* 內容警語 */}
+        <div className={`${isValidate.contentError? "":"invisible"} text-red-500 text-sm height-[36px]  mb-2`}>
+          { "請輸入內容!" }
+        </div>
 
-          {/* 文章內容 */}
-          <label className="block mt-1 mb-1">
-            <textarea cols={30} rows={10} placeholder="文章內容"
-                      className={`w-full rounded-md p-3 btn ${isValidate.contentError?"field-warning":"focus-input"}`}
-                      ref={refContent}
-                      value={post.content}
-                      onChange = {(event: React.ChangeEvent<HTMLTextAreaElement>)=>{
-                        setPost({...post, content: event.currentTarget.value})
-                        setIsValidate({...isValidate, contentError: false});
-                      }}
-            />
-          </label>
+        <button className='post-btn'>發布</button>
 
-          <div className={`${isValidate.contentError? "":"invisible"} text-red-500 text-sm height-[36px]  mb-2`}>
-            { "請輸入內容!" }
-          </div>
-
-          <button className='post-btn'>發布</button>
-
-        </form>
-      </Container>
+      </form>
     </>
   )
 };

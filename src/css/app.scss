@@ -5,23 +5,30 @@
 @layer components{
 
   /* NavBar */
-  .header{
+  .navbar-header{
     @apply sticky top-0 bg-white border-b-[1px] border-gray-300
   }
+  .navbar-container{
+    @apply flex justify-between items-center box-border px-2 h-[60px]
+  }
+  .navbar-item{
+    @apply h-[58px] w-[100px] flex justify-center items-center no-underline text-[#666];
+  }
+  .navbar-item-active{
+    @apply bg-[#eee] text-[#222];
+  }
 
-  // Text Area
   /* Post Editor*/
   .field-warning{
     @apply focus:outline-none focus:ring-2 focus:ring-offset-2
      focus:ring-red-500 duration-300
   }
-
   .post-btn{
     @apply w-full bg-purple-600 py-3 text-lg text-white tracking-wide rounded-3xl mt-4 
     hover:bg-purple-800 active:bg-purple-900 active:ring-2 duration-200
   }
 
-  /* CommentArea */
+  /* Comment Area */
   .input-field{
     @apply bg-gray-50 border border-gray-300 text-gray-900
              text-sm rounded-lg block w-[50%] p-2.5 
@@ -29,17 +36,15 @@
              dark:focus:ring-blue-500 dark:focus:border-blue-500
              mb-3
   }
-
   .focus-input{
     @apply focus:outline-none focus:ring-2 focus:ring-offset-2
     focus:ring-blue-500 duration-300
   }
-  
   .divide-line{
     @apply mb-4 py-4 px-0 border-b-[1px] border-solid border-b-black/[0.1]
   }
 
-  /* PostList */
+  /* Post List */
   .post-list-container{
     @apply border-b-[1px] border-solid border-b-black/[0.3] p-4 
     flex justify-between items-center
@@ -49,7 +54,7 @@
     @apply text-2xl no-underline text-gray-700
   }
   
-  /* login-form*/
+  /* Login Form*/
   .login-form-container{
     @apply shadow-lg w-[720px] h-[360px] px-60 py-5 mt-20 mx-auto my-auto
   }
@@ -58,7 +63,7 @@
     hover:bg-[#3b5998]/90 active:bg-purple-900 active:ring-2 duration-200
   }
 
-  /* message */
+  /* Message */
   .message-container{
     @apply p-4 rounded border-solid border-[1px] border-black/[0.125] mt-2
   }
@@ -69,7 +74,7 @@
     @apply mt-2 break-all whitespace-pre-line
   }
 
-  /*messageBoard */
+  /* Message Board */
   .message-text-area{
     @apply block mt-2 w-full p-2 border border-solid border-black/[0.125]
   }
@@ -78,7 +83,7 @@
     @apply w-[10%] mt-2 bg-gray-800 rounded text-base text-gray-200
     py-[6px] px-[12px] border-[1px] border-hidden
   }
-
+  
   .loading{
     @apply fixed top-0 left-0 right-0 bottom-0 text-white text-3xl flex items-center justify-center bg-black/[0.5]
   }
