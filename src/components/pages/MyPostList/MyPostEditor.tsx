@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from '@/service/hooks';
 import { useNavigate } from 'react-router-dom';
 import SuccessInfoBar from '@/components/shared/SuccessInfoBar';
+import ShowRenderCount from '@/components/ShowRenderCount';
 
 // Container
 const MyPostEditor: React.FC = () => {
@@ -93,7 +94,9 @@ const MyPostEditor: React.FC = () => {
       { isShowSuccessInfo && <SuccessInfoBar onClickCloseBtn={closeSuccessInfo} promptText={"更新成功!"} />}
 
       <form onSubmit={formSubmitHandler} className="ml-5 sm:w-96 prose lg:prose-xl">
-
+        
+        <ShowRenderCount/>
+        
         {/* 標題 */}
         <h2 className="text-3xl font-bold mt-5">
           變更文章
@@ -101,6 +104,7 @@ const MyPostEditor: React.FC = () => {
         
         {/* 文章標題 */}
         <label className="block mb-1">
+        <ShowRenderCount/>
           <input type="text" placeholder="文章標題"
                  className={`w-full rounded-md p-3 btn ${validateResult.isTitleError?"field-warning":"focus-input"}`}
                  ref={refTitle}
@@ -110,12 +114,16 @@ const MyPostEditor: React.FC = () => {
         </label>
 
         {/* 標題警語 */}
+        <>
+        <ShowRenderCount/>
         <div className={`${validateResult.isTitleError? "":"invisible"} text-red-500 text-sm height-[36px] mb-2`}>
           { "請輸入標題!" }
         </div>
+        </>
 
         {/* 文章內容 */}
         <label className="block mt-1 mb-1">
+        <ShowRenderCount/>
           <textarea cols={30} rows={10}
                     placeholder = "文章內容"
                     className = {`w-full rounded-md p-3 btn ${validateResult.isContentError?"field-warning":"focus-input"}`}
@@ -126,9 +134,12 @@ const MyPostEditor: React.FC = () => {
         </label>
 
         {/* 內容警語 */}
+        <>
+        <ShowRenderCount/>
         <div className={`${validateResult.isContentError? "":"invisible"} text-red-500 text-sm height-[36px] mb-2`}>
           { "請輸入內容!" }
         </div>
+        </>
 
         {/* 更新按鈕 */}
         <button className='post-btn'>

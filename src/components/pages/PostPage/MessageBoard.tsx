@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/service/hooks';
 import { loadComments, sendComments } from '@/service/commentService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 const Message = lazy(() => import('./Message'));
+import ShowRenderCount from '@/components/ShowRenderCount';
 
 // Container
 const MessageBoard: React.FC = () => {
@@ -63,7 +64,7 @@ const MessageBoard: React.FC = () => {
       
       {/* --------------------留言表單-------------------- */}
       <form onSubmit={formSubmitHandler} className="mt-4 text-lg">
-        
+        <ShowRenderCount/>
         <textarea rows={2}
                   value={message}
                   placeholder="留言內容"

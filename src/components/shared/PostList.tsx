@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import ShowRenderCount from '../ShowRenderCount';
 
 type PostListProps = PostProps & {
   pathName: string,
@@ -13,6 +14,8 @@ const PostList: React.FC<PostListProps> = (props) => {
   return (
     <div className="post-list-container">
       
+      <ShowRenderCount/>
+
       <Link to={pathName} className="post-list-title">
         { title }
       </Link>

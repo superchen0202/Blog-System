@@ -2,6 +2,7 @@ import React from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from '@/service/hooks';
 import { removeLocalStorage, removeCurrentUser } from "@/service/authService";
+import ShowRenderCount from "@/components/ShowRenderCount";
 
 const NavBar: React.FC = () => {
   
@@ -35,12 +36,15 @@ const NavBar: React.FC = () => {
 
   return (
     <header className="navbar-header">
+      
+      <ShowRenderCount/>
 
       <div className="navbar-container lg:max-w-[1024px] lg:mx-auto lg:px-0">
         
         {/* Left Side */}
         <div className="w-[100px] cursor-pointer">        
           <h1 className="m-0">
+            <ShowRenderCount/>
             <Link to='/' className="navbar-item">新聞快報</Link>
           </h1>
         </div>
@@ -52,6 +56,7 @@ const NavBar: React.FC = () => {
               const { pageName, path } = mapping;
               return (
                 <li key = {index}>
+                  <ShowRenderCount/>
                   <NavLink to = {path} className={ ({isActive}) => isActive? "navbar-item navbar-item-active":"navbar-item" }>
                     { pageName }
                   </NavLink>
@@ -62,13 +67,20 @@ const NavBar: React.FC = () => {
           
           <li>
             { 
-              username? 
-              <button className="navbar-item" onClick={logOut}>登出</button>: 
+              username?
+              <>
+              <ShowRenderCount/> 
+              <button className="navbar-item" onClick={logOut}>登出</button>
+              </>: 
+              <>
+              <ShowRenderCount/>
               <NavLink to='/login' className={ ({isActive})=> isActive? "navbar-item navbar-item-active":"navbar-item"}>登入</NavLink>
+              </>
             }
           </li>
           
           <li>
+            <ShowRenderCount/>
             <p className="navbar-item">{username}</p>
           </li>
 

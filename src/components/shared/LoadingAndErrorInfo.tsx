@@ -1,4 +1,5 @@
 import React from 'react';
+import ShowRenderCount from '../ShowRenderCount';
 
 type ErrorInfoProps = {
   message?: string | number,
@@ -8,6 +9,9 @@ const DataIsLoading: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center">
+
+      <ShowRenderCount />
+
       <svg className="animate-spin h-10 w-10 text-gray-400"
            xmlns="http://www.w3.org/2000/svg"
            fill="none"
@@ -30,6 +34,7 @@ const ErrorInfo: React.FC<ErrorInfoProps> = (props) => {
 
   return (
     <div className="mt-4 text-red-600">
+      <ShowRenderCount />
       {message}
     </div>
   )

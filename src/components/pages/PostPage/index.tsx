@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useGetPostsQuery } from '@/service/potsService';
 import MessageBoard from './MessageBoard';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
+import ShowRenderCount from '@/components/ShowRenderCount';
 
 const PostPage: React.FC = () => {
 
@@ -16,6 +17,8 @@ const PostPage: React.FC = () => {
       { 
         data &&
         <> 
+          <ShowRenderCount />
+
           {/* show title & date*/}
           <div className="divide-line mt-10">
 
@@ -29,12 +32,12 @@ const PostPage: React.FC = () => {
               { data[0] && new Date(data[0].createdAt).toLocaleString() }
             </div>
           </div>
-
+          
           {/* show content */}
           <div className="divide-line text-lg leading-normal tracking-[3px]">
             { data[0] && data[0].body}
           </div>
-
+          
           <MessageBoard/>
         </>
       }

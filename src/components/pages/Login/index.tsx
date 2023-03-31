@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/service/hooks';
 import { login, getCurrentUser, showLoginSuccess } from '@/service/authService';
 import { ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
+import ShowRenderCount from '@/components/ShowRenderCount';
 
 const Login: React.FC = () => {
 
@@ -65,6 +66,7 @@ const Login: React.FC = () => {
   return (
     <div className='flex justify-center items-center'>
       
+      <ShowRenderCount/>
       <form onSubmit={SubmitHandler} className="w-[80%] mt-10">
         
         <h2 className='text-3xl font-bold mb-10'>
@@ -74,6 +76,7 @@ const Login: React.FC = () => {
         {/* 用戶名稱 */}
         <label htmlFor="username">
           用戶名稱
+          <ShowRenderCount/>
           <input type="text"
                  ref={refUserName}
                  value={userInfo.username}
@@ -89,6 +92,7 @@ const Login: React.FC = () => {
         {/* 密碼 */}
         <label htmlFor="password">
           密碼
+          <ShowRenderCount/>
           <input type="password"
                  ref={refPassword}
                  value={userInfo.password}
@@ -97,13 +101,19 @@ const Login: React.FC = () => {
           />
         </label>
         
+        <>
+        <ShowRenderCount/>
         <div className={`${validateResult.isPasswordError? "":"invisible"} text-red-500 text-sm height-[36px] mb-2`}>
           { "請輸入密碼!" }
         </div>
-
+        </>
+        
+        <>
+        <ShowRenderCount/>
         <button className='login-btn'>
           登入
         </button>
+        </>
 
         { errorMsg && <ErrorInfo message={errorMsg}/> }
 

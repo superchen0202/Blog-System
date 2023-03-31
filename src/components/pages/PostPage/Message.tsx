@@ -1,4 +1,5 @@
 import React from 'react';
+import ShowRenderCount from '@/components/ShowRenderCount';
 
 const Message: React.FC<CommentProps> = (props) => {
 
@@ -7,6 +8,8 @@ const Message: React.FC<CommentProps> = (props) => {
   return (
     <div className="message-container">
 
+      <ShowRenderCount/>
+      
       {/* 用戶、時間 */}
       <div className="flex">
 
