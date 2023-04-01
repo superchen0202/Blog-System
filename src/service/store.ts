@@ -1,11 +1,13 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { postsApi } from './potsService';
+import { postsAPI } from './potsService';
 import authReducer from './authService';
+import postReducer from './potsService';
 import commentReducer from './commentService';
 
 const reducer = combineReducers({
-    [postsApi.reducerPath]: postsApi.reducer,
+    [postsAPI.reducerPath]: postsAPI.reducer,
     authReducer,
+    postReducer,
     commentReducer,
 });
 
@@ -15,7 +17,7 @@ export const store = configureStore({
       
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
-        .concat(postsApi.middleware)
+        .concat(postsAPI.middleware)
 })
 
 export type RootState = ReturnType<typeof reducer>;

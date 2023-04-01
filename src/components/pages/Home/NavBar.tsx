@@ -32,7 +32,7 @@ const NavBar: React.FC = () => {
       pageName: '發布文章',
       path: '/post-editor',
     },
-  ]
+  ];
 
   return (
     <header className="navbar-header">

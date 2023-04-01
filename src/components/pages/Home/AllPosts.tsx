@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { useGetPostsQuery } from '@/service/potsService';
+import { useLoadPostsQuery } from '@/service/potsService';
 import { useAppSelector, useAppDispatch } from '@/service/hooks';
 import { showLoginSuccess } from '@/service/authService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
@@ -9,7 +9,7 @@ const PostList = lazy(() => import('@/components/shared/PostList'));
 
 const AllPosts: React.FC = () => {
   
-  const { data, isLoading, error } = useGetPostsQuery('all');
+  const { data, isLoading, error } = useLoadPostsQuery('all', { refetchOnMountOrArgChange: true });
   const { userInfo, isLoginSuccess } = useAppSelector((state)=>state.authReducer);
   const dispatch = useAppDispatch();
 
@@ -17,15 +17,17 @@ const AllPosts: React.FC = () => {
     if (event.target !== event.currentTarget) {
       dispatch(showLoginSuccess(false));
     }
-  }
+  };
 
   useEffect(() => {
 
-    if(showLoginSuccess){
-      setTimeout(() => {
-        dispatch(showLoginSuccess(false));
-      }, 3000);
-    }
+    const closeInfo = setTimeout(() => {
+      dispatch(showLoginSuccess(false));
+    }, 3000);
+
+    return () =>{
+      clearInterval(closeInfo);
+    };
 
   }, [isLoginSuccess]);
 

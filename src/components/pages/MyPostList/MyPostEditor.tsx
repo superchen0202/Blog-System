@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useGetPostsQuery, useUpdatePostMutation } from '@/service/potsService';
+import { useLoadPostsQuery, useUpdatePostMutation } from '@/service/potsService';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '@/service/hooks';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ const MyPostEditor: React.FC = () => {
 
   const userInfo = useAppSelector(state => state.authReducer.userInfo);
   const postID = useParams().id;  
-  const { data, isLoading, error } = useGetPostsQuery(`id=${postID}`, { refetchOnMountOrArgChange: true });
+  const { data, isLoading, error } = useLoadPostsQuery(`id=${postID}`, { refetchOnMountOrArgChange: true });
   const [ post, setPost ] = useState({title:"", body:""});
   const [ validateResult, setValidateResult ] = useState({isTitleError: false, isContentError: false});
   const [ updatePost, result ] = useUpdatePostMutation();

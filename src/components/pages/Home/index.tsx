@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import NavBar from './NavBar';
 
 const Home: React.FC = () => {
- 
+
   return (
     <>
       <NavBar/>

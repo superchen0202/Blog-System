@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { useGetPostsQuery } from '@/service/potsService';
+import { useLoadPostsQuery } from '@/service/potsService';
 import { useAppSelector } from '@/service/hooks';
 import { useNavigate } from 'react-router-dom';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
@@ -8,7 +8,7 @@ const PostList = lazy(() => import('@/components/shared/PostList'));
 const MyPostList: React.FC = () => {
 
   const { username, id } = useAppSelector(state => state.authReducer.userInfo);
-  const { data, isLoading, error } = useGetPostsQuery(`userId=${id}`, { refetchOnMountOrArgChange: true });
+  const { data, isLoading, error } = useLoadPostsQuery(`userId=${id}`, { refetchOnMountOrArgChange: true });
   const navigate = useNavigate();
 
   useEffect(() => {

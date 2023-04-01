@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { useAppSelector } from '@/service/hooks';
-import { sendNewPost } from '@/service/potsService';
+import { useSendNewPostMutation } from '@/service/potsService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 const SuccessInfoBar = lazy(() => import('@/components/shared/SuccessInfoBar'));
 import ShowRenderCount from '@/components/ShowRenderCount';
@@ -8,6 +8,7 @@ import ShowRenderCount from '@/components/ShowRenderCount';
 // Container
 const PostEditor: React.FC = () => {
 
+  const [ sendNewPost, result ] = useSendNewPostMutation();
   const userInfo = useAppSelector((state) => state.authReducer.userInfo);
   const [post, setPost] = useState({ title:"", content: ""});
   const [isValidate, setIsValidate] = useState({titleError: false, contentError: false});
@@ -42,7 +43,7 @@ const PostEditor: React.FC = () => {
     event.preventDefault();
 
     if(formValidator()){
-      sendNewPost(userInfo, post);
+      sendNewPost({ userInfo, post });
       setPost({title:"",content:""});
       setIsShowSuccessInfo(true); 
     }

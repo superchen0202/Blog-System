@@ -36,7 +36,7 @@ export const login = async (userInfo: LoginInfo) => {
   }
   catch(err){
     const error = err as Error;
-    console.log(error.message);
+    // console.log(error.message);
     throw new Error(error.message);
   }
 };
@@ -51,17 +51,14 @@ export const getCurrentUser = createAsyncThunk("getCurrentUser",
           authorization: `Bearer ${token}`,
         }
       });
-
+      
       const userInfo = response.data.data as unknown as User;
-      const { id, username }  = userInfo;
-      return { id, username };
+      return userInfo;
     }
     catch(err){
       const error = err as Error;
       const message = error.toString();
       return thunkAPI.rejectWithValue(message);
-      // console.log(error);
-      // throw new Error(error.message);
     }
   }
 );

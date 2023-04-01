@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetPostsQuery } from '@/service/potsService';
+import { useLoadPostsQuery } from '@/service/potsService';
 import MessageBoard from './MessageBoard';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 import ShowRenderCount from '@/components/ShowRenderCount';
@@ -8,7 +8,7 @@ import ShowRenderCount from '@/components/ShowRenderCount';
 const PostPage: React.FC = () => {
 
   const postParams = useParams().id;
-  const { data, isLoading, error } = useGetPostsQuery(`id=${postParams}`);
+  const { data, isLoading, error } = useLoadPostsQuery(`id=${postParams}`);
 
   return (
     <>
