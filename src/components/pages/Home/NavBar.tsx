@@ -2,11 +2,12 @@ import React from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from '@/service/hooks';
 import { removeLocalStorage, removeCurrentUser } from "@/service/authService";
-import ShowRenderCount from "@/components/ShowRenderCount";
+import NavBarItem from "./NavBarItem";
+import { DataIsLoading } from "@/components/shared/LoadingAndErrorInfo";
 
 const NavBar: React.FC = () => {
   
-  const { username } = useAppSelector(state => state.authReducer.userInfo);  
+  const { userInfo, isLoading } = useAppSelector(state => state.authReducer);  
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -14,19 +15,23 @@ const NavBar: React.FC = () => {
 
     event.preventDefault();
 
-    if(confirm(`${username}確認登出?`) === false){
+    if(confirm(`${userInfo.username}確認登出?`) === false){
       return;
     }
-    
+
     removeLocalStorage();
     dispatch(removeCurrentUser());
     navigate('/login');
-  }
+  };
 
   const pathMapping: PathMap[] = [
     {
+      pageName: '新聞快報',
+      path: `/`,
+    },
+    {
       pageName: '文章列表',
-      path: `/${username}/posts`,
+      path: `/${userInfo.username}/posts`,
     },
     {
       pageName: '發布文章',
@@ -36,15 +41,12 @@ const NavBar: React.FC = () => {
 
   return (
     <header className="navbar-header">
-      
-      <ShowRenderCount/>
 
       <div className="navbar-container lg:max-w-[1024px] lg:mx-auto lg:px-0">
         
         {/* Left Side */}
         <div className="w-[100px] cursor-pointer">        
           <h1 className="m-0">
-            <ShowRenderCount/>
             <Link to='/' className="navbar-item">新聞快報</Link>
           </h1>
         </div>
@@ -52,38 +54,31 @@ const NavBar: React.FC = () => {
         {/* Right Side */}
         <ul className="flex items-center">
           {
-            pathMapping.map((mapping, index)=>{
-              const { pageName, path } = mapping;
-              return (
-                <li key = {index}>
-                  <ShowRenderCount/>
-                  <NavLink to = {path} className={ ({isActive}) => isActive? "navbar-item navbar-item-active":"navbar-item" }>
-                    { pageName }
-                  </NavLink>
-                </li>
-              )
-            })
+            pathMapping.map((navBarItem, index) => 
+              <NavBarItem key={index}{...navBarItem}/>
+            )
           }
-          
-          <li>
-            { 
-              username?
-              <>
-              <ShowRenderCount/> 
-              <button className="navbar-item" onClick={logOut}>登出</button>
-              </>: 
-              <>
-              <ShowRenderCount/>
-              <NavLink to='/login' className={ ({isActive})=> isActive? "navbar-item navbar-item-active":"navbar-item"}>登入</NavLink>
-              </>
+          {
+            isLoading? <DataIsLoading/>: <>
+            {
+              userInfo.username && <li>
+                <button className="navbar-item" onClick={logOut}>登出</button>
+              </li>
             }
-          </li>
-          
-          <li>
-            <ShowRenderCount/>
-            <p className="navbar-item">{username}</p>
-          </li>
-
+            {
+              !userInfo.username && <li>
+                <NavLink to='/login' className={ ({isActive})=> isActive? "navbar-item navbar-item-active":"navbar-item"}>
+                  登入
+                </NavLink>
+              </li> 
+            }
+            {
+              userInfo.username && <li>
+                <p className="navbar-item">{ userInfo.username }</p>
+              </li>
+            }
+            </>
+          }
         </ul>
       </div>
 
