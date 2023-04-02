@@ -28,7 +28,7 @@ const PostPage: React.FC = () => {
             </div>
 
             {/* date */}
-            <div className="text-base mt-4 text-black/[0.4]">
+            <div className="grey-text mt-4 ">
               { data[0] && new Date(data[0].createdAt).toLocaleString() }
             </div>
           </div>

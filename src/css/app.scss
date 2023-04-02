@@ -74,6 +74,10 @@
     @apply mt-2 break-all whitespace-pre-line
   }
 
+  .grey-text{
+    @apply text-base text-black/[0.4]
+  }
+
   /* Message Board */
   .message-text-area{
     @apply block mt-2 w-full p-2 border border-solid border-black/[0.125]

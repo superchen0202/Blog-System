@@ -1,7 +1,70 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import baseURL from "./environment";
 
+// UNUSED: comments-related RTK query for basic CRUD usage .
+export const commentsAPI = createApi({
+    
+  reducerPath: 'commentsAPI',
+
+  baseQuery: fetchBaseQuery({ baseUrl: baseURL}),
+  
+  endpoints: (builder) => ({  
+
+    sendNewComment: builder.mutation<CommentProps, { user: User, comment: string, postID: number }>({          
+      query: ( { user, comment, postID } ) => ({
+        url: `/comments`,
+        method: 'POST',
+        body: {
+          author: user.username,
+          content: comment,
+          createdAt: Date.now(),
+          postID,
+          userID: user.id
+        },
+      }),
+    }),
+
+    loadComments: builder.query<CommentProps[], number | string | 'all'>({
+      query: (queryString) => {
+          
+        if(queryString !== 'all'){
+          return `/comments?${queryString}`;
+        }
+        return `/comments?_sort=createdAt&_order=desc`;
+      }
+    }),
+    
+    updateComment: builder.mutation<CommentProps, CommentProps>({          
+      query: ( comment ) => ({
+        url: `/comments/${comment.id}`,
+        method: 'PATCH',
+        body: {
+          content: comment.content,
+          updateAt: Date.now(),
+        },
+      }),
+    }),
+
+    deleteComment: builder.mutation<CommentProps, CommentProps>({          
+      query: ( comment ) => ({
+        url: `/comments/${comment.id}`,
+        method: 'DELETE',
+        body: comment,
+      }),
+    }),
+  }),
+});
+
+export const { 
+  useSendNewCommentMutation,
+  useLoadCommentsQuery,
+  useUpdateCommentMutation,
+  useDeleteCommentMutation
+} = commentsAPI;
+
+//--- comment slice-reducer for fetch data only ---
 export const loadComments = createAsyncThunk("loadComments",
   async (postID: string, thunkAPI) => {
     try{

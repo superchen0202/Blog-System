@@ -25,6 +25,7 @@ declare global {
         title: string,
         body: string,
         createdAt: number,
+        updatedAt?: number[],
         userId: number,
     };
     type CommentProps = {
@@ -32,6 +33,8 @@ declare global {
         author: string,
         content: string,
         createdAt: number,
+        updatedAt?: number[],
         postID: number,
+        userID?: number,
     };
 }
