@@ -1,10 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
 import baseURL from "./environment";
+// import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+// import axios from "axios";
 
-// UNUSED: comments-related RTK query for basic CRUD usage .
-export const commentsAPI = createApi({
+const commentsAPI = createApi({
     
   reducerPath: 'commentsAPI',
 
@@ -12,16 +11,16 @@ export const commentsAPI = createApi({
   
   endpoints: (builder) => ({  
 
-    sendNewComment: builder.mutation<CommentProps, { user: User, comment: string, postID: number }>({          
-      query: ( { user, comment, postID } ) => ({
+    sendNewComment: builder.mutation<CommentProps, { currentUser: User, comment: string, postID: number }>({          
+      query: ( { currentUser, comment, postID } ) => ({
         url: `/comments`,
         method: 'POST',
         body: {
-          author: user.username,
+          author: currentUser.username,
           content: comment,
           createdAt: Date.now(),
           postID,
-          userID: user.id
+          userID: currentUser.id
         },
       }),
     }),
@@ -64,7 +63,10 @@ export const {
   useDeleteCommentMutation
 } = commentsAPI;
 
-//--- comment slice-reducer for fetch data only ---
+export default commentsAPI;
+
+// -----comment slice-reducer-----
+/*
 export const loadComments = createAsyncThunk("loadComments",
   async (postID: string, thunkAPI) => {
     try{
@@ -145,3 +147,4 @@ const commentSlice = createSlice({
 
 export const { reducer, actions } = commentSlice;
 export default reducer;
+// */

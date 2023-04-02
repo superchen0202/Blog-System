@@ -1,50 +1,48 @@
-import React, { useEffect, useState, useRef, lazy, Suspense } from 'react';
+import React, { useState, useRef, lazy, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@/service/hooks';
-import { loadComments, sendComments } from '@/service/commentService';
+import { useAppSelector } from '@/service/hooks';
+import { useLoadCommentsQuery, useSendNewCommentMutation } from '@/service/commentService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
-const Message = lazy(() => import('./Message'));
 import ShowRenderCount from '@/components/ShowRenderCount';
+const Comment = lazy(() => import('./Comment'));
 
 // Container
 const MessageBoard: React.FC = () => {
 
-  const messageID = useParams().id;
-  const dispatch = useAppDispatch();
-  const { username } = useAppSelector((state) => state.authReducer.userInfo);
-  const { comments, isLoading, loadingError, isSending, sendingError } = useAppSelector((state) => state.commentReducer);
-  const [ message, setMessage ] = useState<string>('');
+  const postID = useParams().id;
+  const currentUser = useAppSelector((state) => state.authReducer.userInfo);
+  const { data: commentsList, isLoading: commentsIsLoading, error: loadingError, refetch: loadComments } = useLoadCommentsQuery(`postID=${postID}`);
+  const [ sendComments, { isLoading: isSending, error: sendingError }] = useSendNewCommentMutation();
+  const [ comment, setComment ] = useState<string>('');
   const refTextAreaInput = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
   
-  // Mount did mount: loading comments from backend to display
-  useEffect(() => {
-    if(messageID){
-      dispatch(loadComments(messageID));
-    }
-  }, [dispatch]);
-
   const textAreaHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) =>{
-    setMessage(event.currentTarget.value);
+    setComment(event.currentTarget.value);
   };
 
   const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) =>{
     
     event.preventDefault();
     
-    if(username === null){
+    if(currentUser === null){
       alert('please sign in!');
       return ;
     }    
     
-    if(message === ''){
+    if(comment === ''){
       alert('Invalid request, "content" is required!');
       refTextAreaInput.current.focus();
       return ;
     }
     
-    dispatch(sendComments({username, message}));
-    setMessage('');
-    // dispatch(loadComments());
+    if(postID){  
+      sendComments({ currentUser, comment, postID: parseInt(postID) })
+      .unwrap()
+      .then(()=>{ 
+        loadComments();
+        setComment('');
+      })
+    }
   };
 
   return (
@@ -53,12 +51,12 @@ const MessageBoard: React.FC = () => {
       <h1 className="text-center">用戶回應</h1>
 
       {/* --------------------載入留言-------------------- */}
-      { loadingError && <ErrorInfo message = {loadingError}/> }
+      { loadingError && <ErrorInfo message = {"X_X"}/> }
 
       {/* 留言內容 */}
       <div className="mt-4">
         <Suspense fallback={<DataIsLoading/>}>
-          { comments.map(message =><Message key={ message.id }{...message}/>) }
+          { commentsList?.map(comment =><Comment key={ comment.id }{...comment}/>) }
         </Suspense>
       </div>
       
@@ -66,7 +64,7 @@ const MessageBoard: React.FC = () => {
       <form onSubmit={formSubmitHandler} className="mt-4 text-lg">
         <ShowRenderCount/>
         <textarea rows={2}
-                  value={message}
+                  value={comment}
                   placeholder="留言內容"
                   ref={refTextAreaInput}
                   className="message-text-area"
@@ -81,7 +79,7 @@ const MessageBoard: React.FC = () => {
  
       {/* --------------------After Submit-------------------- */}
       { isSending && <DataIsLoading/>}
-      { sendingError && <ErrorInfo message = {sendingError}/> }
+      { sendingError && <ErrorInfo message = {"X_X"}/> }
 
     </div>
   );

@@ -1,12 +1,13 @@
 import React from 'react';
 import ShowRenderCount from '@/components/ShowRenderCount';
 
-const Message: React.FC<CommentProps> = (props) => {
+const Comment: React.FC<CommentProps> = (props) => {
 
   const { id, author, createdAt, content } = props;
   
   return (
   <>
+    <ShowRenderCount/>
     <div className="message-container">
       
       {/* 用戶、時間 */}
@@ -45,4 +46,4 @@ const Message: React.FC<CommentProps> = (props) => {
   )
 };
 
-export default React.memo(Message);
+export default React.memo(Comment);
