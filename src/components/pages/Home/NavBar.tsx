@@ -18,11 +18,11 @@ const NavBar: React.FC = () => {
     if(confirm(`${userInfo.username}確認登出?`) === false){
       return;
     }
-
+    
     removeLocalStorage();
     dispatch(removeCurrentUser());
     navigate('/login');
-  };
+  }
 
   const pathMapping: PathMap[] = [
     {
@@ -54,9 +54,7 @@ const NavBar: React.FC = () => {
         {/* Right Side */}
         <ul className="flex items-center">
           {
-            pathMapping.map((navBarItem, index) => 
-              <NavBarItem key={index}{...navBarItem}/>
-            )
+            pathMapping.map((navBarItem, index) => <NavBarItem key={index}{...navBarItem}/>)
           }
           {
             isLoading? <DataIsLoading/>: <>

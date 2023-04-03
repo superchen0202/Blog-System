@@ -56,7 +56,12 @@ const MessageBoard: React.FC = () => {
       {/* 留言內容 */}
       <div className="mt-4">
         <Suspense fallback={<DataIsLoading/>}>
-          { commentsList?.map(comment =><Comment key={ comment.id }{...comment}/>) }
+          { 
+            commentsList?.map(comment =>
+            <Comment key={comment.id }{...comment}
+                     currentUser={currentUser}
+            />) 
+          }
         </Suspense>
       </div>
       

@@ -1,13 +1,16 @@
 import React from 'react';
 import ShowRenderCount from '@/components/ShowRenderCount';
 
-const Comment: React.FC<CommentProps> = (props) => {
+type Editable = CommentProps&{
+  currentUser: User,
+}
 
-  const { id, author, createdAt, content } = props;
+const Comment: React.FC<Editable> = (props) => {
+
+  const { id, author, createdAt, content, userID, currentUser } = props;
   
   return (
   <>
-    <ShowRenderCount/>
     <div className="message-container">
       
       {/* 用戶、時間 */}
@@ -25,23 +28,22 @@ const Comment: React.FC<CommentProps> = (props) => {
       </div>
 
       {/* 留言內容 */}
-      <div className="flex">
+      <div className="flex mt-2">
         
-        <div className="message-body">{content}</div>
+        <div className="message-body mr-auto">{content}</div>
         
         {/* 編輯、刪除 */}
-        <div className='flex justify-center ml-auto'>
-          <div className='grey-text mr-1 hover:cursor-pointer'>編輯</div>
-          <div className='grey-text mr-1'>|</div>
-          <div className='grey-text hover:cursor-pointer'>刪除</div>
-        </div>
-        
+        {
+          userID === currentUser.id &&
+          <div className='flex justify-center items-center ml-auto'>
+            <div className='grey-text mr-1 hover:cursor-pointer'>編輯</div>
+            <div className='grey-text mr-1'>|</div>
+            <div className='grey-text hover:cursor-pointer'>刪除</div>
+          </div>          
+        }
       </div>
       
     </div>
-
-    <div></div>
-
   </>
   )
 };

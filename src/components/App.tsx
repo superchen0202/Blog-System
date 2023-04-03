@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
+import { useAppDispatch } from '@/service/hooks';
+import { getAuthToken, getCurrentUser } from '@/service/authService';
 import Home from './pages/Home';
 import AllPosts from './pages/Home/AllPosts';
 import PostPage from './pages/PostPage';
@@ -8,6 +11,15 @@ import PostEditor from './pages/PostEditor';
 import Login from './pages/Login';
 
 const App = () => {
+    
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+    //if token exists in local storage, get user info from Redux state.
+    if(getAuthToken()){
+        dispatch(getCurrentUser());
+    }
+    }, [dispatch])
     
     const routesConfig: RouteObject[] = [
         {
