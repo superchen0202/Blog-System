@@ -16,7 +16,7 @@ const MessageBoard: React.FC = () => {
   const [ comment, setComment ] = useState<string>('');
   const refTextAreaInput = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
   const [ CommentIsEdited, setCommentIsEdited] = useState(false);
-
+    
   const textAreaHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) =>{
     setComment(event.currentTarget.value);
   };

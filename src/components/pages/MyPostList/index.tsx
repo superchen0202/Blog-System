@@ -1,5 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { useLoadPostsQuery } from '@/service/potsService';
+import { useDeletePostMutation } from '@/service/potsService';
 import { useAppSelector } from '@/service/hooks';
 import { useNavigate } from 'react-router-dom';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
@@ -7,13 +8,17 @@ const PostList = lazy(() => import('@/components/shared/PostList'));
 
 const MyPostList: React.FC = () => {
 
-  const { username, id } = useAppSelector(state => state.authReducer.userInfo);
-  const { data, isLoading, error } = useLoadPostsQuery(`userId=${id}`, { refetchOnMountOrArgChange: true });
+  const userInfo = useAppSelector(state => state.authReducer.userInfo);
+  const { data, isLoading, error } = useLoadPostsQuery(`userId=${userInfo.id}`, { refetchOnMountOrArgChange: true });
   const navigate = useNavigate();
-
+  const [ DeletePost ] = useDeletePostMutation();
+  const deleteSelectedPost = (id: number) =>{
+    DeletePost(id);
+  }
+  
   useEffect(() => {
 
-    if( isLoading === false && username === null){
+    if( isLoading === false && userInfo.username === null){
       alert("Please sign in first!");
       navigate('/login');
     };
@@ -28,7 +33,14 @@ const MyPostList: React.FC = () => {
 
       {/* Display Post Title */}
       <Suspense fallback={<DataIsLoading/>}>
-        { data && data.map( post => <PostList key={post.id}{...post} pathName={`/${username}/posts/edit/${post.id}`} />) }
+        { 
+          data && data.map( post =>
+          <PostList key={post.id}{...post}
+                    pathName={`/${userInfo.username}/posts/edit/${post.id}`}
+                    currentUser={userInfo}
+                    deleteFunc={DeletePost}
+          />)
+        }
       </Suspense>
     </>
   )

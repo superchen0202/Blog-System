@@ -48,11 +48,11 @@ export const postsAPI = createApi({
       }),
 
       // unused TBD
-      deletePost: builder.mutation<PostProps, PostProps>({          
-        query: ( post ) => ({
-          url: `/posts/${post.id}`,
+      deletePost: builder.mutation<PostProps, number | string>({          
+        query: ( postID ) => ({
+          url: `/posts/${postID}`,
           method: 'DELETE',
-          body: post,
+          // body: post,
         }),
       }),
     }),

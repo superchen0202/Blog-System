@@ -116,7 +116,7 @@ const PostEditor: React.FC = () => {
         <div className={`${isValidate.contentError? "":"invisible"} text-red-500 text-sm height-[36px]  mb-2`}>
           { "請輸入內容!" }
         </div>
-
+        
         <button className='post-btn'>發布</button>
 
       </form>
