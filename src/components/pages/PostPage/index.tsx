@@ -9,16 +9,12 @@ const PostPage: React.FC = () => {
 
   const postParams = useParams().id;
   const { data, isLoading, error } = useLoadPostsQuery(`id=${postParams}`);
-
   return (
     <>
       { isLoading && <DataIsLoading/>}
       { error && <ErrorInfo/> }
       { 
-        data &&
-        <> 
-          <ShowRenderCount />
-
+        data && <> 
           {/* show title & date*/}
           <div className="divide-line mt-10">
 
@@ -41,7 +37,6 @@ const PostPage: React.FC = () => {
           <MessageBoard/>
         </>
       }
-      
     </>
   )
 };

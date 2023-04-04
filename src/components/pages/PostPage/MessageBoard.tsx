@@ -11,11 +11,12 @@ const MessageBoard: React.FC = () => {
 
   const postID = useParams().id;
   const currentUser = useAppSelector((state) => state.authReducer.userInfo);
-  const { data: commentsList, isLoading: commentsIsLoading, error: loadingError, refetch: loadComments } = useLoadCommentsQuery(`postID=${postID}`);
+  const { data: commentsList, isLoading: commentsIsLoading, error: loadingError, refetch: loadCommentAgain } = useLoadCommentsQuery(`postID=${postID}`, { refetchOnMountOrArgChange: true});
   const [ sendComments, { isLoading: isSending, error: sendingError }] = useSendNewCommentMutation();
   const [ comment, setComment ] = useState<string>('');
   const refTextAreaInput = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
-  
+  const [ CommentIsEdited, setCommentIsEdited] = useState(false);
+
   const textAreaHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) =>{
     setComment(event.currentTarget.value);
   };
@@ -39,12 +40,12 @@ const MessageBoard: React.FC = () => {
       sendComments({ currentUser, comment, postID: parseInt(postID) })
       .unwrap()
       .then(()=>{ 
-        loadComments();
+        loadCommentAgain();
         setComment('');
       })
     }
   };
-
+  
   return (
     <div className='mb-10'>
 
@@ -60,6 +61,7 @@ const MessageBoard: React.FC = () => {
             commentsList?.map(comment =>
             <Comment key={comment.id }{...comment}
                      currentUser={currentUser}
+                     isEdited={CommentIsEdited}
             />) 
           }
         </Suspense>
@@ -67,7 +69,7 @@ const MessageBoard: React.FC = () => {
       
       {/* --------------------留言表單-------------------- */}
       <form onSubmit={formSubmitHandler} className="mt-4 text-lg">
-        <ShowRenderCount/>
+        
         <textarea rows={2}
                   value={comment}
                   placeholder="留言內容"

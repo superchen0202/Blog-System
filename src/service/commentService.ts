@@ -35,22 +35,22 @@ const commentsAPI = createApi({
       }
     }),
     
-    updateComment: builder.mutation<CommentProps, CommentProps>({          
-      query: ( comment ) => ({
-        url: `/comments/${comment.id}`,
+    updateComment: builder.mutation<CommentProps, { id: number, content: string }>({          
+      query: ( { id, content } ) => ({
+        url: `/comments/${id}`,
         method: 'PATCH',
         body: {
-          content: comment.content,
+          content,
           updateAt: Date.now(),
         },
       }),
     }),
 
-    deleteComment: builder.mutation<CommentProps, CommentProps>({          
-      query: ( comment ) => ({
-        url: `/comments/${comment.id}`,
+    deleteComment: builder.mutation<CommentProps, number>({          
+      query: ( id ) => ({
+        url: `/comments/${id}`,
         method: 'DELETE',
-        body: comment,
+        // body: comment,
       }),
     }),
   }),

@@ -27,6 +27,8 @@ declare global {
         createdAt: number,
         updatedAt?: number[],
         userId: number,
+        likes?: User[],
+        bookMarked: User[],
     };
     type CommentProps = {
         id: number,
@@ -34,6 +36,7 @@ declare global {
         content: string,
         createdAt: number,
         updatedAt?: number[],
+        likes?: User[],
         postID: number,
         userID?: number,
     };

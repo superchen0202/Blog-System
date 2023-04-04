@@ -78,6 +78,10 @@
     @apply text-base text-black/[0.4]
   }
 
+  .lightBox{
+    @apply fixed top-0 right-0 left-0 bottom-0 w-full h-full bg-gray-700/95
+  }
+
   /* Message Board */
   .message-text-area{
     @apply block mt-2 w-full p-2 border border-solid border-black/[0.125]
