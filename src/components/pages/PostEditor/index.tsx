@@ -68,14 +68,12 @@ const PostEditor: React.FC = () => {
       { 
         isShowSuccessInfo && 
         <Suspense fallback={<DataIsLoading/>}>
-          <ShowRenderCount/>
           <SuccessInfoBar promptText={"發布成功!"}
                           onClickCloseBtn={clickCloseSuccessInfo}
           />
         </Suspense>
       }
       
-      <ShowRenderCount/>
       <form className="ml-5 sm:w-96 prose lg:prose-xl" onSubmit={formSubmitHandler}>
         
         {/* 標題 */}
@@ -85,7 +83,6 @@ const PostEditor: React.FC = () => {
         
         {/* 文章標題 */}
         <label className="block mb-1">
-          <ShowRenderCount/>
           <input type="text" placeholder="文章標題"
                   className={`w-full rounded-md p-3 btn ${isValidate.titleError?"field-warning":"focus-input"}`}
                   ref={refTitle}
@@ -98,17 +95,12 @@ const PostEditor: React.FC = () => {
         </label>
 
         {/* 標題警語 */}
-        <>
-        <ShowRenderCount/>
         <div className={`${isValidate.titleError? "":"invisible"} text-red-500 text-sm height-[36px] mb-2`}>
           { "請輸入標題!" }
         </div>
-        </>
 
         {/* 文章內容 */}
         <label className="block mt-1 mb-1">
- 
-          <ShowRenderCount/>
           <textarea cols={30} rows={10} placeholder="文章內容"
                     className={`w-full rounded-md p-3 btn ${isValidate.contentError?"field-warning":"focus-input"}`}
                     ref={refContent}
@@ -121,12 +113,9 @@ const PostEditor: React.FC = () => {
         </label>
 
         {/* 內容警語 */}
-        <>
-        <ShowRenderCount/>
         <div className={`${isValidate.contentError? "":"invisible"} text-red-500 text-sm height-[36px]  mb-2`}>
           { "請輸入內容!" }
         </div>
-        </>
 
         <button className='post-btn'>發布</button>
 

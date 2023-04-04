@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import baseURL from './environment';
-import axios from "axios";
+// import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+// import axios from "axios";
 
 // posts-related RTK query for basic CRUD usage .
 export const postsAPI = createApi({
@@ -65,7 +65,10 @@ export const {
   useDeletePostMutation,
 } = postsAPI;
 
+export default postsAPI;
+
 //--- post slice-reducer for fetch data only ---
+/*
 export const loadPosts = createAsyncThunk("loadPosts",
   async(queryString: string, thunkAPI) => {
     try{
@@ -146,3 +149,4 @@ const postSlice = createSlice({
 
 export const { reducer, actions } = postSlice;
 export default reducer;
+// */

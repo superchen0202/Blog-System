@@ -24,7 +24,7 @@
      focus:ring-red-500 duration-300
   }
   .post-btn{
-    @apply w-full bg-purple-600 py-3 text-lg text-white tracking-wide rounded-3xl mt-4 
+    @apply w-[45%] bg-purple-600 py-3 text-lg text-white tracking-wide rounded-3xl mt-4 
     hover:bg-purple-800 active:bg-purple-900 active:ring-2 duration-200
   }
 
@@ -47,11 +47,10 @@
   /* Post List */
   .post-list-container{
     @apply border-b-[1px] border-solid border-b-black/[0.3] p-4 
-    flex justify-between items-center
   }
 
   .post-list-title{
-    @apply text-2xl no-underline text-gray-700
+    @apply text-2xl no-underline text-gray-700 font-semibold
   }
   
   /* Login Form*/

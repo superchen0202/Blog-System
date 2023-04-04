@@ -14,22 +14,27 @@ const PostList: React.FC<PostListProps> = (props) => {
   return (
     <div className="post-list-container">
       
-      <ShowRenderCount/>
+      <Link to={pathName} className='post-list'>
 
-      <Link to={pathName} className="post-list-title">
-        { title }
+        <div className='flex justify-between items-center'>
+          
+          <h2 className="post-list-title">
+            { title.slice(0, 30)+"..." }
+          </h2>
+
+          <div className="grey-text">
+            {
+              new Date(createdAt).toLocaleDateString()
+            }
+          </div>
+
+        </div>
+
+        <div className='mt-5 font-normal'>
+          { body.slice(0,50) + "...查看更多"}
+        </div>
       </Link>
-      
-      <div className="text-black/[0.8]  ml-auto">
-        {
-          new Date(createdAt).toLocaleDateString()
-        }
-      </div>
-      
-      {/* <div>
-        { body.slice(0,75) + "..."}
-      </div> */}
-      
+
     </div>
   )
 };
