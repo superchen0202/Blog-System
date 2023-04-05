@@ -5,6 +5,7 @@ import { removeLocalStorage, removeCurrentUser } from "@/service/authService";
 import NavBarItem from "./NavBarItem";
 import { DataIsLoading } from "@/components/shared/LoadingAndErrorInfo";
 
+// view as Container temporarily
 const NavBar: React.FC = () => {
   
   const { userInfo, isLoading } = useAppSelector(state => state.authReducer);  
@@ -22,7 +23,7 @@ const NavBar: React.FC = () => {
     removeLocalStorage();
     dispatch(removeCurrentUser());
     navigate('/login');
-  }
+  };
 
   const pathMapping: PathMap[] = [
     {
@@ -84,4 +85,4 @@ const NavBar: React.FC = () => {
   )
 };
 
-export default React.memo(NavBar);
+export default NavBar;

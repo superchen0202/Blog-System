@@ -49,8 +49,8 @@ const MessageBoard: React.FC = () => {
   return (
     <div className='mb-10'>
 
-      <h1 className="text-center">用戶回應</h1>
-
+      <h1 className="text-center">用戶回應({ commentsList?.length })</h1>
+      
       {/* --------------------載入留言-------------------- */}
       { loadingError && <ErrorInfo message = {"X_X"}/> }
 

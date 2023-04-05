@@ -6,6 +6,7 @@ import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInf
 const SuccessInfoBar = lazy(() => import('@/components/shared/SuccessInfoBar'));
 const PostList = lazy(() => import('@/components/shared/PostList'));
 
+// Container
 const AllPosts: React.FC = () => {
   
   const { data: postsList, isLoading, error } = useLoadPostsQuery('all', { refetchOnMountOrArgChange: true });
@@ -19,7 +20,7 @@ const AllPosts: React.FC = () => {
   };
 
   useEffect(() => {
-
+    
     let closeInfo: NodeJS.Timeout;
 
     if(isLoginSuccess){
@@ -36,23 +37,18 @@ const AllPosts: React.FC = () => {
 
   return (
     <>
-      { 
-        isLoginSuccess && <SuccessInfoBar promptText={`登入成功! 歡迎${userInfo.username}!`} onClickCloseBtn={clickCloseSuccessInfo}/>
-      }
+      { isLoginSuccess && <SuccessInfoBar promptText={`登入成功! 歡迎${userInfo.username}!`} onClickCloseBtn={clickCloseSuccessInfo}/>}
+      
+      <h2 className='text-3xl font-bold my-5'>最新文章</h2>
 
-      <h2 className='text-3xl font-bold my-5'>
-        最新文章
-      </h2>
-
-      { isLoading && <DataIsLoading/> }
-      { error && <ErrorInfo/>}
-
-      {/* Display Post Title */}
+      {/* 顯示文章列表 */}
       <Suspense fallback={<DataIsLoading/>}>
         { postsList && postsList.map( post => <PostList key={post.id}{...post} pathName={`/posts/${post.id}`}/>)}
       </Suspense>
+      
+      { error && <ErrorInfo/>}
     </>
   )
 };
 
-export default React.memo(AllPosts);
+export default AllPosts;

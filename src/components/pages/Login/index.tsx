@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/service/hooks';
 import { login, getCurrentUser, showLoginSuccess } from '@/service/authService';
 import { ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
-import ShowRenderCount from '@/components/ShowRenderCount';
 
 const Login: React.FC = () => {
 
@@ -15,13 +14,13 @@ const Login: React.FC = () => {
   const refUserName = useRef() as React.MutableRefObject<HTMLInputElement>;
   const refPassword = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  const userNameInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const TypingUserName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserInfo({...userInfo, username: event.currentTarget.value});
     setValidateResult({...validateResult, isUsernameError: false});
     setErrorMsg('');
   };
 
-  const passwordInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const TypingPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserInfo({...userInfo, password: event.currentTarget.value});
     setValidateResult({...validateResult, isPasswordError: false});
     setErrorMsg('');
@@ -65,26 +64,23 @@ const Login: React.FC = () => {
    
   return (
     <div className='flex justify-center items-center'>
-      
-      <ShowRenderCount/>
+
       <form onSubmit={SubmitHandler} className="w-[80%] mt-10">
         
-        <h2 className='text-3xl font-bold mb-10'>
-          登入您的帳號
-        </h2> 
+        <h2 className='text-3xl font-bold mb-10'>登入您的帳號</h2> 
 
         {/* 用戶名稱 */}
         <label htmlFor="username">
           用戶名稱
-          <ShowRenderCount/>
           <input type="text"
                  ref={refUserName}
                  value={userInfo.username}
-                 onChange={userNameInputHandler}
+                 onChange={TypingUserName}
                  className={`input-field ${validateResult.isUsernameError?"field-warning":"focus-input"}`}
           />
         </label>
 
+        {/* 用戶欄位驗證錯誤訊息 */}
         <div className={`${validateResult.isUsernameError? "":"invisible"} text-red-500 text-sm height-[18px] mb-2`}>
           { "請輸入用戶名稱!" }
         </div>
@@ -92,29 +88,22 @@ const Login: React.FC = () => {
         {/* 密碼 */}
         <label htmlFor="password">
           密碼
-          <ShowRenderCount/>
           <input type="password"
                  ref={refPassword}
                  value={userInfo.password}
-                 onChange={passwordInputHandler}
+                 onChange={TypingPassword}
                  className={`input-field ${validateResult.isPasswordError?"field-warning":"focus-input"}`}
           />
-        </label>
+        </label>        
         
-        <>
-        <ShowRenderCount/>
+        {/* 密碼欄位驗證錯誤訊息 */}
         <div className={`${validateResult.isPasswordError? "":"invisible"} text-red-500 text-sm height-[36px] mb-2`}>
           { "請輸入密碼!" }
         </div>
-        </>
-        
-        <>
-        <ShowRenderCount/>
-        <button className='login-btn'>
-          登入
-        </button>
-        </>
 
+        <button className='login-btn'>登入</button>
+        
+        {/* 顯示錯誤訊息 */}
         { errorMsg && <ErrorInfo message={errorMsg}/> }
 
       </form>

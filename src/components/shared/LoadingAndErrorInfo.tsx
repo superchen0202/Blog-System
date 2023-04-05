@@ -1,8 +1,7 @@
 import React from 'react';
-import ShowRenderCount from '../ShowRenderCount';
 
 type ErrorInfoProps = {
-  message?: string | number,
+  message?: string,
 };
 
 const DataIsLoading: React.FC = () => {

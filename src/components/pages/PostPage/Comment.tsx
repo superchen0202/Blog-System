@@ -19,7 +19,7 @@ const Comment: React.FC<Editable> = (props) => {
   const EditingComment = (event: React.ChangeEvent<HTMLTextAreaElement>) =>{
     setEditedComment(event.currentTarget.value);
   };
-
+  
   const DeleteComment = (event: React.FormEvent<HTMLButtonElement>) =>{
 
     event.preventDefault();

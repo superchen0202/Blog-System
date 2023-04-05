@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 import { NavLink } from 'react-router-dom';
 
+// --- Component ---
 const NavBarItem: React.FC<PathMap> = (props) => {
     
     const { path, pageName } = props;

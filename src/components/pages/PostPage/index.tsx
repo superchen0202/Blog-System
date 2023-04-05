@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { useLoadPostsQuery } from '@/service/potsService';
 import MessageBoard from './MessageBoard';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
-import ShowRenderCount from '@/components/ShowRenderCount';
 
 const PostPage: React.FC = () => {
 

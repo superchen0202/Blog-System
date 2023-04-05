@@ -5,40 +5,25 @@ import ShowRenderCount from '../ShowRenderCount';
 type PostListProps = PostProps & {
   pathName: string,
   currentUser?: User,
-  deleteFunc?: any
-  // MutationTrigger<MutationDefinition<number, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>, never, CommentProps, "commentsAPI">>
+  DeleteSelectedPost?: (id: number) => void,
 } 
 
-// PostList: 顯示文章列表
+// Component, 顯示文章列表
 const PostList: React.FC<PostListProps> = (props) => {
 
-  const { pathName, id, title, body, createdAt, userId, currentUser, deleteFunc, ...rest } = props;
+  const { pathName, id, title, body, createdAt, userId, currentUser, DeleteSelectedPost, ...rest } = props;
 
-
-  const DeletePost = (event: React.MouseEvent<HTMLButtonElement>) =>{
-
+  const DeleteHandler = (event: React.MouseEvent<HTMLButtonElement>) =>{
     event.preventDefault();
-    
-    if(confirm(`確認刪除?`) === false){
-      return;
-    }
-    else{
-      console.log(id);
-      deleteFunc(id)
-      .unwrap()
-      .then(()=>{
-        // setCommentIsEdited(false);
-        alert("已刪除!");
-        //  setIsEditingMode(false);
-      })
+    if(DeleteSelectedPost){
+      DeleteSelectedPost(id);
     }
   };
 
-
-
   return (
     <div className="post-list-container">
-      
+
+      {/* 標題、日期 */}
       <div className='post-list'>
         <div className='flex justify-between items-center'>
           
@@ -57,20 +42,22 @@ const PostList: React.FC<PostListProps> = (props) => {
         </div>
       </div>
 
+      {/* 擷取部分文章內容、後臺顯示刪除UI及功能*/}
       <div className='flex justify-between mt-5'>
         
         <Link to={pathName} className='font-normal' >
           { body.slice(0,50) + "...查看更多"}
         </Link>
         
+        {/* 後臺顯示刪除UI及功能 */}
         {
           userId === currentUser?.id &&
-          <button className='text-base text-black/[0.4]'
-                  onClick={DeletePost}>
+          <button onClick={DeleteHandler} className='text-base text-black/[0.4]'>
             刪除
           </button>
         }
       </div>
+
     </div>
   )
 };

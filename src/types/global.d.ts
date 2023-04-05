@@ -1,7 +1,7 @@
 export {}
 
 declare global {
-
+    
     //----Home----
     type PathMap = {
         pageName: string,
@@ -28,7 +28,7 @@ declare global {
         updatedAt?: number[],
         userId: number,
         likes?: User[],
-        bookMarked: User[],
+        bookMarked?: User[],
     };
     type CommentProps = {
         id: number,
