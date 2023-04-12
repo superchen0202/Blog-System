@@ -1,60 +1,66 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import { useSendNewCommentMutation } from '@/service/commentService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
-
-// component
-type submitCommentParamsType = { 
-  currentUser: User,
-  postID: number,
-  comment: string,
-};
 
 type CommentAreaInfo = {
   currentUser: User,
-  postID?: number | string,
-  comment: string,
-  setComment: React.Dispatch<React.SetStateAction<string>>,
-  SubmitComments:(params: submitCommentParamsType) => void,
-  isSending: boolean,
+  postID: string | undefined,
+  AddNewComment: (newComment: CommentProps) => void,
 };
 
 const CommentArea: React.FC<CommentAreaInfo> = (props) => {
+
+  const { currentUser, postID, AddNewComment } = props;
+  const [ sendComments, { isLoading: isSending, error: sendingError }] = useSendNewCommentMutation();
+
+  const refCommentArea = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
+  const [ comment, setComment ] = useState<string>(''); 
+
+  const EditingCommentHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setComment(event.currentTarget.value);
+  };
   
-  const { currentUser, postID, SubmitComments, isSending, comment, setComment } = props;
-  
-  const refTextAreaInput = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
-  const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) =>{
-    
+  const SubmitCommentHandler = (event: React.FormEvent<HTMLFormElement>) => {
+
     event.preventDefault();
 
     if(currentUser === null){
-      alert('please sign in!');
-      return
-    };
+      alert('請先登入!');
+      return ;
+    }; 
+    
     if(comment === ''){
-      alert('Invalid request, "content" is required!');
-      refTextAreaInput.current.focus();
-      return
+      alert('請輸入內容!');
+      refCommentArea.current.focus();
+      return ;
     };
-    if(postID && typeof postID ==='string'){
-      SubmitComments( { currentUser, comment, postID: parseInt(postID) } );
+    
+    if(postID){
+      sendComments({ currentUser, comment, postID: parseInt(postID) })
+      .unwrap()
+      .then((response)=>{  
+        AddNewComment(response);
+        setComment('');
+      })
     };
   };
-  
+
   return (
     <div className='mb-10'>
 
       {/* -----留言表單-----*/}
-      <form onSubmit={formSubmitHandler} className="mt-4 text-lg">
+      <form onSubmit={SubmitCommentHandler} className="mt-4 text-lg">
         
-        <textarea rows={2} placeholder="留言內容" className="message-text-area"
-                  value={comment} ref={refTextAreaInput} onChange={(event)=>setComment(event.currentTarget.value)}
+        <textarea rows={2} className="message-text-area" placeholder="留言內容"
+                  value={comment} onChange={EditingCommentHandler} ref={refCommentArea}
         />
-        
+
         <button className="submit-btn">送出</button>
       </form>
-
-      {/* -----After Submit----- */}
+ 
+      {/*-----After Submit------ */}
       { isSending && <DataIsLoading/>}
+      {/* { sendingError && <ErrorInfo message = {"X_X"}/> } */}
     </div>
   );
 };

@@ -35,9 +35,9 @@ declare global {
         author: string,
         content: string,
         createdAt: number,
+        userID: number,
+        postID: number,
         updatedAt?: number[],
         likes?: User[],
-        postID: number,
-        userID?: number,
     };
 }

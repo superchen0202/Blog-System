@@ -1,95 +1,102 @@
-import React, { useState, useRef, lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect, useState, useCallback, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '@/service/hooks';
-import { useLoadCommentsQuery, useSendNewCommentMutation } from '@/service/commentService';
+import { useLoadCommentsQuery } from '@/service/commentService';
+import { useDeleteCommentMutation } from '@/service/commentService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
-import ShowRenderCount from '@/components/ShowRenderCount';
 const Comment = lazy(() => import('./Comment'));
+const CommentArea = lazy(() => import('./CommentArea'));
 
-// Container
+// -----Container-----
 const MessageBoard: React.FC = () => {
 
   const postID = useParams().id;
   const currentUser = useAppSelector((state) => state.authReducer.userInfo);
-  const { data: commentsList, isLoading: commentsIsLoading, error: loadingError, refetch: loadCommentAgain } = useLoadCommentsQuery(`postID=${postID}`, { refetchOnMountOrArgChange: true});
-  const [ sendComments, { isLoading: isSending, error: sendingError }] = useSendNewCommentMutation();
-  const [ comment, setComment ] = useState<string>('');
-  const refTextAreaInput = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
-  const [ CommentIsEdited, setCommentIsEdited] = useState(false);
-    
-  const textAreaHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) =>{
-    setComment(event.currentTarget.value);
+  const { data: commentList, error: loadingError } = useLoadCommentsQuery(`postID=${postID}`);
+
+  const refComment = useRef<Map<number, HTMLDivElement>>(new Map());
+  const map = refComment.current;
+
+  const [ isDeleted, setIsDeleted] = useState(false);
+  const [ deletedIndex, setDeletedIndex ] = useState<number>(-1);
+
+  const [ newComment, setNewComment] = useState<CommentProps[]>([]);
+  const [ commentsCount, setCommentsCount ] = useState<number>(0); 
+
+  // ref callback: commentID為 key，HTMLElement為value 存在 ref.current Map中
+  const setRefComment = (commentID: number) => (node: HTMLDivElement) => {
+    if(node) {
+      map.set(commentID, node);
+    }
+    else{
+      map.delete(commentID);
+    }
   };
 
-  const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) =>{
-    
-    event.preventDefault();
-    
-    if(currentUser === null){
-      alert('please sign in!');
-      return ;
-    }    
-    
-    if(comment === ''){
-      alert('Invalid request, "content" is required!');
-      refTextAreaInput.current.focus();
-      return ;
+  const AddNewComment = useCallback((data: CommentProps) => {
+    setNewComment( prev => {
+      return prev.concat(data);
+    });
+  },[]);
+
+  const IsDeleted = useCallback((commentID=-1) => {
+    setDeletedIndex(commentID);
+    setIsDeleted(prev => !prev);
+  },[]);
+
+  useEffect(() => {
+
+    if(isDeleted && deletedIndex !== -1){    
+
+      for (let [key, value] of map.entries()) {
+        if (key === deletedIndex){
+          value.remove();
+          break;
+        }
+      }
+
+      setIsDeleted(false);
     }
-    
-    if(postID){  
-      sendComments({ currentUser, comment, postID: parseInt(postID) })
-      .unwrap()
-      .then(()=>{ 
-        loadCommentAgain();
-        setComment('');
-      })
+
+    if(commentList){
+      setCommentsCount( prev => {
+        return commentList.length + newComment.length
+      });
     }
-  };
+
+  }, [ commentList, newComment, isDeleted]);
   
   return (
     <div className='mb-10'>
 
-      <h1 className="text-center">用戶回應({ commentsList?.length })</h1>
+      <h1 className="text-center mb-4">用戶回應({ commentsCount })</h1>
       
-      {/* --------------------載入留言-------------------- */}
+      {/* -----留言內容----- */}
       { loadingError && <ErrorInfo message = {"X_X"}/> }
 
-      {/* 留言內容 */}
-      <div className="mt-4">
-        <Suspense fallback={<DataIsLoading/>}>
-          { 
-            commentsList?.map(comment =>
-            <Comment key={comment.id }{...comment}
-                     currentUser={currentUser}
-                     isEdited={CommentIsEdited}
-            />) 
-          }
-        </Suspense>
-      </div>
+      <Suspense fallback={<DataIsLoading/>}>
+        { 
+          commentList?.map(comment =>
+            <div key={comment.id} ref={setRefComment(comment.id)} className="message-container">
+              <Comment {...comment} currentUser={currentUser} IsDeleted={IsDeleted} />
+            </div>
+          ) 
+        }
+      </Suspense>
+
+      { 
+        newComment?.map(comment =>
+          <div key={comment.id} ref={setRefComment(comment.id)} className="message-container">
+            <Comment {...comment} currentUser={currentUser} IsDeleted={IsDeleted} />
+          </div>
+        ) 
+      }
       
-      {/* --------------------留言表單-------------------- */}
-      <form onSubmit={formSubmitHandler} className="mt-4 text-lg">
-        
-        <textarea rows={2}
-                  value={comment}
-                  placeholder="留言內容"
-                  ref={refTextAreaInput}
-                  className="message-text-area"
-                  onChange={textAreaHandler}
-        />
-        
-        <button className="submit-btn">
-          送出
-        </button>
-        
-      </form>
- 
-      {/* --------------------After Submit-------------------- */}
-      { isSending && <DataIsLoading/>}
-      { sendingError && <ErrorInfo message = {"X_X"}/> }
+      {/* -----留言表單----- */}
+      <CommentArea currentUser={currentUser} postID={postID} AddNewComment={AddNewComment} />  
 
     </div>
   );
 };
 
-export default React.memo(MessageBoard);
+export default MessageBoard;

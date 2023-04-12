@@ -1,77 +1,56 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useUpdateCommentMutation, useDeleteCommentMutation } from '@/service/commentService';
+import React, { lazy, useState, useEffect, useCallback, useRef, forwardRef } from 'react';
+import { useDeleteCommentMutation } from '@/service/commentService';
 // import ShowRenderCount from '@/components/ShowRenderCount';
+const LightBox = lazy(() => import('./LightBox'));
 
 type Editable = CommentProps&{
   currentUser: User,
-  isEdited: boolean,
-}
+  IsDeleted: (id: number) => void,
+};
 
 const Comment: React.FC<Editable> = (props) => {
 
-  const { id, author, createdAt, content, userID, currentUser, isEdited } = props;
+  const { id, author, createdAt, content, userID, currentUser } = props;
   const [ isEditingMode, setIsEditingMode ] = useState(false);
-  const [ editedComment, setEditedComment] = useState(content);
-  const [ isCommentEdited, setCommentIsEdited ] = useState(isEdited);
-  const [ updateComment ] = useUpdateCommentMutation();
+  const [ beforeEditedComment, setBeforeEditedComment] = useState(content);
+  const [ editedComment, setEditedComment] = useState(beforeEditedComment);
+
+  // ---編輯、黑框(完成、取消)---
+  const ChangeEditingMode = useCallback((event?: React.MouseEvent<HTMLButtonElement>) => {
+    setIsEditingMode(prev => !prev);
+  },[]);
+
+  //---編輯模式輸入---
+  const EditingComment = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setEditedComment(event.currentTarget.value);
+  },[]);
+
+  //---刪除---
   const [ deleteComment ] = useDeleteCommentMutation();
   
-  const EditingComment = (event: React.ChangeEvent<HTMLTextAreaElement>) =>{
-    setEditedComment(event.currentTarget.value);
-  };
-  
-  const DeleteComment = (event: React.FormEvent<HTMLButtonElement>) =>{
-
+  const DeleteSelectedComment = (event: React.FormEvent<HTMLButtonElement>) => {
+    
     event.preventDefault();
-
+    
     if(confirm(`確認刪除?`) === false){
       return;
     }
     else{
       deleteComment(id)
       .unwrap()
-      .then((data)=>{
-        setCommentIsEdited(false);
+      .then(()=>{
+        props.IsDeleted(id);
         alert("已刪除!");
-        setIsEditingMode(false);
       })
     }
   };
 
-  const EditFinished = (event: React.FormEvent<HTMLButtonElement>) =>{
+  // useEffect(() => {
+  //   setEditedComment(beforeEditedComment);
+  // }, [isEditingMode]);
 
-    event.preventDefault();
-
-    /*
-    if(content === editedComment){
-
-      if(confirm(`內容無更新，確認離開頁面?`) === false){
-        return
-      }
-      else{
-        setIsEditingMode(false);
-        return
-      }
-    }
-    // */
-
-    updateComment({ id, content: editedComment})
-    .unwrap()
-    .then((data)=> {
-      setCommentIsEdited(true);
-      setIsEditingMode(false);
-      alert("更新成功!");
-    });
-  };
-
-  const CancelEditing = (event: React.FormEvent<HTMLButtonElement>) =>{
-    setEditedComment(content);
-    setIsEditingMode(false);
-  };
-  
   return (
-    <div className="message-container" data-check-edit={isCommentEdited}>
-
+    <>  
       {/* 用戶、時間 */}
       <div className="flex">
 
@@ -90,21 +69,18 @@ const Comment: React.FC<Editable> = (props) => {
       <div className="flex mt-2">
         
         <div className="message-body mr-auto">
-          {/* {content} */}
-          { editedComment }
+          { beforeEditedComment }
         </div>
         
-        {/* 編輯、刪除 */}
+        {/* 當留言為用戶所屬時，顯示編輯、刪除UI */}
         {
           userID === currentUser.id &&
           <div className='flex justify-center items-center ml-auto'>
-            <button className='grey-text mr-1 hover:cursor-pointer'
-                    onClick={()=>{setIsEditingMode(true)}}>
+            <button onClick={ ChangeEditingMode } className='grey-text mr-1 hover:cursor-pointer'>
               編輯
             </button>
             <div className='grey-text mr-1'>|</div>
-            <button className='grey-text hover:cursor-pointer'
-                    onClick={ DeleteComment }>
+            <button onClick={ DeleteSelectedComment } className='grey-text hover:cursor-pointer'>
               刪除
             </button>
           </div>          
@@ -113,39 +89,15 @@ const Comment: React.FC<Editable> = (props) => {
 
       { 
         isEditingMode && 
-        <div className='lightBox'>
-          <div className='container'>
-            <div className="rounded mt-60 mx-auto text-lg">
-            
-              <textarea rows={2}
-                        value={editedComment}
-                        placeholder="留言內容"
-                        className="message-text-area"
-                        onChange={EditingComment}
-              />
-              
-              <div className='flex items-center mr-auto'>
-                
-                <button className='submit-btn mr-1 hover:cursor-pointer'
-                        onClick={ EditFinished }>
-                  完成
-                </button>
-                
-                <div className='grey-text mr-1'>|</div>
-                
-                <button className='submit-btn hover:cursor-pointer'
-                        onClick={ CancelEditing }>
-                  取消
-                </button>
-              </div>
-
-            </div>
-          </div>
-        </div>
+        <LightBox ChangeEditingMode={ChangeEditingMode}
+                  id={id} content={content} editedComment={editedComment}
+                  EditingComment={EditingComment}
+                  prevComment={beforeEditedComment}
+                  setPrevComment={setBeforeEditedComment}
+        /> 
       }
-
-    </div>
+    </>
   )
-};
+}
 
 export default React.memo(Comment);
