@@ -1,4 +1,5 @@
 import React from 'react';
+// import ShowRenderCount from '@/components/ShowRenderCount';
 
 //---Component---
 const Post: React.FC<PostProps> = (props) => {
@@ -7,7 +8,7 @@ const Post: React.FC<PostProps> = (props) => {
     <> 
       {/* ---標題、日期--- */}
       <div className="divide-line mt-10">
-
+        
         <div className="text-4xl font-bold">
           { props.title }
         </div>

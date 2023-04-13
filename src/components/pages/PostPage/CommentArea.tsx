@@ -1,67 +1,75 @@
-import React, { useState, useRef } from 'react';
-import { useSendNewCommentMutation } from '@/service/commentService';
+import React, { lazy, Suspense, useEffect, useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
+import { useAppSelector } from '@/service/hooks';
+import { useLoadCommentsQuery } from '@/service/commentService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
+const Comment = lazy(() => import('./Comment'));
+const MessageBoard = lazy(() => import('./MessageBoard'));
 
-type CommentAreaInfo = {
-  currentUser: User,
-  postID: string | undefined,
-  AddNewComment: (newComment: CommentProps) => void,
-};
+// -----Container-----
+const CommentArea: React.FC = () => {
 
-const CommentArea: React.FC<CommentAreaInfo> = (props) => {
+  const postID = useParams().id;
+  const currentUser = useAppSelector((state) => state.authReducer.userInfo);
+  const { data, error: loadingError } = useLoadCommentsQuery(`postID=${postID}`, {refetchOnMountOrArgChange: true });
+  const [ commentList, setCommentList ] = useState<CommentProps[]>([]);
 
-  const { currentUser, postID, AddNewComment } = props;
-  const [ sendComments, { isLoading: isSending, error: sendingError }] = useSendNewCommentMutation();
+  const AddNewComment = useCallback((comment: CommentProps) => {
+    setCommentList( prev => {
+      return prev.concat(comment);
+    });
+  },[]);
 
-  const refCommentArea = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
-  const [ comment, setComment ] = useState<string>(''); 
+  const DeleteSelectedComment = useCallback((commentID=-1) => {
+    setCommentList( prev => {
+      return prev
+      .slice(0, prev.findIndex(comment => comment.id === commentID))
+      .concat(prev.slice(prev.findIndex(comment => comment.id === commentID)+1, prev.length));
+    });
+  },[]);
 
-  const EditingCommentHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(event.currentTarget.value);
-  };
+  useEffect(() => {
+    
+    if(data){
+      setCommentList( prev => {
+        return prev.concat(data);
+      });
+    }
+
+    return () =>{
+      setCommentList( prev => {
+        return prev = [];
+      });
+    }
+
+  }, [data]);
   
-  const SubmitCommentHandler = (event: React.FormEvent<HTMLFormElement>) => {
-
-    event.preventDefault();
-
-    if(currentUser === null){
-      alert('請先登入!');
-      return ;
-    }; 
-    
-    if(comment === ''){
-      alert('請輸入內容!');
-      refCommentArea.current.focus();
-      return ;
-    };
-    
-    if(postID){
-      sendComments({ currentUser, comment, postID: parseInt(postID) })
-      .unwrap()
-      .then((response)=>{  
-        AddNewComment(response);
-        setComment('');
-      })
-    };
-  };
-
   return (
-    <div className='mb-10'>
+    <>
+      <h1 className="text-center mb-4"> 用戶回應({ commentList.length }) </h1>
+      
+      {/* -----留言內容----- */}
+      { loadingError && <ErrorInfo message = {"X_X"}/> }
 
-      {/* -----留言表單-----*/}
-      <form onSubmit={SubmitCommentHandler} className="mt-4 text-lg">
-        
-        <textarea rows={2} className="message-text-area" placeholder="留言內容"
-                  value={comment} onChange={EditingCommentHandler} ref={refCommentArea}
-        />
-
-        <button className="submit-btn">送出</button>
-      </form>
- 
-      {/*-----After Submit------ */}
-      { isSending && <DataIsLoading/>}
-      {/* { sendingError && <ErrorInfo message = {"X_X"}/> } */}
-    </div>
+      <Suspense fallback={<DataIsLoading/>}>
+        { 
+          commentList.map(comment =>
+            <Comment key={comment.id}{...comment}
+                     currentUser={currentUser}
+                     DeleteSelectedComment={DeleteSelectedComment}
+            />
+          ) 
+        }
+      </Suspense>
+      
+      {/* -----留言表單----- */}
+      <div className='mb-10'>
+        <MessageBoard postID={postID}
+                      currentUser={currentUser}
+                      AddNewComment={AddNewComment}
+        />  
+      </div>
+    </>
   );
 };
 

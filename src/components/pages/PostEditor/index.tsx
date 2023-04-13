@@ -3,9 +3,8 @@ import { useAppSelector } from '@/service/hooks';
 import { useSendNewPostMutation } from '@/service/potsService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 const SuccessInfoBar = lazy(() => import('@/components/shared/SuccessInfoBar'));
-import ShowRenderCount from '@/components/ShowRenderCount';
+// import ShowRenderCount from '@/components/ShowRenderCount';
 
-// Container
 const PostEditor: React.FC = () => {
 
   const [ sendNewPost, result ] = useSendNewPostMutation();
@@ -124,4 +123,4 @@ const PostEditor: React.FC = () => {
   )
 };
 
-export default React.memo(PostEditor);
+export default PostEditor;

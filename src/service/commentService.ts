@@ -8,7 +8,6 @@ const commentsAPI = createApi({
   reducerPath: 'commentsAPI',
 
   baseQuery: fetchBaseQuery({ baseUrl: baseURL}),
-  
   endpoints: (builder) => ({  
 
     sendNewComment: builder.mutation<CommentProps, { currentUser: User, comment: string, postID: number }>({          

@@ -3,13 +3,16 @@ import { useParams } from 'react-router-dom';
 import { useLoadPostsQuery } from '@/service/potsService';
 import { DataIsLoading, ErrorInfo } from '@/components/shared/LoadingAndErrorInfo';
 const Post = lazy(() => import('./Post'));
-const MessageBoard = lazy(() => import('./MessageBoard'));
+const CommentArea = lazy(() => import('./CommentArea'));
 
 //---Container---
 const PostPage: React.FC = () => {
 
   const postID = useParams().id;
-  const { data: selectedPost, error } = useLoadPostsQuery(`id=${postID}`);
+  const { 
+    data: selectedPost, 
+    error: PostLoadError,
+  } = useLoadPostsQuery(`id=${postID}`, {refetchOnMountOrArgChange: true});
   
   return (
     <>
@@ -18,11 +21,13 @@ const PostPage: React.FC = () => {
         { selectedPost?.map( post => <Post key={post.id}{...post} />) }
       </Suspense>
       
-      { error && <ErrorInfo/> }
+      { PostLoadError && <ErrorInfo/> }
 
-      {/* -----留言區、留言內容----- */}
+      {/* -----留言內容、留言區----- */}
       <Suspense fallback={<DataIsLoading/>}>
-        <MessageBoard />
+        <div className='mb-10'>
+          <CommentArea />
+        </div>
       </Suspense>
     </>
   )
