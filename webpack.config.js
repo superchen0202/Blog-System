@@ -1,8 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const DEV_MODE = 'development';
+const DEV_MODE = 'development' && 'production';
 
 const createSCSSRules = (isModule) => {
   const moduleOptions = isModule
@@ -48,7 +50,7 @@ const createSCSSRules = (isModule) => {
 
 module.exports = {
   
-  mode: 'development',
+  mode: DEV_MODE,
 
   //Specify entry property, tell webpack where to start bundling the js files.
   entry: path.join(__dirname, "src", "index.tsx"),
@@ -56,7 +58,7 @@ module.exports = {
   //Tell webpack to create the final bundled file in dist folder in the root of the project
   output: {
     path:path.resolve(__dirname, "dist"),
-    filename: 'index.[hash].js',
+    filename: '[name].[hash].js',
   },
 
   resolve: {
@@ -123,15 +125,78 @@ module.exports = {
   },
 
   plugins: [
+
+    /*
+    new BundleAnalyzerPlugin({
+      generateStatsFile: true,
+      statsFilename: 'stats.json'
+    }),
+    // */
+
     //This will take the /public/index.html and inject script tag to it. 
     //And move that HTML file to the dist folder.
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src/html", "index.html"),
+      minify: {
+        collapseBooleanAttributes: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        removeComments: true,
+        removeEmptyAttributes: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        minifyCSS: true,
+        minifyJS: true,
+        sortAttributes: true,
+        useShortDoctype: true
+      },
     }),
 
     new MiniCssExtractPlugin(),
+
+    /*
+    new CompressionPlugin({
+      algorithm: 'gzip', // 使用 Gzip 壓縮方式
+      test: /\.js(\?.*)?$/i, // 只壓縮 JavaScript 文件
+    }),
+    // */
+
   ],
-  
+
+  optimization: {
+    usedExports: true,
+    splitChunks: {
+      chunks: 'all',
+      name: 'auto',
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    },
+    runtimeChunk: {
+      name: 'runtime'
+    },
+    concatenateModules: true,
+    moduleIds: 'natural',
+    chunkIds: 'natural',
+  },
+
+  performance: {
+    maxEntrypointSize: 50000000,
+    maxAssetSize: 30000000,
+    assetFilter:(assetFilename) => {
+      return assetFilename.endsWith('.js');
+    },
+  },
+
   devtool: 'inline-source-map',
   
   stats: 'minimal',
