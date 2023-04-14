@@ -1,9 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import baseURL from './environment';
-// import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-// import axios from "axios";
 
-// posts-related RTK query for basic CRUD usage .
 export const postsAPI = createApi({
     
     reducerPath: 'postsAPI',
@@ -47,7 +44,6 @@ export const postsAPI = createApi({
         }),
       }),
 
-      // unused TBD
       deletePost: builder.mutation<PostProps, number | string>({          
         query: ( postID ) => ({
           url: `/posts/${postID}`,
@@ -66,87 +62,3 @@ export const {
 } = postsAPI;
 
 export default postsAPI;
-
-//--- post slice-reducer for fetch data only ---
-/*
-export const loadPosts = createAsyncThunk("loadPosts",
-  async(queryString: string, thunkAPI) => {
-    try{
-      const response = await axios.get(`${baseURL}/posts/${queryString}`);
-      const posts = response.data as unknown as PostProps[];
-      // console.log(posts);
-      return posts; 
-    }
-    catch(err){
-      const error = err as Error;
-      const message = error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
-export const updatePost = createAsyncThunk("updatePost",
-  async ({postID, title, body}: {postID: string | number, title: string, body: string}) => {
-    try{
-      const response = await axios.patch(`${baseURL}/posts/${postID}`,
-      {
-        title,
-        body
-      });
-      console.log("postID: ",postID);
-      console.log(response);
-      return response.data;
-    }
-    catch(err){
-      const error = err as Error;
-      console.log(error);
-      throw new Error(error.message);
-    }
-  }
-);
-
-const postSlice = createSlice({
-  name: 'postSlice',
-  initialState:{
-    posts: [] as PostProps[],
-    isLoading: false,
-    loadingError: null as error,
-  },
-  reducers:{},
-  extraReducers: (builder) =>{
-    //load
-    builder.addCase(loadPosts.pending, (state) => {
-      state.isLoading = true;
-      state.loadingError = null;
-    });
-    builder.addCase(loadPosts.fulfilled, (state, action) => {
-      state.posts = action.payload;
-      state.isLoading = false;
-      console.log(state.posts);
-    });
-    builder.addCase(loadPosts.rejected, (state, action)=>{
-      if(action.error.message){
-        state.loadingError = action.error.message;
-      }
-    });
-
-    //update
-    builder.addCase(updatePost.pending, (state) => {
-      state.isLoading = true;
-      state.loadingError = null;
-    });
-    builder.addCase(updatePost.fulfilled, (state, action) => {
-      state.posts = action.payload;
-      state.isLoading = false;
-    });
-    builder.addCase(updatePost.rejected, (state, action)=>{
-      if(action.error.message){
-        state.loadingError = action.error.message;
-      }
-    });
-  }
-});
-
-export const { reducer, actions } = postSlice;
-export default reducer;
-// */
