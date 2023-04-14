@@ -1,14 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { useAppDispatch } from '@/service/hooks';
 import { getAuthToken, getCurrentUser } from '@/service/authService';
-import Home from './pages/Home';
-import AllPosts from './pages/Home/AllPosts';
-import PostPage from './pages/PostPage';
-import MyPostList from './pages/MyPostList';
-import MyPostEditor from './pages/MyPostList/MyPostEditor';
-import PostEditor from './pages/PostEditor';
-import Login from './pages/Login';
+import { DataIsLoading } from './shared/LoadingAndErrorInfo';
+const Home = lazy(()=> import('./pages/Home'));
+const AllPosts = lazy(()=> import('./pages/Home/AllPosts'));
+const PostPage = lazy(()=> import('./pages/PostPage'));
+const MyPostList = lazy(()=> import('./pages/MyPostList'));
+const MyPostEditor = lazy(()=> import('./pages/MyPostList/MyPostEditor'));
+const PostEditor = lazy(()=> import('./pages/PostEditor'));
+const Login = lazy(()=> import('./pages/Login'));
 
 const App = () => {
     
@@ -24,31 +25,59 @@ const App = () => {
     const routesConfig: RouteObject[] = [
         {
             path: "/",
-            element: <Home/>,
+            element: (
+                <Suspense fallback={<DataIsLoading/>}>
+                    <Home/>
+                </Suspense>
+            ),
             children:[
                 {
                     index: true,
-                    element: <AllPosts/>,
+                    element: (
+                        <Suspense fallback={<DataIsLoading/>}> 
+                            <AllPosts/>
+                        </Suspense>
+                    ),
                 },
                 {
                     path: "/posts/:id",
-                    element: <PostPage/>,
+                    element:(
+                        <Suspense fallback={<DataIsLoading/>}> 
+                            <PostPage/>
+                        </Suspense>
+                    ),
                 },
                 {
                     path: `/:username/posts`,
-                    element: <MyPostList/>,
+                    element:(
+                        <Suspense fallback={<DataIsLoading/>}> 
+                            <MyPostList/>
+                        </Suspense>
+                    ),
                 },
                 {
                     path: `/:username/posts/edit/:id`,
-                    element:<MyPostEditor/>,
+                    element: (
+                        <Suspense fallback={<DataIsLoading/>}> 
+                            <MyPostEditor/>
+                        </Suspense>
+                    ),
                 },
                 {
                     path: "/post-editor",
-                    element: <PostEditor/>,
+                    element:(
+                        <Suspense fallback={<DataIsLoading/>}> 
+                            <PostEditor/>
+                        </Suspense>
+                    ),
                 },
                 {
                     path: "/login",
-                    element: <Login/>,
+                    element:(
+                        <Suspense fallback={<DataIsLoading/>}> 
+                            <Login/>
+                        </Suspense>
+                    ),
                 },
             ]
         }
