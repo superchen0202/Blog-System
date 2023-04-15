@@ -1,5 +1,4 @@
 import React from 'react';
-// import ShowRenderCount from '@/components/ShowRenderCount';
 
 //---Component---
 const Post: React.FC<PostProps> = (props) => {

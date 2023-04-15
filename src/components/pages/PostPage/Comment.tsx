@@ -81,10 +81,11 @@ const Comment: React.FC<Editable> = (props) => {
       </div>
 
       { /* 進入留言編輯模式時，跳黑窗進行編輯 */
-        isEditingMode && <LightBox commentID={ props.id }
-                                   ChangeEditingMode={ChangeEditingMode}
-                                   commentState={commentToBeEditedState}
-                          /> 
+        isEditingMode && 
+        <LightBox commentID={ props.id }
+                  ChangeEditingMode={ChangeEditingMode}
+                  commentState={commentToBeEditedState}
+        /> 
       }
     </div>
   )
