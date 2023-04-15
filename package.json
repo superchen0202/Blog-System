@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "Blog System implementation with React, React-Router and Redux",
   "main": "index.jsx",
+  "homepage": "https://myusername.github.io/my-app",
   "scripts": {
     "build": "rimraf ./dist && cross-env NODE_ENV=production webpack",
     "dev": "cross-env NODE_ENV=development webpack serve",
     "clean": "rm -rf dist",
     "prettier": "prettier -w ./src",
     "plop": "plop --plopfile ./internal/plop/index.js",
-    "server": "json-server --watch db.json --port 3000 -d 1500"
+    "server": "json-server --watch db.json --port 3000 -d 1500",
+    "deploy": "gh-pages -d build"
   },
   "author": "chensuper0202@gmail.com",
   "license": "ISC",
@@ -27,6 +29,7 @@
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.0.0",
     "file-loader": "^6.2.0",
+    "gh-pages": "^5.0.0",
     "json-server": "^0.17.1",
     "mini-css-extract-plugin": "^2.6.1",
     "postcss": "^8.4.20",
