@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Blog System implementation with React, React-Router and Redux",
   "main": "index.jsx",
-  "homepage": "https://myusername.github.io/my-app",
+  "homepage": "https://superchen0202.github.io/Blog-System",
   "scripts": {
     "build": "rimraf ./dist && cross-env NODE_ENV=production webpack",
     "dev": "cross-env NODE_ENV=development webpack serve",
@@ -25,6 +25,7 @@
     "@tailwindcss/typography": "^0.5.8",
     "autoprefixer": "^10.4.13",
     "axios": "^0.27.2",
+    "compression-webpack-plugin": "^10.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.0.0",
@@ -43,7 +44,8 @@
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.2.4",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "webpack-bundle-analyzer": "^4.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.13",
