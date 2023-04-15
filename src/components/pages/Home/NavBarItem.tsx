@@ -9,7 +9,9 @@ const NavBarItem: React.FC<PathMap> = (props) => {
     return (
         <li>
             <NavLink to = {path}
-                     className = { ({ isActive }) => isActive? "navbar-item navbar-item-active":"navbar-item" }>
+                     className = { ({ isActive }) => 
+                        isActive? "navbar-item navbar-item-active":"navbar-item"
+                     }>
                 { pageName }
             </NavLink>
         </li>

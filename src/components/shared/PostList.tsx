@@ -19,7 +19,7 @@ const PostList: React.FC<PostListProps> = (props) => {
       DeleteSelectedPost(id);
     }
   };
-
+  
   return (
     <div className="post-list-container">
 
@@ -50,8 +50,7 @@ const PostList: React.FC<PostListProps> = (props) => {
         </Link>
         
         {/* 後臺顯示刪除UI及功能 */}
-        {
-          userId === currentUser?.id &&
+        { ( pathName.split('/')[1] === currentUser?.username) && (userId === currentUser?.id ) &&
           <button onClick={DeleteHandler} className='text-base text-black/[0.4]'>
             刪除
           </button>

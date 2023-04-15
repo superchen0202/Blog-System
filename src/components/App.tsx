@@ -22,7 +22,7 @@ const App = () => {
     }
     }, [dispatch])
     
-    const routesConfig: RouteObject[] = [
+    const routesConfig: RouteObject[] = [   
         {
             path: "/",
             element: (
@@ -48,7 +48,7 @@ const App = () => {
                     ),
                 },
                 {
-                    path: `/:username/posts`,
+                    path: `/:username/posts/edit`,
                     element:(
                         <Suspense fallback={<DataIsLoading/>}> 
                             <MyPostList/>
@@ -79,7 +79,15 @@ const App = () => {
                         </Suspense>
                     ),
                 },
-            ]
+            ],
+        },
+        {
+            path: "*",
+            element:(
+                <div>
+                    404 NOT Found X_X
+                </div>
+            )
         }
     ];
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 //---Component---
 const Post: React.FC<PostProps> = (props) => {
-
+  
   return (
     <> 
       {/* ---標題、日期--- */}

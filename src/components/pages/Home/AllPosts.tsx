@@ -9,7 +9,11 @@ const PostList = lazy(() => import('@/components/shared/PostList'));
 // Container
 const AllPosts: React.FC = () => {
   
-  const { data: postsList, isLoading, error } = useLoadPostsQuery('all', { refetchOnMountOrArgChange: true });
+  const { 
+    data: postsList, 
+    isLoading, 
+    error 
+  } = useLoadPostsQuery('all', { refetchOnMountOrArgChange: true });
   const { userInfo, isLoginSuccess } = useAppSelector((state)=>state.authReducer);
   const dispatch = useAppDispatch();
 

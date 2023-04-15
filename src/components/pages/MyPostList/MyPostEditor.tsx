@@ -11,7 +11,10 @@ const MyPostEditor: React.FC = () => {
 
   const userInfo = useAppSelector(state => state.authReducer.userInfo);
   const postID = useParams().id;
-  const { data: selectedPost, isLoading, error } = useLoadPostsQuery(`id=${postID}`, { refetchOnMountOrArgChange: true });
+  const { 
+    data: selectedPost, 
+    isLoading: isLoadingPost,
+  } = useLoadPostsQuery(`id=${postID}`, { refetchOnMountOrArgChange: true });
   const [ editingPost, setEditingPost ] = useState({title:"", body:""});
   const [ validateResult, setValidateResult ] = useState({isTitleError: false, isContentError: false});
   const [ updatePost ] = useUpdatePostMutation();
@@ -86,7 +89,7 @@ const MyPostEditor: React.FC = () => {
       }, 3000);
     };
 
-  }, [isLoading, isShowSuccessInfo])
+  }, [isLoadingPost, isShowSuccessInfo])
   
   return (
     <>   

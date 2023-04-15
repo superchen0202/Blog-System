@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { shallowEqual } from "react-redux";
 import { useAppSelector, useAppDispatch } from '@/service/hooks';
 import { removeLocalStorage, removeCurrentUser } from "@/service/authService";
 import NavBarItem from "./NavBarItem";
@@ -8,7 +9,12 @@ import { DataIsLoading } from "@/components/shared/LoadingAndErrorInfo";
 // view as Container temporarily
 const NavBar: React.FC = () => {
   
-  const { userInfo, isLoading } = useAppSelector(state => state.authReducer);  
+  const { userInfo, isLoading } = useAppSelector((state) => {
+    return {
+      userInfo: state.authReducer.userInfo,
+      isLoading: state.authReducer.isLoading,
+    };
+  }, shallowEqual);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -32,7 +38,7 @@ const NavBar: React.FC = () => {
     },
     {
       pageName: '文章列表',
-      path: `/${userInfo.username}/posts`,
+      path: `/${userInfo.username}/posts/edit`,
     },
     {
       pageName: '發布文章',

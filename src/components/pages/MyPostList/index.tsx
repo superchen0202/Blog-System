@@ -10,7 +10,12 @@ const PostList = lazy(() => import('@/components/shared/PostList'));
 const MyPostList: React.FC = () => {
 
   const userInfo = useAppSelector(state => state.authReducer.userInfo);
-  const { data: postsList, isLoading, error, refetch } = useLoadPostsQuery(`userId=${userInfo.id}`);
+  const { 
+    data: postsList, 
+    isLoading, 
+    error, 
+    refetch 
+  } = useLoadPostsQuery(`userId=${userInfo.id}`);
   const navigate = useNavigate();
   const [ DeletePost ] = useDeletePostMutation();
   
@@ -29,11 +34,12 @@ const MyPostList: React.FC = () => {
   },[])
 
   useEffect(() => {
+
     if( isLoading === false && userInfo.username === null){
       alert("Please sign in first!");
       navigate('/login');
     };
-  }, [isLoading]);
+  }, []);
   
   return (
     <>
