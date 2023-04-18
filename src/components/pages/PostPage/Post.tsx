@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { memo } from 'react';
 //---Component---
 const Post: React.FC<PostProps> = (props) => {
   
@@ -25,4 +24,4 @@ const Post: React.FC<PostProps> = (props) => {
   )
 };
 
-export default Post;
+export default memo(Post);

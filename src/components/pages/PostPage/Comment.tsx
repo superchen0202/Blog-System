@@ -1,4 +1,4 @@
-import React, { lazy, useState, useCallback } from 'react';
+import React, { lazy, useState, useCallback, memo } from 'react';
 import { useDeleteCommentMutation } from '@/service/commentService';
 const LightBox = lazy(() => import('./LightBox'));
 
@@ -91,4 +91,4 @@ const Comment: React.FC<Editable> = (props) => {
   )
 }
 
-export default React.memo(Comment);
+export default memo(Comment);
